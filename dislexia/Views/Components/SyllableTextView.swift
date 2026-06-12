@@ -22,7 +22,7 @@ struct WordFlowLayout: Layout {
     func makeCache(subviews: Subviews) -> CacheData { CacheData() }
 
     func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout CacheData) -> CGSize {
-        let containerWidth = proposal.width ?? UIScreen.main.bounds.width
+        let containerWidth = proposal.width ?? 375
         cache.sizes = subviews.map { $0.sizeThatFits(.unspecified) }
         var height: CGFloat = 0
         var x: CGFloat = 0

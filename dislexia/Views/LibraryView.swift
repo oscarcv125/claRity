@@ -377,7 +377,8 @@ private struct RecentCard: View {
                 .lineLimit(2)
         }
         .padding(14)
-        .frame(width: 155, minHeight: 96, alignment: .topLeading)
+        .frame(width: 155)
+        .frame(minHeight: 96, alignment: .topLeading)
         .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
         .overlay(
             RoundedRectangle(cornerRadius: 16, style: .continuous)
