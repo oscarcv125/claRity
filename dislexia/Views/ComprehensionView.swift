@@ -79,13 +79,7 @@ struct ComprehensionView: View {
                 ZStack(alignment: .leading) {
                     Capsule().fill(Color(.systemGray5))
                     Capsule()
-                        .fill(
-                            LinearGradient(
-                                colors: [.clarityTeal, .clarityBlue],
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            )
-                        )
+                        .fill(Color.clarityTeal)
                         .frame(width: max(geo.size.width * fraction, fraction > 0 ? 12 : 0))
                         .animation(.spring(duration: 0.4), value: answeredCount)
                 }

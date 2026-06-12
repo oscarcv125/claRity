@@ -99,13 +99,7 @@ struct TextChatView: View {
         VStack(spacing: 20) {
             Image(systemName: "sparkles.rectangle.stack")
                 .font(.system(size: 44))
-                .foregroundStyle(
-                    LinearGradient(
-                        colors: [.clarityTeal, .clarityBlue],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
+                .foregroundStyle(Color.clarityTeal)
 
             VStack(spacing: 6) {
                 Text("Pregunta lo que quieras")
@@ -256,13 +250,7 @@ private struct ChatBubble: View {
             .background {
                 if message.role == .user {
                     RoundedRectangle(cornerRadius: 20, style: .continuous)
-                        .fill(
-                            LinearGradient(
-                                colors: [.clarityTeal, .clarityBlue],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            )
-                        )
+                        .fill(Color.clarityTeal)
                 } else {
                     RoundedRectangle(cornerRadius: 20, style: .continuous)
                         .fill(.ultraThinMaterial)

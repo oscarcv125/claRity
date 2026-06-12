@@ -86,7 +86,7 @@ struct WordDefinitionCard: View {
                                         .font(.caption.weight(.semibold))
                                         .foregroundStyle(.secondary)
                                     
-                                    Text("\"\(example)\"")
+                                    Text(highlightedText(example, word: word, isExample: true))
                                         .font(.caption.italic())
                                         .foregroundStyle(.primary)
                                         .fixedSize(horizontal: false, vertical: true)
@@ -111,6 +111,18 @@ struct WordDefinitionCard: View {
         .shadow(color: .black.opacity(0.1), radius: 16, y: 4)
         .accessibilityElement(children: .combine)
         .accessibilityLabel(isLoading ? "Cargando definición de \(word)" : "\(word): \(definition?.senses.first(where: { $0.isCurrent })?.text ?? "")")
+    }
+
+    private func highlightedText(_ text: String, word: String, isExample: Bool = false) -> AttributedString {
+        let fullString = isExample ? "\"\(text)\"" : text
+        var attrString = AttributedString(fullString)
+        var searchRange = attrString.startIndex..<attrString.endIndex
+        while let range = attrString[searchRange].range(of: word, options: .caseInsensitive) {
+            attrString[range].foregroundColor = .clarityTeal
+            attrString[range].inlinePresentationIntent = .stronglyEmphasized
+            searchRange = range.upperBound..<attrString.endIndex
+        }
+        return attrString
     }
 }
 

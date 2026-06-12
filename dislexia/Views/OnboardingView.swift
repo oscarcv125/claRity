@@ -80,13 +80,7 @@ struct OnboardingView: View {
                         .foregroundStyle(.white)
                         .frame(maxWidth: .infinity)
                         .frame(height: 56)
-                        .background(
-                            LinearGradient(
-                                colors: currentPage < 2 ? [.clarityTeal, .clarityBlue] : [.moradoPrincipal, .azulPrincipal],
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            )
-                        )
+                        .background(currentPage < 2 ? Color.clarityTeal : Color.moradoPrincipal)
                         .clipShape(Capsule())
                         .shadow(color: (currentPage < 2 ? Color.clarityTeal : Color.moradoPrincipal).opacity(0.4), radius: 12, y: 6)
                 }
@@ -124,7 +118,6 @@ private struct OnboardingPage: View {
                 Image(systemName: icon)
                     .font(.system(size: 60, weight: .light))
                     .foregroundStyle(color)
-                    .symbolEffect(.bounce, options: .repeating, value: appear)
             }
             .shadow(color: color.opacity(0.2), radius: 20, y: 10)
             .scaleEffect(appear ? 1 : 0.8)
