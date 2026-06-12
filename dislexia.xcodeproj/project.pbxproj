@@ -29,9 +29,22 @@
 		96974FF82FDB9E4E00CFC687 /* dislexiaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = dislexiaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		969751322FDBB25C00CFC687 /* Exceptions for "dislexia" folder in "dislexia" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 96974FE02FDB9E4D00CFC687 /* dislexia */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		96974FE32FDB9E4D00CFC687 /* dislexia */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				969751322FDBB25C00CFC687 /* Exceptions for "dislexia" folder in "dislexia" target */,
+			);
 			path = dislexia;
 			sourceTree = "<group>";
 		};
@@ -400,6 +413,8 @@
 				DEVELOPMENT_TEAM = ZB4H4988YP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = dislexia/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "DislexIA necesita acceso a la camara para capturar texto de libros y documentos";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -432,6 +447,8 @@
 				DEVELOPMENT_TEAM = ZB4H4988YP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = dislexia/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "DislexIA necesita acceso a la camara para capturar texto de libros y documentos";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

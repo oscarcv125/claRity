@@ -1,5 +1,6 @@
 import Vision
 import UIKit
+import Observation
 
 @Observable
 @MainActor

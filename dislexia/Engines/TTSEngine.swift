@@ -1,4 +1,6 @@
 import AVFoundation
+import Observation
+import UIKit
 
 @Observable
 @MainActor

@@ -1,4 +1,5 @@
 import Foundation
+import Observation
 
 /// Ephemeral — lives only while ReaderView is active. Not persisted.
 @Observable

@@ -1,5 +1,6 @@
 import SwiftUI
 import NaturalLanguage
+import SwiftData
 
 struct ReaderView: View {
     let item: LibraryItem
