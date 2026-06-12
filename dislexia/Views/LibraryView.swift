@@ -75,9 +75,9 @@ struct LibraryView: View {
                     .init(0, 1),   .init(0.5, 1),  .init(1, 1)
                 ],
                 colors: [
-                    Color(hex: "#7C3AED"), Color(hex: "#9F5CF4"), Color(hex: "#B45FFF"),
-                    Color(hex: "#6D28D9"), Color(hex: "#A855F7"), Color(hex: "#EC4899"),
-                    Color(hex: "#7C3AED"), Color(hex: "#C026D3"), Color(hex: "#F43F5E")
+                    Color(hex: "#0284C7"), Color(hex: "#0D9488"), Color(hex: "#14B8A6"),
+                    Color(hex: "#0369A1"), Color(hex: "#0F766E"), Color(hex: "#06B6D4"),
+                    Color(hex: "#1D4ED8"), Color(hex: "#115E59"), Color(hex: "#2DD4BF")
                 ]
             )
             .frame(height: 260)

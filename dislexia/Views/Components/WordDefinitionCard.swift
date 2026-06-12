@@ -2,7 +2,7 @@ import SwiftUI
 
 struct WordDefinitionCard: View {
     let word: String
-    let definition: String
+    let definition: WordDefinition?
     let isLoading: Bool
     let onDismiss: () -> Void
 
@@ -11,17 +11,7 @@ struct WordDefinitionCard: View {
             HStack(alignment: .center) {
                 Text(word.capitalized)
                     .font(.headline.weight(.bold))
-                    .overlay(
-                        LinearGradient(
-                            colors: [Color(hex: "#7C3AED"), Color(hex: "#EC4899")],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                        .mask(
-                            Text(word.capitalized)
-                                .font(.headline.weight(.bold))
-                        )
-                    )
+                    .foregroundStyle(Color(hex: "#7C3AED"))
                 Spacer()
                 Button(action: onDismiss) {
                     Image(systemName: "xmark.circle.fill")
@@ -34,12 +24,8 @@ struct WordDefinitionCard: View {
                 .accessibilityLabel("Cerrar definición")
             }
 
-            LinearGradient(
-                colors: [.clear, .secondary.opacity(0.35), .clear],
-                startPoint: .leading,
-                endPoint: .trailing
-            )
-            .frame(height: 1)
+            Color.secondary.opacity(0.2)
+                .frame(height: 1)
 
             if isLoading {
                 HStack(spacing: 10) {
@@ -50,11 +36,69 @@ struct WordDefinitionCard: View {
                         .foregroundStyle(.secondary)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
+            } else if let definition {
+                VStack(alignment: .leading, spacing: 12) {
+                    ForEach(Array(definition.senses.enumerated()), id: \.offset) { index, sense in
+                        HStack(alignment: .top, spacing: 10) {
+                            Text("\(index + 1)")
+                                .font(.caption2.weight(.bold))
+                                .foregroundStyle(sense.isCurrent ? .white : .secondary)
+                                .frame(width: 18, height: 18)
+                                .background(
+                                    Circle()
+                                        .fill(sense.isCurrent ? Color(hex: "#7C3AED") : Color.white.opacity(0.08))
+                                )
+                                .padding(.top, 1)
+
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(sense.text)
+                                    .font(.subheadline)
+                                    .foregroundStyle(sense.isCurrent ? .primary : .secondary.opacity(0.6))
+                                    .fontWeight(sense.isCurrent ? .medium : .regular)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                
+                                if sense.isCurrent {
+                                    Text("Significado en este texto")
+                                        .font(.caption2)
+                                        .foregroundStyle(Color(hex: "#A855F7"))
+                                        .fontWeight(.semibold)
+                                }
+                            }
+                        }
+                        .padding(.vertical, 4)
+                        .contentShape(Rectangle())
+                    }
+
+                    if let example = definition.example {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Color.secondary.opacity(0.15)
+                                .frame(height: 1)
+                                .padding(.vertical, 4)
+
+                            HStack(alignment: .top, spacing: 6) {
+                                Image(systemName: "lightbulb.fill")
+                                    .font(.caption)
+                                    .foregroundStyle(Color(hex: "#EC4899"))
+                                    .padding(.top, 2)
+                                
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text("Ejemplo de uso:")
+                                        .font(.caption.weight(.semibold))
+                                        .foregroundStyle(.secondary)
+                                    
+                                    Text("\"\(example)\"")
+                                        .font(.caption.italic())
+                                        .foregroundStyle(.primary)
+                                        .fixedSize(horizontal: false, vertical: true)
+                                }
+                            }
+                        }
+                    }
+                }
             } else {
-                Text(definition)
+                Text("No hay definición disponible.")
                     .font(.subheadline)
-                    .foregroundStyle(.primary)
-                    .fixedSize(horizontal: false, vertical: true)
+                    .foregroundStyle(.secondary)
             }
         }
         .padding(20)
@@ -63,7 +107,7 @@ struct WordDefinitionCard: View {
         .padding(.bottom, 152)
         .shadow(color: .black.opacity(0.1), radius: 16, y: 4)
         .accessibilityElement(children: .combine)
-        .accessibilityLabel(isLoading ? "Cargando definición de \(word)" : "\(word): \(definition)")
+        .accessibilityLabel(isLoading ? "Cargando definición de \(word)" : "\(word): \(definition?.senses.first(where: { $0.isCurrent })?.text ?? "")")
     }
 }
 
@@ -71,8 +115,15 @@ struct WordDefinitionCard: View {
     ZStack(alignment: .bottom) {
         Color(.systemGroupedBackground).ignoresSafeArea()
         WordDefinitionCard(
-            word: "aprendizaje",
-            definition: "Aprendizaje significa obtener conocimiento nuevo. Ejemplo: El aprendizaje en la escuela nos ayuda a crecer.",
+            word: "luna",
+            definition: WordDefinition(
+                word: "luna",
+                senses: [
+                    .init(text: "Único satélite natural de la Tierra que brilla de noche.", isCurrent: true),
+                    .init(text: "Cristal o vidrio plano de una ventana o espejo.", isCurrent: false)
+                ],
+                example: "La luna llena ilumina todo el bosque de noche."
+            ),
             isLoading: false,
             onDismiss: {}
         )

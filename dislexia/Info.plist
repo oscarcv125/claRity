@@ -7,5 +7,7 @@
 		<string>OpenDyslexic-Regular.otf</string>
 		<string>OpenDyslexic-Bold.otf</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>Necesitamos acceso a la cámara para capturar textos de libros y ayudarte a leerlos.</string>
 </dict>
 </plist>

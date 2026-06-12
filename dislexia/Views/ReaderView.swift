@@ -17,7 +17,7 @@ struct ReaderView: View {
 
     // Word definition overlay
     @State private var tappedWord: String? = nil
-    @State private var wordDefinition: String = ""
+    @State private var wordDefinition: WordDefinition? = nil
     @State private var isDefining = false
 
     // Comprehension sheet
@@ -204,13 +204,19 @@ struct ReaderView: View {
 
     private func handleWordTap(_ word: String, _ context: String) {
         tappedWord = word
-        wordDefinition = ""
+        wordDefinition = nil
         isDefining = true
         Task {
             do {
                 wordDefinition = try await ai.define(word: word, context: context)
             } catch {
-                wordDefinition = "No se pudo obtener la definición en este dispositivo."
+                wordDefinition = WordDefinition(
+                    word: word,
+                    senses: [
+                        .init(text: "No se pudo obtener la definición en este dispositivo.", isCurrent: true)
+                    ],
+                    example: nil
+                )
             }
             isDefining = false
         }

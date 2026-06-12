@@ -26,9 +26,14 @@ final class CameraViewController: UIViewController {
 
     private let ocrEngine = OCREngine()
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        presentSource()
+    private var hasPresented = false
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if !hasPresented {
+            hasPresented = true
+            presentSource()
+        }
     }
 
     private func presentSource() {

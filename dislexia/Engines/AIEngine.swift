@@ -38,16 +38,67 @@ final class AIEngine {
 
     // MARK: - Define word
 
-    func define(word: String, context: String) async throws -> String {
+    func define(word: String, context: String) async throws -> WordDefinition {
         let session = try makeSession()
         let prompt = """
-        Define la palabra "\(word)" de forma simple, como si le explicaras a un niño de 10 años.
-        Contexto donde aparece: "\(context)"
-        Responde con: 1 definición corta + 1 ejemplo de uso en una oración.
-        Máximo 2 oraciones en total. Solo la definición, sin encabezados.
+        Define la palabra "\(word)" considerando sus diferentes significados comunes para niños de 10 años.
+        Contexto donde se usa: "\(context)"
+
+        Responde estrictamente con el siguiente formato, sin explicaciones, introducciones ni rodeos:
+        SIGNIFICADO 1: [Primer significado común]
+        SIGNIFICADO 2: [Segundo significado común]
+        SIGNIFICADO 3: [Tercer significado común] (opcional, solo si existe otro significado común)
+        USO_ACTUAL: [El número del significado que corresponde al contexto]
+        EJEMPLO: [Una oración corta de ejemplo usando el significado actual]
         """
         let response = try await session.respond(to: prompt)
-        return response.content.trimmingCharacters(in: .whitespacesAndNewlines)
+        return parseDefinition(from: response.content, for: word)
+    }
+
+    private func parseDefinition(from text: String, for word: String) -> WordDefinition {
+        var senses: [WordDefinition.Sense] = []
+        var useActual: Int = 1
+        var example: String? = nil
+        
+        let lines = text.components(separatedBy: .newlines)
+        var meaningTexts: [Int: String] = [:]
+        
+        for line in lines {
+            let trimmed = line.trimmingCharacters(in: .whitespacesAndNewlines)
+            if trimmed.isEmpty { continue }
+            
+            if trimmed.hasPrefix("SIGNIFICADO"), let colonIndex = trimmed.firstIndex(of: ":") {
+                let prefix = trimmed[..<colonIndex] // e.g. "SIGNIFICADO 1"
+                let content = trimmed[trimmed.index(after: colonIndex)...].trimmingCharacters(in: .whitespaces)
+                
+                // Extract number
+                let numString = prefix.components(separatedBy: .whitespaces).last ?? ""
+                if let num = Int(numString) {
+                    meaningTexts[num] = content
+                }
+            } else if trimmed.hasPrefix("USO_ACTUAL"), let colonIndex = trimmed.firstIndex(of: ":") {
+                let content = trimmed[trimmed.index(after: colonIndex)...].trimmingCharacters(in: .whitespaces)
+                useActual = Int(content) ?? 1
+            } else if trimmed.hasPrefix("EJEMPLO"), let colonIndex = trimmed.firstIndex(of: ":") {
+                let content = trimmed[trimmed.index(after: colonIndex)...].trimmingCharacters(in: .whitespaces)
+                example = content
+            }
+        }
+        
+        // Sort and map to Senses
+        let sortedKeys = meaningTexts.keys.sorted()
+        for key in sortedKeys {
+            if let meaning = meaningTexts[key] {
+                senses.append(WordDefinition.Sense(text: meaning, isCurrent: key == useActual))
+            }
+        }
+        
+        // Fallback if no meanings parsed correctly
+        if senses.isEmpty {
+            senses.append(WordDefinition.Sense(text: text, isCurrent: true))
+        }
+        
+        return WordDefinition(word: word, senses: senses, example: example)
     }
 
     // MARK: - Comprehension questions
