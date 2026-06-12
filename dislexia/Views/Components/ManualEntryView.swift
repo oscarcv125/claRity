@@ -55,11 +55,11 @@ struct ManualEntryView: View {
     private var titleCard: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Título")
-                .font(.subheadline.weight(.semibold))
+                .font(.app(.subheadline, weight: .semibold))
                 .foregroundStyle(.secondary)
 
             TextField("Nombre del texto", text: $title)
-                .font(.body)
+                .font(.app(.body))
                 .padding(.horizontal, 14)
                 .padding(.vertical, 12)
                 .background(Color(.systemBackground).opacity(0.6), in: RoundedRectangle(cornerRadius: 12, style: .continuous))
@@ -68,7 +68,7 @@ struct ManualEntryView: View {
 
             if titleError {
                 Text("Por favor ingresa un título.")
-                    .font(.caption)
+                    .font(.app(.caption))
                     .foregroundStyle(.red)
                     .transition(.move(edge: .top).combined(with: .opacity))
             }
@@ -95,7 +95,7 @@ struct ManualEntryView: View {
     private var levelCard: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Nivel de dificultad")
-                .font(.subheadline.weight(.semibold))
+                .font(.app(.subheadline, weight: .semibold))
                 .foregroundStyle(.secondary)
 
             HStack(spacing: 10) {
@@ -128,7 +128,7 @@ struct ManualEntryView: View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
                 Text("Contenido")
-                    .font(.subheadline.weight(.semibold))
+                    .font(.app(.subheadline, weight: .semibold))
                     .foregroundStyle(.secondary)
                 Spacer()
                 
@@ -136,7 +136,7 @@ struct ManualEntryView: View {
                     showFileImporter = true
                 } label: {
                     Label("Importar", systemImage: "doc.badge.plus")
-                        .font(.caption.weight(.medium))
+                        .font(.app(.caption, weight: .medium))
                         .padding(.horizontal, 10)
                         .padding(.vertical, 5)
                         .background(Color.clarityTeal.opacity(0.15))
@@ -153,7 +153,7 @@ struct ManualEntryView: View {
                 }
                 
                 Text("\(characterCount)")
-                    .font(.caption.weight(.medium))
+                    .font(.app(.caption, weight: .medium))
                     .padding(.horizontal, 8)
                     .padding(.vertical, 3)
                     .background(Color(.systemGray5))
@@ -162,7 +162,7 @@ struct ManualEntryView: View {
             }
 
             TextEditor(text: $content)
-                .font(.body)
+                .font(.app(.body))
                 .frame(minHeight: 200)
                 .scrollContentBackground(.hidden)
                 .padding(.horizontal, 10)
@@ -173,7 +173,7 @@ struct ManualEntryView: View {
 
             if contentError {
                 Text("Por favor ingresa el contenido del texto.")
-                    .font(.caption)
+                    .font(.app(.caption))
                     .foregroundStyle(.red)
                     .transition(.move(edge: .top).combined(with: .opacity))
             }
@@ -278,7 +278,7 @@ private struct LevelPill: View {
     var body: some View {
         Button(action: action) {
             Text(lvl.rawValue)
-                .font(.subheadline.weight(selected ? .semibold : .regular))
+                .font(.app(.subheadline, weight: selected ? .semibold : .regular))
                 .padding(.horizontal, 14)
                 .padding(.vertical, 9)
         }

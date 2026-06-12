@@ -13,6 +13,10 @@ struct LibraryView: View {
     // Texto capturado pendiente: navegamos hasta que el sheet de la cámara termina de cerrarse
     @State private var pendingCapturedItem: LibraryItem? = nil
 
+    // Lectura en voz alta de los títulos de las tarjetas
+    @State private var tts = TTSEngine()
+    @State private var speakingItemID: PersistentIdentifier? = nil
+
     private let gridColumns = [
         GridItem(.flexible(), spacing: 12),
         GridItem(.flexible(), spacing: 12)
@@ -50,7 +54,9 @@ struct LibraryView: View {
                 bottomBar
             }
             .toolbar(.hidden, for: .navigationBar)
-            .sheet(isPresented: $showCamera, onDismiss: {
+            // Pantalla completa: en iPad el sheet encogía el escáner y las esquinas
+            // de recorte quedaban inalcanzables detrás de los bordes del sheet
+            .fullScreenCover(isPresented: $showCamera, onDismiss: {
                 if let item = pendingCapturedItem {
                     pendingCapturedItem = nil
                     selectedItem = item
@@ -59,6 +65,7 @@ struct LibraryView: View {
                 CameraView { capturedText in
                     pendingCapturedItem = saveCapturedItem(text: capturedText, source: .camera)
                 }
+                .ignoresSafeArea()
             }
             .sheet(isPresented: $showManualEntry) {
                 ManualEntryView { title, text, level in
@@ -87,7 +94,7 @@ struct LibraryView: View {
                         .frame(height: 112)
                         .shadow(color: .black.opacity(0.2), radius: 6)
                     Text("Tu lector inteligente")
-                        .font(.title3.weight(.medium))
+                        .font(.app(.title3, weight: .medium))
                         .foregroundStyle(.white.opacity(0.88))
                         .shadow(color: .black.opacity(0.1), radius: 3)
                 }
@@ -123,14 +130,17 @@ struct LibraryView: View {
     private var recentSection: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("Leídos recientemente")
-                .font(.headline.weight(.semibold))
+                .font(.app(.headline, weight: .semibold))
                 .padding(.horizontal, 16)
 
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 12) {
                     ForEach(recentItems) { item in
                         RecentCard(item: item)
-                            .onTapGesture { selectedItem = item }
+                            .onTapGesture {
+                                tts.stopFragment()
+                                selectedItem = item
+                            }
                     }
                 }
                 .padding(.horizontal, 16)
@@ -154,8 +164,15 @@ struct LibraryView: View {
         } else {
             LazyVGrid(columns: gridColumns, spacing: 12) {
                 ForEach(filteredItems) { item in
-                    LibraryCard(item: item)
-                        .onTapGesture { selectedItem = item }
+                    LibraryCard(
+                        item: item,
+                        isSpeaking: speakingItemID == item.persistentModelID && tts.isSpeakingFragment,
+                        onSpeak: { toggleTitleSpeech(for: item) }
+                    )
+                        .onTapGesture {
+                            tts.stopFragment()
+                            selectedItem = item
+                        }
                         .contextMenu {
                             Button(role: .destructive) {
                                 LibraryStore.shared.delete(item)
@@ -179,7 +196,7 @@ struct LibraryView: View {
                 showManualEntry = true
             } label: {
                 Label("Escribir", systemImage: "pencil")
-                    .font(.subheadline.weight(.medium))
+                    .font(.app(.subheadline, weight: .medium))
                     .padding(.horizontal, 20)
                     .padding(.vertical, 14)
                     .contentShape(Capsule())
@@ -214,6 +231,21 @@ struct LibraryView: View {
     }
 
 
+    private func toggleTitleSpeech(for item: LibraryItem) {
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        if speakingItemID == item.persistentModelID && tts.isSpeakingFragment {
+            tts.stopFragment()
+            speakingItemID = nil
+        } else {
+            speakingItemID = item.persistentModelID
+            tts.speak(
+                fragment: item.title,
+                rate: 0.42,
+                language: ReadingLanguage.detect(from: item.body)
+            )
+        }
+    }
+
     private func saveCapturedItem(text: String, source: TextSource) -> LibraryItem {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "es_MX")
@@ -242,7 +274,7 @@ private struct GlassPill: View {
     var body: some View {
         Button(action: action) {
             Text(label)
-                .font(.subheadline.weight(selected ? .semibold : .regular))
+                .font(.app(.subheadline, weight: selected ? .semibold : .regular))
                 .foregroundStyle(selected ? Color.white : Color.primary)
                 .padding(.horizontal, 16)
                 .padding(.vertical, 9)
@@ -258,6 +290,8 @@ private struct GlassPill: View {
 
 private struct LibraryCard: View {
     let item: LibraryItem
+    var isSpeaking: Bool = false
+    var onSpeak: (() -> Void)? = nil
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -268,19 +302,34 @@ private struct LibraryCard: View {
                     .frame(width: 36, height: 36)
                     .background(levelColor.opacity(0.12), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
                 Spacer()
+
+                if let onSpeak {
+                    Button(action: onSpeak) {
+                        Image(systemName: isSpeaking ? "stop.fill" : "speaker.wave.2.fill")
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundStyle(Color.clarityTeal)
+                            .frame(width: 36, height: 36)
+                            .background(Color.clarityTeal.opacity(0.12), in: Circle())
+                            .contentTransition(.symbolEffect(.replace))
+                    }
+                    .buttonStyle(.plain)
+                    .frame(minWidth: 44, minHeight: 44)
+                    .accessibilityLabel(isSpeaking ? "Detener lectura del título" : "Escuchar el título")
+                }
+
                 Image(systemName: sourceIcon)
                     .font(.caption)
                     .foregroundStyle(.tertiary)
             }
 
             Text(item.title)
-                .font(.title3.weight(.semibold))
+                .font(.app(.title3, weight: .semibold))
                 .lineLimit(2)
                 .multilineTextAlignment(.leading)
                 .fixedSize(horizontal: false, vertical: true)
 
             Text(item.body.prefix(65) + (item.body.count > 65 ? "…" : ""))
-                .font(.subheadline)
+                .font(.app(.subheadline))
                 .foregroundStyle(.secondary)
                 .lineLimit(3)
                 .multilineTextAlignment(.leading)
@@ -292,7 +341,7 @@ private struct LibraryCard: View {
                     .fill(levelColor)
                     .frame(width: 6, height: 6)
                 Text(item.level.rawValue)
-                    .font(.caption.weight(.medium))
+                    .font(.app(.caption, weight: .medium))
             }
             .padding(.horizontal, 10)
             .padding(.vertical, 5)
@@ -348,14 +397,14 @@ private struct RecentCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             Text(item.title)
-                .font(.headline)
+                .font(.app(.headline))
                 .lineLimit(2)
                 .multilineTextAlignment(.leading)
 
             Spacer(minLength: 0)
 
             Text(item.body.prefix(50) + (item.body.count > 50 ? "…" : ""))
-                .font(.subheadline)
+                .font(.app(.subheadline))
                 .foregroundStyle(.secondary)
                 .lineLimit(2)
         }

@@ -87,7 +87,7 @@ struct ComprehensionView: View {
             .frame(height: 10)
 
             Text("\(answeredCount) de \(questions.count)")
-                .font(.caption.weight(.bold))
+                .font(.app(.caption, weight: .bold))
                 .foregroundStyle(.secondary)
                 .monospacedDigit()
         }
@@ -99,9 +99,9 @@ struct ComprehensionView: View {
     private var headerSection: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("¿Entendiste lo que leíste?")
-                .font(.title2.bold())
+                .font(.app(.title2, weight: .bold))
             Text("Responde cada pregunta. ¡Tú puedes!")
-                .font(.subheadline)
+                .font(.app(.subheadline))
                 .foregroundStyle(.secondary)
         }
     }
@@ -127,7 +127,7 @@ struct ComprehensionView: View {
                                 .padding(.vertical, 12)
                         } else {
                             Label("Reintentar", systemImage: "arrow.clockwise")
-                                .font(.headline.weight(.semibold))
+                                .font(.app(.headline, weight: .semibold))
                                 .foregroundStyle(.white)
                                 .padding(.horizontal, 24)
                                 .padding(.vertical, 12)
@@ -173,9 +173,9 @@ struct ComprehensionView: View {
                 .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 2) {
                 Text(score == questions.count ? "¡Perfecto!" : "¡Muy bien!")
-                    .font(.headline.bold())
+                    .font(.app(.headline, weight: .bold))
                 Text("\(score) de \(questions.count) correctas")
-                    .font(.subheadline)
+                    .font(.app(.subheadline))
                     .foregroundStyle(.secondary)
             }
             Spacer()
@@ -197,19 +197,19 @@ struct ComprehensionView: View {
     private var summarySection: some View {
         VStack(alignment: .leading, spacing: 14) {
             Text("Resumen")
-                .font(.headline.weight(.semibold))
+                .font(.app(.headline, weight: .semibold))
 
             if isLoadingSummary {
                 HStack(spacing: 10) {
                     ProgressView()
                         .tint(.clarityTeal)
                     Text("Generando resumen…")
-                        .font(.subheadline)
+                        .font(.app(.subheadline))
                         .foregroundStyle(.secondary)
                 }
             } else {
                 Text(summary)
-                    .font(.body)
+                    .font(.app(.body))
                     .foregroundStyle(.primary)
             }
         }
@@ -274,14 +274,14 @@ struct QuestionCard: View {
         VStack(alignment: .leading, spacing: 16) {
             HStack(alignment: .top, spacing: 12) {
                 Text("\(number)")
-                    .font(.subheadline.weight(.bold))
+                    .font(.app(.subheadline, weight: .bold))
                     .foregroundStyle(.white)
                     .frame(width: 28, height: 28)
                     .background(Circle().fill(Color.clarityTeal))
                     .accessibilityHidden(true)
 
                 Text(question.question)
-                    .font(.body.weight(.semibold))
+                    .font(.app(.body, weight: .semibold))
                     .fixedSize(horizontal: false, vertical: true)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
@@ -297,7 +297,7 @@ struct QuestionCard: View {
                     correct ? "¡Correcto!" : incorrectFeedback,
                     systemImage: correct ? "checkmark.seal.fill" : "lightbulb.fill"
                 )
-                .font(.caption.weight(.semibold))
+                .font(.app(.caption, weight: .semibold))
                 .foregroundStyle(correct ? Color.menta : Color.moradoPrincipal)
                 .transition(.move(edge: .top).combined(with: .opacity))
             }
@@ -394,7 +394,7 @@ private struct SolidAnswerButton: View {
                 Image(systemName: icon)
                     .font(.subheadline.weight(.semibold))
                 Text(label)
-                    .font(.headline.weight(.semibold))
+                    .font(.app(.headline, weight: .semibold))
             }
             .foregroundStyle(selected ? Color.white : tint)
             .frame(maxWidth: .infinity)
@@ -430,7 +430,7 @@ private struct ChoiceOptionRow: View {
         Button(action: action) {
             HStack(spacing: 12) {
                 Text(letter)
-                    .font(.subheadline.weight(.bold))
+                    .font(.app(.subheadline, weight: .bold))
                     .foregroundStyle(selected ? Color.white : Color.clarityTeal)
                     .frame(width: 30, height: 30)
                     .background(
@@ -438,7 +438,7 @@ private struct ChoiceOptionRow: View {
                     )
 
                 Text(text)
-                    .font(.subheadline.weight(.medium))
+                    .font(.app(.subheadline, weight: .medium))
                     .foregroundStyle(.primary)
                     .multilineTextAlignment(.leading)
                     .fixedSize(horizontal: false, vertical: true)

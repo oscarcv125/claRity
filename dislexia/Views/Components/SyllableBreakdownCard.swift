@@ -13,6 +13,8 @@ struct SyllableBreakdownCard: View {
 
     @State private var syllables: [String] = []
     @State private var activeIndex: Int? = nil
+    // Al decir la palabra completa, todas las sílabas se iluminan a la vez
+    @State private var allActive = false
     @State private var isPlayingAll = false
     @State private var playTask: Task<Void, Never>? = nil
 
@@ -72,15 +74,16 @@ struct SyllableBreakdownCard: View {
                     UIImpactFeedbackGenerator(style: .light).impactOccurred()
                     speakSyllable(at: idx)
                 } label: {
+                    let isActive = activeIndex == idx || allActive
                     Text(syl)
                         .font(.custom(prefs.fontName, size: 28))
                         .fontWeight(.semibold)
-                        .foregroundStyle(activeIndex == idx ? .white : chipColor(idx))
+                        .foregroundStyle(isActive ? .white : chipColor(idx))
                         .padding(.horizontal, 18)
                         .padding(.vertical, 14)
                         .background(
                             RoundedRectangle(cornerRadius: 16, style: .continuous)
-                                .fill(activeIndex == idx
+                                .fill(isActive
                                       ? chipColor(idx)
                                       : chipColor(idx).opacity(0.14))
                         )
@@ -88,10 +91,14 @@ struct SyllableBreakdownCard: View {
                             RoundedRectangle(cornerRadius: 16, style: .continuous)
                                 .stroke(chipColor(idx).opacity(0.5), lineWidth: 1.5)
                         )
-                        .scaleEffect(activeIndex == idx ? 1.12 : 1.0)
+                        .scaleEffect(isActive ? 1.12 : 1.0)
                         .animation(
                             reduceMotion ? .none : .spring(duration: 0.3, bounce: 0.4),
                             value: activeIndex
+                        )
+                        .animation(
+                            reduceMotion ? .none : .spring(duration: 0.3, bounce: 0.4),
+                            value: allActive
                         )
                 }
                 .buttonStyle(.plain)
@@ -151,6 +158,7 @@ struct SyllableBreakdownCard: View {
     private func speakSyllable(at index: Int) {
         playTask?.cancel()
         isPlayingAll = false
+        allActive = false
         withAnimation { activeIndex = index }
         tts.speak(fragment: syllables[index], rate: 0.25)
 
@@ -175,12 +183,15 @@ struct SyllableBreakdownCard: View {
             }
             guard !Task.isCancelled else { return }
 
-            // logica
+            // Pausa breve y luego la palabra completa: todas las sílabas se iluminan
             withAnimation { activeIndex = nil }
             try? await Task.sleep(for: .seconds(0.4))
             guard !Task.isCancelled else { return }
+            withAnimation { allActive = true }
             tts.speak(fragment: word, rate: 0.35)
             try? await Task.sleep(for: .seconds(0.5 + Double(word.count) * 0.07))
+            guard !Task.isCancelled else { return }
+            withAnimation { allActive = false }
 
             isPlayingAll = false
         }
@@ -189,7 +200,10 @@ struct SyllableBreakdownCard: View {
     private func stopPlayback() {
         playTask?.cancel()
         tts.stop()
-        withAnimation { activeIndex = nil }
+        withAnimation {
+            activeIndex = nil
+            allActive = false
+        }
         isPlayingAll = false
     }
 }

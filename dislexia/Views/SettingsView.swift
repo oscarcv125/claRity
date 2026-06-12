@@ -66,9 +66,9 @@ struct SettingsView: View {
                 HStack {
                     VStack(alignment: .leading, spacing: 2) {
                         Text("Fuente OpenDyslexic")
-                            .font(.subheadline.weight(.medium))
+                            .font(.app(.subheadline, weight: .medium))
                         Text("Optimizada para dislexia")
-                            .font(.caption)
+                            .font(.app(.caption))
                             .foregroundStyle(.secondary)
                     }
                     Spacer()
@@ -77,6 +77,25 @@ struct SettingsView: View {
                         .tint(.clarityTeal)
                         .accessibilityLabel("Usar fuente especializada para dislexia")
                 }
+
+                HStack {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Usarla en toda la app")
+                            .font(.app(.subheadline, weight: .medium))
+                        Text("Botones, menús y títulos también")
+                            .font(.app(.caption))
+                            .foregroundStyle(.secondary)
+                    }
+                    Spacer()
+                    Toggle("", isOn: prefs.dyslexicFontEverywhere)
+                        .labelsHidden()
+                        .tint(.clarityTeal)
+                        .disabled(!prefs.useOpenDyslexic.wrappedValue)
+                        .accessibilityLabel("Usar la fuente OpenDyslexic en toda la app")
+                }
+                .padding(.leading, 16)
+                .opacity(prefs.useOpenDyslexic.wrappedValue ? 1 : 0.45)
+                .animation(.spring(duration: 0.35), value: prefs.useOpenDyslexic.wrappedValue)
             }
         }
     }
@@ -108,9 +127,9 @@ struct SettingsView: View {
 
                 VStack(alignment: .leading, spacing: 2) {
                     Text("Mi Voz Personal")
-                        .font(.subheadline.weight(.medium))
+                        .font(.app(.subheadline, weight: .medium))
                     Text(personalVoiceCaption)
-                        .font(.caption)
+                        .font(.app(.caption))
                         .foregroundStyle(.secondary)
                         .fixedSize(horizontal: false, vertical: true)
                 }
@@ -193,10 +212,10 @@ struct SettingsView: View {
 
                             VStack(alignment: .leading, spacing: 2) {
                                 Text(mode.title)
-                                    .font(.subheadline.weight(.semibold))
+                                    .font(.app(.subheadline, weight: .semibold))
                                     .foregroundStyle(.primary)
                                 Text(mode.subtitle)
-                                    .font(.caption)
+                                    .font(.app(.caption))
                                     .foregroundStyle(.secondary)
                                     .multilineTextAlignment(.leading)
                             }
@@ -252,7 +271,7 @@ struct SettingsView: View {
     private func previewCard(prefs: AppPreferences) -> some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Vista previa")
-                .font(.subheadline.weight(.semibold))
+                .font(.app(.subheadline, weight: .semibold))
                 .foregroundStyle(.secondary)
                 .padding(.horizontal, 20)
 
@@ -292,7 +311,7 @@ private struct GlassCard<Content: View>: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text(title)
-                .font(.subheadline.weight(.semibold))
+                .font(.app(.subheadline, weight: .semibold))
                 .foregroundStyle(.secondary)
 
             content()
@@ -319,7 +338,7 @@ private struct StyledSlider: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(label)
-                .font(.subheadline.weight(.medium))
+                .font(.app(.subheadline, weight: .medium))
 
             HStack(spacing: 10) {
                 Slider(value: $value, in: range, step: step)

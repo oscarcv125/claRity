@@ -23,6 +23,10 @@ final class AppPreferences {
     var useOpenDyslexic: Bool {
         didSet { UserDefaults.standard.set(useOpenDyslexic, forKey: UserPreferences.useOpenDyslexicKey) }
     }
+    // Aplica OpenDyslexic a toda la interfaz, no solo al texto de lectura
+    var dyslexicFontEverywhere: Bool {
+        didSet { UserDefaults.standard.set(dyslexicFontEverywhere, forKey: UserPreferences.dyslexicFontEverywhereKey) }
+    }
     var englishDefinitionMode: EnglishDefinitionMode {
         didSet { UserDefaults.standard.set(englishDefinitionMode.rawValue, forKey: UserPreferences.englishDefinitionModeKey) }
     }
@@ -44,6 +48,7 @@ final class AppPreferences {
         lineSpacing   = ud.object(forKey: UserPreferences.lineSpacingKey) as? Double ?? UserPreferences.defaultLineSpacing
         readingSpeed  = ud.object(forKey: UserPreferences.readingSpeedKey) as? Double ?? UserPreferences.defaultReadingSpeed
         useOpenDyslexic = ud.object(forKey: UserPreferences.useOpenDyslexicKey) as? Bool ?? UserPreferences.defaultUseOpenDyslexic
+        dyslexicFontEverywhere = ud.object(forKey: UserPreferences.dyslexicFontEverywhereKey) as? Bool ?? UserPreferences.defaultDyslexicFontEverywhere
         let colorRaw  = ud.string(forKey: UserPreferences.backgroundColorKey) ?? ""
         backgroundColor = BackgroundOption(rawValue: colorRaw) ?? UserPreferences.defaultBackgroundColor
         let modeRaw   = ud.string(forKey: UserPreferences.englishDefinitionModeKey) ?? ""

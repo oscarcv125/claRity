@@ -76,7 +76,7 @@ struct OnboardingView: View {
                     }
                 } label: {
                     Text(currentPage < 2 ? "Siguiente" : "¡Comenzar!")
-                        .font(.headline.weight(.bold))
+                        .font(.app(.headline, weight: .bold))
                         .foregroundStyle(.white)
                         .frame(maxWidth: .infinity)
                         .frame(height: 56)
@@ -125,12 +125,12 @@ private struct OnboardingPage: View {
             
             VStack(spacing: 16) {
                 Text(title)
-                    .font(.system(size: 32, weight: .bold, design: .rounded))
+                    .font(.app(size: 32, weight: .bold))
                     .multilineTextAlignment(.center)
                     .foregroundStyle(.primary)
                 
                 Text(description)
-                    .font(.body)
+                    .font(.app(.body))
                     .multilineTextAlignment(.center)
                     .foregroundStyle(.secondary)
                     .lineSpacing(4)

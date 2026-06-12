@@ -15,6 +15,7 @@ struct TextChatView: View {
     var language: ReadingLanguage = .spanish
     var englishMode: EnglishDefinitionMode = .translate
     let ai: AIEngine
+    let tts: TTSEngine
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -23,6 +24,8 @@ struct TextChatView: View {
     @State private var input = ""
     @State private var isResponding = false
     @State private var askTask: Task<Void, Never>? = nil
+    // Respuesta que se está leyendo en voz alta
+    @State private var speakingID: UUID? = nil
     @FocusState private var inputFocused: Bool
 
     private var inEnglish: Bool {
@@ -59,6 +62,8 @@ struct TextChatView: View {
             }
             .onDisappear {
                 askTask?.cancel()
+                // Solo detenemos la voz del chat; la lectura pausada del lector se conserva
+                tts.stopFragment()
             }
         }
     }
@@ -73,8 +78,12 @@ struct TextChatView: View {
                             .padding(.top, 40)
                     }
                     ForEach(messages) { message in
-                        ChatBubble(message: message)
-                            .id(message.id)
+                        ChatBubble(
+                            message: message,
+                            isSpeaking: speakingID == message.id && tts.isSpeakingFragment,
+                            onSpeak: { toggleSpeech(for: message) }
+                        )
+                        .id(message.id)
                     }
                 }
                 .padding(.horizontal, 16)
@@ -103,9 +112,9 @@ struct TextChatView: View {
 
             VStack(spacing: 6) {
                 Text("Pregunta lo que quieras")
-                    .font(.title3.bold())
+                    .font(.app(.title3, weight: .bold))
                 Text("La IA responde usando solo «\(title)»")
-                    .font(.subheadline)
+                    .font(.app(.subheadline))
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
             }
@@ -116,7 +125,7 @@ struct TextChatView: View {
                         send(suggestion)
                     } label: {
                         Text(suggestion)
-                            .font(.subheadline.weight(.medium))
+                            .font(.app(.subheadline, weight: .medium))
                             .foregroundStyle(Color.clarityTeal)
                             .frame(minHeight: 44)
                             .padding(.horizontal, 18)
@@ -172,9 +181,9 @@ struct TextChatView: View {
                 .font(.system(size: 40))
                 .foregroundStyle(.secondary)
             Text("Apple Intelligence no está disponible")
-                .font(.headline)
+                .font(.app(.headline))
             Text("Esta función necesita un dispositivo compatible con Apple Intelligence (iOS 18.1 o posterior).")
-                .font(.subheadline)
+                .font(.app(.subheadline))
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
         }
@@ -206,6 +215,11 @@ struct TextChatView: View {
                 }
                 guard !Task.isCancelled else { return }
                 updateLastAssistantMessage(with: final)
+                // La respuesta se lee en voz alta automáticamente
+                if let answer = messages.last(where: { $0.role == .assistant }), !answer.text.isEmpty {
+                    speakingID = answer.id
+                    tts.speak(fragment: answer.text, rate: 0.42, language: inEnglish ? .english : .spanish)
+                }
             } catch {
                 guard !Task.isCancelled else { return }
                 updateLastAssistantMessage(
@@ -222,15 +236,28 @@ struct TextChatView: View {
         guard let index = messages.lastIndex(where: { $0.role == .assistant }) else { return }
         messages[index].text = text
     }
+
+    private func toggleSpeech(for message: TextChatMessage) {
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        if speakingID == message.id && tts.isSpeakingFragment {
+            tts.stopFragment()
+            speakingID = nil
+        } else {
+            speakingID = message.id
+            tts.speak(fragment: message.text, rate: 0.42, language: inEnglish ? .english : .spanish)
+        }
+    }
 }
 
 
 // Burbuja individual del chat
 private struct ChatBubble: View {
     let message: TextChatMessage
+    var isSpeaking: Bool = false
+    var onSpeak: (() -> Void)? = nil
 
     var body: some View {
-        HStack {
+        HStack(alignment: .bottom, spacing: 8) {
             if message.role == .user { Spacer(minLength: 48) }
 
             Group {
@@ -241,7 +268,7 @@ private struct ChatBubble: View {
                         .padding(.vertical, 12)
                 } else {
                     Text(message.text)
-                        .font(.body)
+                        .font(.app(.body))
                         .foregroundStyle(message.role == .user ? .white : .primary)
                         .padding(.horizontal, 16)
                         .padding(.vertical, 12)
@@ -256,15 +283,28 @@ private struct ChatBubble: View {
                         .fill(.ultraThinMaterial)
                 }
             }
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel(
+                message.role == .user
+                    ? "Tu pregunta: \(message.text)"
+                    : "Respuesta de la IA: \(message.text.isEmpty ? "pensando" : message.text)"
+            )
+
+            if message.role == .assistant, !message.text.isEmpty, let onSpeak {
+                Button(action: onSpeak) {
+                    Image(systemName: isSpeaking ? "stop.fill" : "speaker.wave.2.fill")
+                        .font(.system(size: 15, weight: .semibold))
+                        .foregroundStyle(Color.clarityTeal)
+                        .frame(width: 44, height: 44)
+                        .contentTransition(.symbolEffect(.replace))
+                }
+                .buttonStyle(.plain)
+                .glassEffect(.regular.interactive(), in: Circle())
+                .accessibilityLabel(isSpeaking ? "Detener lectura de la respuesta" : "Escuchar la respuesta")
+            }
 
             if message.role == .assistant { Spacer(minLength: 48) }
         }
-        .accessibilityElement(children: .combine)
-        .accessibilityLabel(
-            message.role == .user
-                ? "Tu pregunta: \(message.text)"
-                : "Respuesta de la IA: \(message.text.isEmpty ? "pensando" : message.text)"
-        )
     }
 }
 
@@ -276,7 +316,8 @@ private struct ChatBubble: View {
         Sin el sol, las plantas no podrían crecer y los animales no podrían vivir. \
         La luna, en cambio, brilla de noche con la luz que refleja del sol.
         """,
-        ai: AIEngine()
+        ai: AIEngine(),
+        tts: TTSEngine()
     )
     .environment(AppPreferences.shared)
 }

@@ -28,6 +28,11 @@ final class CameraViewController: UIViewController {
 
     private var hasPresented = false
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .systemBackground
+    }
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if !hasPresented {

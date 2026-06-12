@@ -11,6 +11,8 @@ final class TTSEngine: NSObject {
     var currentWordIndex: Int = -1
     var currentSyllableIndex: Int = -1
     var highlightRange: Range<String.Index>? = nil
+    // Fragmento suelto en reproducción (títulos, respuestas del chat) — permite mostrar botón de detener
+    var isSpeakingFragment: Bool = false
 
 
     private let synthesizer = AVSpeechSynthesizer()
@@ -58,6 +60,7 @@ final class TTSEngine: NSObject {
         readingSpeed = Float(speed)
         utteranceCharOffset = 0
         isPronouncingWord = false
+        isSpeakingFragment = false
         pendingSpeedRestart = false
         speedRestartTask?.cancel()
         // logica
@@ -112,6 +115,7 @@ final class TTSEngine: NSObject {
         synthesizer.stopSpeaking(at: .immediate)
         isPlaying = false
         isPronouncingWord = false
+        isSpeakingFragment = false
         currentWordIndex = -1
         currentSyllableIndex = -1
         highlightRange = nil
@@ -127,6 +131,7 @@ final class TTSEngine: NSObject {
         synthesizer.stopSpeaking(at: .immediate)
         cancelSyllableTimers()
         isPronouncingWord = false
+        isSpeakingFragment = false
         // logica
         pendingSpeedRestart = false
 
@@ -167,6 +172,7 @@ final class TTSEngine: NSObject {
         cancelSyllableTimers()
         isPlaying = false
         isPronouncingWord = true
+        isSpeakingFragment = false
 
         try? AVAudioSession.sharedInstance().setActive(true)
 
@@ -181,11 +187,12 @@ final class TTSEngine: NSObject {
     }
 
     // docs
-    func speak(fragment: String, rate: Float = 0.3) {
+    func speak(fragment: String, rate: Float = 0.3, language overrideLanguage: ReadingLanguage? = nil) {
         synthesizer.stopSpeaking(at: .immediate)
         cancelSyllableTimers()
         isPlaying = false
         isPronouncingWord = true
+        isSpeakingFragment = true
 
         try? AVAudioSession.sharedInstance().setActive(true)
 
@@ -193,8 +200,16 @@ final class TTSEngine: NSObject {
         let textToSpeak = fragment.count <= 2 ? " \(fragment) " : fragment
         let utterance = AVSpeechUtterance(string: textToSpeak)
         utterance.rate = rate
-        utterance.voice = voice
+        utterance.voice = voice(for: overrideLanguage ?? language)
         synthesizer.speak(utterance)
+    }
+
+    // Detiene solo un fragmento suelto, sin perder la posición de lectura pausada
+    func stopFragment() {
+        guard isSpeakingFragment else { return }
+        synthesizer.stopSpeaking(at: .immediate)
+        isSpeakingFragment = false
+        isPronouncingWord = false
     }
 
 
@@ -202,6 +217,10 @@ final class TTSEngine: NSObject {
     private var voiceCache: [ReadingLanguage: AVSpeechSynthesisVoice] = [:]
 
     private var voice: AVSpeechSynthesisVoice? {
+        voice(for: language)
+    }
+
+    private func voice(for language: ReadingLanguage) -> AVSpeechSynthesisVoice? {
         // logica
         if AppPreferences.shared.usePersonalVoice,
            let personal = personalVoice(for: language) {
@@ -353,6 +372,7 @@ extension TTSEngine: AVSpeechSynthesizerDelegate {
             guard let self else { return }
             if self.isPronouncingWord {
                 self.isPronouncingWord = false
+                self.isSpeakingFragment = false
                 return
             }
             self.isPlaying = false

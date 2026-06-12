@@ -86,7 +86,8 @@ struct ReaderView: View {
                 text: item.body,
                 language: language,
                 englishMode: prefs.englishDefinitionMode,
-                ai: ai
+                ai: ai,
+                tts: tts
             )
             .presentationDragIndicator(.visible)
         }
