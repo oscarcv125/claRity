@@ -36,8 +36,18 @@ struct ReaderView: View {
         @Bindable var prefs = prefs
 
         ZStack(alignment: .bottom) {
-            prefs.backgroundColor.color
+            // Background with subtle gradient depth
+            ZStack {
+                prefs.backgroundColor.color
+                    .ignoresSafeArea()
+                LinearGradient(
+                    colors: [.black.opacity(0.06), .clear, .clear, .black.opacity(0.04)],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
                 .ignoresSafeArea()
+                .allowsHitTesting(false)
+            }
 
             scrollContent
 
@@ -121,6 +131,7 @@ struct ReaderView: View {
         if isSimplifying {
             ProgressView()
                 .scaleEffect(0.75)
+                .tint(Color(hex: "#7C3AED"))
         } else {
             Button {
                 if isShowingSimplified {
@@ -129,11 +140,10 @@ struct ReaderView: View {
                     Task { await simplifyText() }
                 }
             } label: {
-                Label(
-                    isShowingSimplified ? "Original" : "Simplificar",
-                    systemImage: isShowingSimplified ? "arrow.uturn.left" : "sparkles"
-                )
+                Image(systemName: isShowingSimplified ? "arrow.uturn.left" : "sparkles")
             }
+            .glassEffect(.regular.interactive(), in: Circle())
+            .frame(width: 36, height: 36)
             .accessibilityLabel(isShowingSimplified ? "Ver texto original" : "Simplificar texto con IA")
         }
     }
@@ -142,6 +152,8 @@ struct ReaderView: View {
         Button { showSettings = true } label: {
             Image(systemName: "textformat.size")
         }
+        .glassEffect(.regular.interactive(), in: Circle())
+        .frame(width: 36, height: 36)
         .accessibilityLabel("Abrir configuración de lectura")
     }
 
@@ -150,13 +162,14 @@ struct ReaderView: View {
     private var generatingOverlay: some View {
         VStack(spacing: 12) {
             ProgressView()
+                .tint(Color(hex: "#7C3AED"))
             Text("Generando preguntas…")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
         }
         .padding(24)
-        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
-        .shadow(color: .black.opacity(0.12), radius: 12)
+        .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+        .shadow(color: Color(hex: "#7C3AED").opacity(0.15), radius: 16)
         .transition(.opacity.combined(with: .scale(scale: 0.9)))
     }
 

@@ -7,30 +7,49 @@ struct WordDefinitionCard: View {
     let onDismiss: () -> Void
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack {
+        VStack(alignment: .leading, spacing: 14) {
+            HStack(alignment: .center) {
                 Text(word.capitalized)
-                    .font(.headline)
-                    .foregroundStyle(.primary)
+                    .font(.headline.weight(.bold))
+                    .overlay(
+                        LinearGradient(
+                            colors: [Color(hex: "#7C3AED"), Color(hex: "#EC4899")],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                        .mask(
+                            Text(word.capitalized)
+                                .font(.headline.weight(.bold))
+                        )
+                    )
                 Spacer()
                 Button(action: onDismiss) {
                     Image(systemName: "xmark.circle.fill")
                         .font(.title3)
                         .foregroundStyle(.secondary)
                 }
+                .buttonStyle(.plain)
+                .glassEffect(.regular.interactive(), in: Circle())
+                .frame(width: 36, height: 36)
                 .accessibilityLabel("Cerrar definición")
-                .frame(minWidth: 44, minHeight: 44)
             }
 
-            Divider()
+            LinearGradient(
+                colors: [.clear, .secondary.opacity(0.35), .clear],
+                startPoint: .leading,
+                endPoint: .trailing
+            )
+            .frame(height: 1)
 
             if isLoading {
                 HStack(spacing: 10) {
                     ProgressView()
+                        .tint(Color(hex: "#7C3AED"))
                     Text("Buscando definición…")
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                 }
+                .frame(maxWidth: .infinity, alignment: .leading)
             } else {
                 Text(definition)
                     .font(.subheadline)
@@ -39,10 +58,10 @@ struct WordDefinitionCard: View {
             }
         }
         .padding(20)
-        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+        .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 22, style: .continuous))
         .padding(.horizontal, 16)
-        .padding(.bottom, 148)
-        .shadow(color: .black.opacity(0.12), radius: 12, y: 4)
+        .padding(.bottom, 152)
+        .shadow(color: .black.opacity(0.1), radius: 16, y: 4)
         .accessibilityElement(children: .combine)
         .accessibilityLabel(isLoading ? "Cargando definición de \(word)" : "\(word): \(definition)")
     }

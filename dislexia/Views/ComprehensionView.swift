@@ -9,18 +9,30 @@ struct ComprehensionView: View {
     @State private var summary: String = ""
     @State private var isLoadingSummary = false
     @State private var allAnswered = false
+    @State private var appeared = false
+
+    private var score: Int {
+        questions.filter { $0.answer == true }.count
+    }
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 24) {
-                    headerSection
-                    questionsSection
-                    if allAnswered {
-                        summarySection
+            ZStack {
+                Color(.systemGroupedBackground).ignoresSafeArea()
+
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 24) {
+                        progressDots
+                        headerSection
+                        questionsSection
+                        if allAnswered {
+                            completionBanner
+                            summarySection
+                        }
                     }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 24)
                 }
-                .padding(.vertical, 24)
             }
             .navigationTitle("Comprensión")
             .navigationBarTitleDisplayMode(.inline)
@@ -35,10 +47,35 @@ struct ComprehensionView: View {
                     allAnswered = newVal.allSatisfy { $0.answer != nil } && !newVal.isEmpty
                 }
             }
+            .onAppear { appeared = true }
         }
     }
 
-    // MARK: - Subviews
+    // MARK: - Progress Dots
+
+    private var progressDots: some View {
+        HStack(spacing: 8) {
+            ForEach(Array(questions.enumerated()), id: \.offset) { idx, q in
+                Circle()
+                    .fill(q.answer != nil
+                          ? LinearGradient(colors: [Color(hex: "#7C3AED"), Color(hex: "#EC4899")],
+                                           startPoint: .topLeading, endPoint: .bottomTrailing)
+                          : LinearGradient(colors: [Color(.systemGray4), Color(.systemGray4)],
+                                           startPoint: .topLeading, endPoint: .bottomTrailing))
+                    .frame(width: 10, height: 10)
+                    .animation(.spring(duration: 0.35), value: q.answer != nil)
+            }
+            Spacer()
+            if !questions.isEmpty {
+                Text("\(questions.filter { $0.answer != nil }.count)/\(questions.count)")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .padding(.horizontal, 4)
+    }
+
+    // MARK: - Header
 
     private var headerSection: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -48,8 +85,9 @@ struct ComprehensionView: View {
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
         }
-        .padding(.horizontal)
     }
+
+    // MARK: - Questions
 
     @ViewBuilder
     private var questionsSection: some View {
@@ -58,40 +96,84 @@ struct ComprehensionView: View {
                 .frame(maxWidth: .infinity)
                 .padding(.top, 40)
         } else {
-            VStack(spacing: 16) {
-                ForEach($questions) { $q in
-                    QuestionCard(question: $q)
+            VStack(spacing: 14) {
+                ForEach(Array(questions.enumerated()), id: \.element.id) { idx, _ in
+                    QuestionCard(question: $questions[idx])
+                        .opacity(appeared ? 1 : 0)
+                        .offset(x: appeared ? 0 : 40)
+                        .animation(
+                            .spring(duration: 0.45, bounce: 0.2).delay(Double(idx) * 0.09),
+                            value: appeared
+                        )
                 }
             }
-            .padding(.horizontal)
         }
     }
 
+    // MARK: - Completion Banner
+
+    private var completionBanner: some View {
+        HStack(spacing: 14) {
+            Text("🎉")
+                .font(.largeTitle)
+            VStack(alignment: .leading, spacing: 2) {
+                Text("¡Muy bien!")
+                    .font(.headline.bold())
+                Text("\(score) de \(questions.count) correctas")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+            }
+            Spacer()
+        }
+        .padding(20)
+        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                .stroke(
+                    LinearGradient(
+                        colors: [Color(hex: "#7C3AED").opacity(0.5), Color(hex: "#EC4899").opacity(0.3)],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    ),
+                    lineWidth: 1.5
+                )
+        )
+        .shadow(color: Color(hex: "#7C3AED").opacity(0.12), radius: 16, y: 4)
+        .transition(.move(edge: .bottom).combined(with: .opacity))
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Completado. \(score) de \(questions.count) correctas.")
+    }
+
+    // MARK: - Summary
+
     @ViewBuilder
     private var summarySection: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Divider()
+        VStack(alignment: .leading, spacing: 14) {
+            Text("Resumen")
+                .font(.headline.weight(.semibold))
 
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Resumen")
-                    .font(.headline)
-                    .padding(.horizontal)
-
-                if isLoadingSummary {
-                    HStack {
-                        ProgressView()
-                        Text("Generando resumen…")
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
-                    }
-                    .padding(.horizontal)
-                } else {
-                    Text(summary)
-                        .font(.body)
-                        .padding(.horizontal)
+            if isLoadingSummary {
+                HStack(spacing: 10) {
+                    ProgressView()
+                        .tint(Color(hex: "#7C3AED"))
+                    Text("Generando resumen…")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
                 }
+            } else {
+                Text(summary)
+                    .font(.body)
+                    .foregroundStyle(.primary)
             }
         }
+        .padding(20)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                .stroke(Color.white.opacity(0.3), lineWidth: 1)
+        )
+        .shadow(color: .black.opacity(0.05), radius: 12, y: 4)
         .task { await loadSummary() }
     }
 
@@ -109,7 +191,7 @@ struct ComprehensionView: View {
     }
 }
 
-// MARK: - Question card
+// MARK: - Question Card
 
 struct QuestionCard: View {
     @Binding var question: ComprehensionQuestion
@@ -120,38 +202,51 @@ struct QuestionCard: View {
                 .font(.body.weight(.medium))
                 .fixedSize(horizontal: false, vertical: true)
 
-            HStack(spacing: 16) {
-                AnswerButton(
+            HStack(spacing: 12) {
+                GlassAnswerButton(
                     label: "Sí",
                     selected: question.answer == true,
-                    color: .green
+                    tint: .green
                 ) {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    question.answer = true
+                    withAnimation(.spring(duration: 0.3)) { question.answer = true }
                 }
 
-                AnswerButton(
+                GlassAnswerButton(
                     label: "No",
                     selected: question.answer == false,
-                    color: .red
+                    tint: .red
                 ) {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    question.answer = false
+                    withAnimation(.spring(duration: 0.3)) { question.answer = false }
                 }
             }
         }
-        .padding(16)
-        .background(Color(.systemGray6), in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+        .padding(18)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: 18, style: .continuous)
+                .stroke(
+                    LinearGradient(
+                        colors: [.white.opacity(0.4), .white.opacity(0.08)],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    ),
+                    lineWidth: 1
+                )
+        )
+        .shadow(color: .black.opacity(0.06), radius: 14, y: 4)
         .accessibilityElement(children: .combine)
     }
 }
 
-// MARK: - Answer button
+// MARK: - Glass Answer Button
 
-struct AnswerButton: View {
+struct GlassAnswerButton: View {
     let label: String
     let selected: Bool
-    let color: Color
+    let tint: Color
     let action: () -> Void
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -159,15 +254,16 @@ struct AnswerButton: View {
     var body: some View {
         Button(action: action) {
             Text(label)
-                .font(.headline)
+                .font(.headline.weight(.semibold))
                 .frame(maxWidth: .infinity)
-                .padding(.vertical, 12)
-                .background(selected ? color : Color(.systemGray5))
-                .foregroundStyle(selected ? Color.white : Color.primary)
-                .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-                .animation(reduceMotion ? .none : .spring(duration: 0.25), value: selected)
+                .padding(.vertical, 13)
         }
+        .buttonStyle(.plain)
+        .glassEffect(selected ? .regular.tint(tint) : .regular.interactive(),
+                     in: RoundedRectangle(cornerRadius: 12, style: .continuous))
         .frame(minHeight: 44)
+        .scaleEffect(selected ? 1.02 : 1.0)
+        .animation(reduceMotion ? .none : .spring(duration: 0.25), value: selected)
         .accessibilityAddTraits(selected ? .isSelected : [])
         .accessibilityLabel(label + (selected ? ", seleccionado" : ""))
     }

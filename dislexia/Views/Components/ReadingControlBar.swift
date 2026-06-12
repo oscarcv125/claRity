@@ -10,16 +10,19 @@ struct ReadingControlBar: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
-        VStack(spacing: 8) {
+        VStack(spacing: 10) {
             speedRow
             playbackRow
         }
-        .padding(.vertical, 14)
-        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 24, style: .continuous))
+        .padding(.vertical, 16)
+        .padding(.horizontal, 20)
+        .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 28, style: .continuous))
         .padding(.horizontal, 12)
         .padding(.bottom, 8)
-        .shadow(color: .black.opacity(0.1), radius: 10, y: -4)
+        .shadow(color: .black.opacity(0.12), radius: 20, y: -8)
     }
+
+    // MARK: - Speed Row
 
     private var speedRow: some View {
         HStack(spacing: 10) {
@@ -28,7 +31,7 @@ struct ReadingControlBar: View {
                 .font(.caption)
                 .accessibilityHidden(true)
 
-            Slider(value: $speed, in: 0.1...0.6, step: 0.05)
+            GradientSlider(value: $speed, range: 0.1...0.6, step: 0.05)
                 .accessibilityLabel("Velocidad de lectura")
                 .accessibilityValue(speedLabel)
 
@@ -37,35 +40,40 @@ struct ReadingControlBar: View {
                 .font(.caption)
                 .accessibilityHidden(true)
         }
-        .padding(.horizontal, 20)
     }
 
+    // MARK: - Playback Row
+
     private var playbackRow: some View {
-        HStack(spacing: 28) {
+        HStack(spacing: 24) {
             Button(action: onStop) {
                 Image(systemName: "stop.fill")
-                    .font(.title2)
-                    .foregroundStyle(.primary)
+                    .font(.title3)
             }
-            .frame(minWidth: 44, minHeight: 44)
+            .buttonStyle(.plain)
+            .glassEffect(.regular.interactive(), in: Circle())
+            .frame(width: 48, height: 48)
             .accessibilityLabel("Detener lectura")
 
             Button(action: onPlayPause) {
-                Image(systemName: isPlaying ? "pause.circle.fill" : "play.circle.fill")
-                    .font(.system(size: 56))
-                    .foregroundStyle(.tint)
+                Image(systemName: isPlaying ? "pause.fill" : "play.fill")
+                    .font(.title2.weight(.semibold))
                     .scaleEffect(isPlaying ? 1.05 : 1.0)
-                    .animation(reduceMotion ? .none : .spring(duration: 0.25), value: isPlaying)
+                    .animation(reduceMotion ? .none : .spring(response: 0.25, dampingFraction: 0.6), value: isPlaying)
             }
-            .frame(minWidth: 56, minHeight: 56)
+            .buttonStyle(.plain)
+            .glassEffect(.regular.tint(.accentColor), in: Circle())
+            .frame(width: 64, height: 64)
             .accessibilityLabel(isPlaying ? "Pausar lectura" : "Reproducir lectura")
 
             Button(action: onComplete) {
-                Image(systemName: "checkmark.circle")
-                    .font(.title2)
+                Image(systemName: "checkmark")
+                    .font(.title3.weight(.semibold))
                     .foregroundStyle(.green)
             }
-            .frame(minWidth: 44, minHeight: 44)
+            .buttonStyle(.plain)
+            .glassEffect(.regular.interactive(), in: Circle())
+            .frame(width: 48, height: 48)
             .accessibilityLabel("Marcar como leído y ver comprensión")
         }
     }
@@ -77,6 +85,54 @@ struct ReadingControlBar: View {
         case ..<0.5:  return "Normal"
         default:      return "Rápido"
         }
+    }
+}
+
+// MARK: - Gradient Slider
+
+private struct GradientSlider: View {
+    @Binding var value: Double
+    let range: ClosedRange<Double>
+    let step: Double
+
+    var body: some View {
+        GeometryReader { geo in
+            ZStack(alignment: .leading) {
+                Capsule()
+                    .fill(Color(.systemGray5))
+                    .frame(height: 4)
+
+                let fraction = CGFloat((value - range.lowerBound) / (range.upperBound - range.lowerBound))
+                Capsule()
+                    .fill(
+                        LinearGradient(
+                            colors: [Color(hex: "#7C3AED"), Color(hex: "#EC4899")],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
+                    .frame(width: geo.size.width * fraction, height: 4)
+
+                Circle()
+                    .fill(Color.white)
+                    .frame(width: 22, height: 22)
+                    .shadow(color: .black.opacity(0.2), radius: 4, y: 2)
+                    .offset(x: geo.size.width * fraction - 11)
+            }
+            .frame(height: 22)
+            .contentShape(Rectangle())
+            .gesture(
+                DragGesture(minimumDistance: 0)
+                    .onChanged { drag in
+                        let raw = Double(drag.location.x / geo.size.width)
+                        let clamped = max(0, min(1, raw))
+                        let mapped = range.lowerBound + clamped * (range.upperBound - range.lowerBound)
+                        let stepped = (mapped / step).rounded() * step
+                        value = max(range.lowerBound, min(range.upperBound, stepped))
+                    }
+            )
+        }
+        .frame(height: 22)
     }
 }
 

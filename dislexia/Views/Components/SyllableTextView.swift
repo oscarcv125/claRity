@@ -82,28 +82,40 @@ struct SyllableTextView: View {
             ForEach(tokens) { token in
                 if token.isWord {
                     Button {
-                        let contextStart = text.index(token.range.lowerBound,
+                        let contextStart = text.index(
+                            token.range.lowerBound,
                             offsetBy: -min(80, text.distance(from: text.startIndex, to: token.range.lowerBound)),
-                            limitedBy: text.startIndex) ?? text.startIndex
-                        let contextEnd = text.index(token.range.upperBound,
+                            limitedBy: text.startIndex
+                        ) ?? text.startIndex
+                        let contextEnd = text.index(
+                            token.range.upperBound,
                             offsetBy: min(80, text.distance(from: token.range.upperBound, to: text.endIndex)),
-                            limitedBy: text.endIndex) ?? text.endIndex
+                            limitedBy: text.endIndex
+                        ) ?? text.endIndex
                         let context = String(text[contextStart..<contextEnd])
                         UIImpactFeedbackGenerator(style: .light).impactOccurred()
                         onWordTap(token.text, context)
                     } label: {
+                        let highlighted = isHighlighted(token)
                         Text(token.text)
                             .font(.custom(prefs.fontName, size: prefs.fontSize))
                             .tracking(prefs.letterSpacing)
-                            .padding(.vertical, 1)
-                            .padding(.horizontal, 1)
+                            .padding(.vertical, 2)
+                            .padding(.horizontal, 2)
                             .background(
-                                isHighlighted(token)
-                                    ? Color.yellow.opacity(0.65)
-                                    : Color.clear,
-                                in: RoundedRectangle(cornerRadius: 3)
+                                RoundedRectangle(cornerRadius: 6, style: .continuous)
+                                    .fill(Color.orange.opacity(highlighted ? 0.22 : 0))
+                                    .shadow(
+                                        color: Color.orange.opacity(highlighted ? 0.45 : 0),
+                                        radius: 10,
+                                        y: 0
+                                    )
                             )
-                            .animation(reduceMotion ? .none : .easeInOut(duration: 0.1), value: isHighlighted(token))
+                            .scaleEffect(highlighted ? 1.06 : 1.0)
+                            .animation(
+                                reduceMotion ? .none : .spring(response: 0.2, dampingFraction: 0.6),
+                                value: highlighted
+                            )
                     }
                     .buttonStyle(.plain)
                     .frame(minWidth: 44, minHeight: 44, alignment: .center)
