@@ -9,7 +9,6 @@ struct LibraryView: View {
     @State private var selectedLevel: DifficultyLevel? = nil
     @State private var showCamera = false
     @State private var showManualEntry = false
-    @State private var showSettings = false
     @State private var selectedItem: LibraryItem? = nil
     // Texto capturado pendiente: navegamos hasta que el sheet de la cámara termina de cerrarse
     @State private var pendingCapturedItem: LibraryItem? = nil
@@ -68,23 +67,6 @@ struct LibraryView: View {
             }
             .navigationDestination(item: $selectedItem) { item in
                 ReaderView(item: item)
-            }
-            .sheet(isPresented: $showSettings) {
-                SettingsView()
-            }
-            .overlay(alignment: .topTrailing) {
-                Button {
-                    showSettings = true
-                } label: {
-                    Image(systemName: "textformat.size")
-                        .font(.title3.weight(.medium))
-                        .foregroundStyle(.white)
-                        .frame(width: 44, height: 44)
-                        .background(.ultraThinMaterial, in: Circle())
-                }
-                .buttonStyle(.plain)
-                .padding(.top, 56)
-                .padding(.trailing, 16)
             }
         }
     }
@@ -292,13 +274,13 @@ private struct LibraryCard: View {
             }
 
             Text(item.title)
-                .font(.headline)
+                .font(.title3.weight(.semibold))
                 .lineLimit(2)
                 .multilineTextAlignment(.leading)
                 .fixedSize(horizontal: false, vertical: true)
 
             Text(item.body.prefix(65) + (item.body.count > 65 ? "…" : ""))
-                .font(.caption2)
+                .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .lineLimit(3)
                 .multilineTextAlignment(.leading)
@@ -366,14 +348,14 @@ private struct RecentCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             Text(item.title)
-                .font(.subheadline.weight(.semibold))
+                .font(.headline)
                 .lineLimit(2)
                 .multilineTextAlignment(.leading)
 
             Spacer(minLength: 0)
 
             Text(item.body.prefix(50) + (item.body.count > 50 ? "…" : ""))
-                .font(.caption2)
+                .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .lineLimit(2)
         }
