@@ -81,8 +81,10 @@ struct LibraryView: View {
                 LinearGradient.clarityGradient
 
                 VStack(spacing: 8) {
-                    ClaRityWordmark(size: 48)
-                        .foregroundStyle(.white)
+                    Image("clarity white")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 48)
                         .shadow(color: .black.opacity(0.2), radius: 6)
                     Text("Tu lector inteligente")
                         .font(.subheadline.weight(.medium))
@@ -229,21 +231,7 @@ struct LibraryView: View {
 }
 
 
-private struct ClaRityWordmark: View {
-    var size: CGFloat = 38
 
-    var body: some View {
-        HStack(spacing: 0) {
-            Text("Cla")
-                .font(.system(size: size, weight: .black, design: .rounded))
-            Text("R")
-                .font(.system(size: size, weight: .black, design: .rounded))
-                .scaleEffect(x: -1, y: 1)
-            Text("ity")
-                .font(.system(size: size, weight: .black, design: .rounded))
-        }
-    }
-}
 
 
 private struct GlassPill: View {
