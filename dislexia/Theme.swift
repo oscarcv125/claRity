@@ -1,15 +1,39 @@
 import SwiftUI
 
-/// Paleta central de ClaRity — derivada del mesh azul-teal del hero.
-/// Regla de diseño: el ÚNICO gradiente de la app vive en el hero de LibraryView.
-/// Todo lo demás usa estos colores sólidos.
+/// Paleta central de ClaRity — actualizada con los colores de marca solicitados.
 extension Color {
-    /// Color de marca principal (teal).
-    static let clarityTeal = Color(hex: "#0D9488")
-    /// Azul de apoyo para iconografía secundaria.
-    static let clarityBlue = Color(hex: "#0284C7")
-    /// Acento claro para detalles pequeños.
-    static let clarityCyan = Color(hex: "#2DD4BF")
+    // Colores principales
+    static let menta = Color(hex: "#36D1B4")
+    static let azulPrincipal = Color(hex: "#3B82F6")
+    static let azulClaro = Color(hex: "#60A5FA")
+    static let moradoPrincipal = Color(hex: "#8B5CF6")
+    static let moradoSuave = Color(hex: "#C4B5FD")
+    
+    // Neutros / Fondos
+    static let blancoPrincipal = Color(hex: "#FAFAFF")
+    static let grisClaro = Color(hex: "#F4F4F8")
+    static let lavandaClara = Color(hex: "#EDE9FE")
+    
+    // Texto
+    static let textoPrincipal = Color(hex: "#1F2937")
+    static let textoSecundario = Color(hex: "#6B7280")
+    
+    // Alias temporales para retrocompatibilidad
+    static let clarityTeal = menta
+    static let clarityBlue = azulPrincipal
+    static let clarityCyan = azulClaro
+}
+
+extension LinearGradient {
+    static let clarityGradient = LinearGradient(
+        colors: [
+            Color.menta,
+            Color.azulPrincipal,
+            Color.moradoPrincipal
+        ],
+        startPoint: .leading,
+        endPoint: .trailing
+    )
 }
 
 extension ShapeStyle where Self == Color {

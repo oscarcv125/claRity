@@ -72,19 +72,7 @@ struct LibraryView: View {
             let stretch = minY > 0 ? minY : 0
 
             ZStack(alignment: .bottom) {
-                MeshGradient(
-                    width: 3, height: 3,
-                    points: [
-                        .init(0, 0),   .init(0.5, 0),  .init(1, 0),
-                        .init(0, 0.5), .init(0.6, 0.4), .init(1, 0.5),
-                        .init(0, 1),   .init(0.5, 1),  .init(1, 1)
-                    ],
-                    colors: [
-                        Color(hex: "#0284C7"), Color(hex: "#0D9488"), Color(hex: "#14B8A6"),
-                        Color(hex: "#0369A1"), Color(hex: "#0F766E"), Color(hex: "#06B6D4"),
-                        Color(hex: "#1D4ED8"), Color(hex: "#115E59"), Color(hex: "#2DD4BF")
-                    ]
-                )
+                LinearGradient.clarityGradient
 
                 VStack(spacing: 8) {
                     ClaRityWordmark(size: 48)

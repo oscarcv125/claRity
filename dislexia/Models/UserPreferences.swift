@@ -31,9 +31,9 @@ enum BackgroundOption: String, CaseIterable, Identifiable {
 
     var color: Color {
         switch self {
-        case .white:      return Color(hex: "#FFFFFF")
+        case .white:      return Color.blancoPrincipal
         case .cream:      return Color(hex: "#FFFDF0")
-        case .lightBlue:  return Color(hex: "#EEF4FF")
+        case .lightBlue:  return Color.lavandaClara // using Lavanda clara as light blue substitute to align with new palette
         case .lightGreen: return Color(hex: "#F0FFF4")
         case .dark:       return Color(hex: "#1A1A1A")
         }
@@ -42,9 +42,9 @@ enum BackgroundOption: String, CaseIterable, Identifiable {
     var textColor: Color {
         switch self {
         case .dark:
-            return Color(hex: "#F5F5F7")
+            return Color.blancoPrincipal
         default:
-            return Color(hex: "#1C1917")
+            return Color.textoPrincipal
         }
     }
 }
