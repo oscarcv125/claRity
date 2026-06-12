@@ -1,6 +1,5 @@
 import SwiftUI
 
-// MARK: - Text token
 
 struct TextToken: Identifiable {
     let id = UUID()
@@ -9,7 +8,6 @@ struct TextToken: Identifiable {
     let range: Range<String.Index>
 }
 
-// MARK: - Flow layout
 
 struct WordFlowLayout: Layout {
     var lineSpacing: CGFloat = 8
@@ -65,18 +63,17 @@ struct WordFlowLayout: Layout {
     }
 }
 
-// MARK: - SyllableTextView
 
 struct SyllableTextView: View {
     let text: String
     let highlightRange: Range<String.Index>?
     let prefs: AppPreferences
     let onWordTap: (String, String) -> Void
-    /// Modo Enfoque: atenúa las palabras inactivas mientras se lee en voz alta.
+    // docs
     var dimInactive: Bool = false
-    /// Mantén presionada una palabra para escucharla lenta, sílaba por sílaba.
+    // docs
     var onWordLongPress: (String) -> Void = { _ in }
-    /// Doble toque: abre la tarjeta de pronunciación por sílabas.
+    // docs
     var onWordDoubleTap: (String) -> Void = { _ in }
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -96,9 +93,9 @@ struct SyllableTextView: View {
                         .padding(.horizontal, 2)
                         .background(
                             RoundedRectangle(cornerRadius: 6, style: .continuous)
-                                .fill(Color.orange.opacity(highlighted ? 0.22 : 0))
+                                .fill(Color.azulPrincipal.opacity(highlighted ? 0.22 : 0))
                                 .shadow(
-                                    color: Color.orange.opacity(highlighted ? 0.45 : 0),
+                                    color: Color.azulPrincipal.opacity(highlighted ? 0.45 : 0),
                                     radius: 10,
                                     y: 0
                                 )
@@ -116,8 +113,7 @@ struct SyllableTextView: View {
                         .frame(minWidth: 44, minHeight: 44, alignment: .center)
                         .fixedSize()
                         .contentShape(Rectangle())
-                        // El doble toque va ANTES del toque sencillo para que
-                        // SwiftUI espere a desambiguar entre ambos.
+                        // logica
                         .onTapGesture(count: 2) {
                             UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                             onWordDoubleTap(token.text)
@@ -157,9 +153,8 @@ struct SyllableTextView: View {
         .accessibilityHint("Toca una palabra para ver su definición")
     }
 
-    // MARK: - Helpers
 
-    /// ±250 caracteres alrededor de la palabra, para que la IA elija el sentido con más contexto.
+    // docs
     private func contextAround(_ token: TextToken) -> String {
         let contextStart = text.index(
             token.range.lowerBound,

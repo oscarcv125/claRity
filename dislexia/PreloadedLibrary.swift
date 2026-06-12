@@ -3,7 +3,6 @@ import Foundation
 enum PreloadedLibrary {
     static let items: [LibraryItem] = basicTexts + basicTextsEnglish + intermediateTexts + intermediateTextsEnglish + advancedTexts + advancedTextsEnglish
 
-    // MARK: - Básico (Español)
 
     static let basicTexts: [LibraryItem] = [
         LibraryItem(
@@ -33,7 +32,6 @@ enum PreloadedLibrary {
         )
     ]
 
-    // MARK: - Basic (English)
 
     static let basicTextsEnglish: [LibraryItem] = [
         LibraryItem(
@@ -63,7 +61,6 @@ enum PreloadedLibrary {
         )
     ]
 
-    // MARK: - Intermedio (Español)
 
     static let intermediateTexts: [LibraryItem] = [
         LibraryItem(
@@ -83,7 +80,6 @@ enum PreloadedLibrary {
         )
     ]
 
-    // MARK: - Intermediate (English)
 
     static let intermediateTextsEnglish: [LibraryItem] = [
         LibraryItem(
@@ -103,7 +99,6 @@ enum PreloadedLibrary {
         )
     ]
 
-    // MARK: - Avanzado (Español)
 
     static let advancedTexts: [LibraryItem] = [
         LibraryItem(
@@ -118,7 +113,6 @@ enum PreloadedLibrary {
         )
     ]
 
-    // MARK: - Advanced (English)
 
     static let advancedTextsEnglish: [LibraryItem] = [
         LibraryItem(

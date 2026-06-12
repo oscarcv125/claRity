@@ -23,11 +23,9 @@ final class AppPreferences {
     var useOpenDyslexic: Bool {
         didSet { UserDefaults.standard.set(useOpenDyslexic, forKey: UserPreferences.useOpenDyslexicKey) }
     }
-    /// Para documentos en inglés: traducir al español o practicar en inglés.
     var englishDefinitionMode: EnglishDefinitionMode {
         didSet { UserDefaults.standard.set(englishDefinitionMode.rawValue, forKey: UserPreferences.englishDefinitionModeKey) }
     }
-    /// Leer con la Voz Personal del usuario (iOS Personal Voice).
     var usePersonalVoice: Bool {
         didSet { UserDefaults.standard.set(usePersonalVoice, forKey: UserPreferences.usePersonalVoiceKey) }
     }
@@ -41,10 +39,10 @@ final class AppPreferences {
 
     private init() {
         let ud = UserDefaults.standard
-        fontSize      = ud.double(forKey: UserPreferences.fontSizeKey).nonZero ?? UserPreferences.defaultFontSize
-        letterSpacing = ud.double(forKey: UserPreferences.letterSpacingKey).nonZero ?? UserPreferences.defaultLetterSpacing
-        lineSpacing   = ud.double(forKey: UserPreferences.lineSpacingKey).nonZero ?? UserPreferences.defaultLineSpacing
-        readingSpeed  = ud.double(forKey: UserPreferences.readingSpeedKey).nonZero ?? UserPreferences.defaultReadingSpeed
+        fontSize      = ud.object(forKey: UserPreferences.fontSizeKey) as? Double ?? UserPreferences.defaultFontSize
+        letterSpacing = ud.object(forKey: UserPreferences.letterSpacingKey) as? Double ?? UserPreferences.defaultLetterSpacing
+        lineSpacing   = ud.object(forKey: UserPreferences.lineSpacingKey) as? Double ?? UserPreferences.defaultLineSpacing
+        readingSpeed  = ud.object(forKey: UserPreferences.readingSpeedKey) as? Double ?? UserPreferences.defaultReadingSpeed
         useOpenDyslexic = ud.object(forKey: UserPreferences.useOpenDyslexicKey) as? Bool ?? UserPreferences.defaultUseOpenDyslexic
         let colorRaw  = ud.string(forKey: UserPreferences.backgroundColorKey) ?? ""
         backgroundColor = BackgroundOption(rawValue: colorRaw) ?? UserPreferences.defaultBackgroundColor
@@ -52,8 +50,4 @@ final class AppPreferences {
         englishDefinitionMode = EnglishDefinitionMode(rawValue: modeRaw) ?? UserPreferences.defaultEnglishDefinitionMode
         usePersonalVoice = ud.object(forKey: UserPreferences.usePersonalVoiceKey) as? Bool ?? UserPreferences.defaultUsePersonalVoice
     }
-}
-
-private extension Double {
-    var nonZero: Double? { self == 0 ? nil : self }
 }

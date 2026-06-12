@@ -1,4 +1,6 @@
 import SwiftUI
+import UniformTypeIdentifiers
+import PDFKit
 
 struct ManualEntryView: View {
     let onSave: (String, String, DifficultyLevel) -> Void
@@ -9,6 +11,8 @@ struct ManualEntryView: View {
     @State private var level: DifficultyLevel = .basic
     @State private var titleError = false
     @State private var contentError = false
+    @State private var showFileImporter = false
+    @State private var isImporting = false
 
     private var characterCount: Int { content.count }
 
@@ -22,6 +26,13 @@ struct ManualEntryView: View {
                 }
                 .padding(.horizontal, 16)
                 .padding(.vertical, 20)
+            }
+            .fileImporter(
+                isPresented: $showFileImporter,
+                allowedContentTypes: [.plainText, .pdf, UTType(filenameExtension: "md")].compactMap { $0 },
+                allowsMultipleSelection: false
+            ) { result in
+                handleFileImport(result)
             }
             .background(Color(.systemGroupedBackground).ignoresSafeArea())
             .navigationTitle("Nuevo texto")
@@ -40,7 +51,6 @@ struct ManualEntryView: View {
         }
     }
 
-    // MARK: - Title Card
 
     private var titleCard: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -81,7 +91,6 @@ struct ManualEntryView: View {
         .animation(.spring(duration: 0.3), value: titleError)
     }
 
-    // MARK: - Level Card
 
     private var levelCard: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -114,7 +123,6 @@ struct ManualEntryView: View {
         .shadow(color: .black.opacity(0.05), radius: 12, y: 4)
     }
 
-    // MARK: - Content Card
 
     private var contentCard: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -123,6 +131,27 @@ struct ManualEntryView: View {
                     .font(.subheadline.weight(.semibold))
                     .foregroundStyle(.secondary)
                 Spacer()
+                
+                Button {
+                    showFileImporter = true
+                } label: {
+                    Label("Importar", systemImage: "doc.badge.plus")
+                        .font(.caption.weight(.medium))
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 5)
+                        .background(Color.clarityTeal.opacity(0.15))
+                        .foregroundStyle(Color.clarityTeal)
+                        .clipShape(Capsule())
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel("Importar archivo PDF o texto")
+                
+                if isImporting {
+                    ProgressView()
+                        .controlSize(.small)
+                        .padding(.horizontal, 4)
+                }
+                
                 Text("\(characterCount)")
                     .font(.caption.weight(.medium))
                     .padding(.horizontal, 8)
@@ -167,7 +196,6 @@ struct ManualEntryView: View {
         .animation(.spring(duration: 0.3), value: contentError)
     }
 
-    // MARK: - Helpers
 
     private func attemptSave() {
         let trimTitle = title.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -183,9 +211,56 @@ struct ManualEntryView: View {
         onSave(trimTitle, trimContent, level)
         dismiss()
     }
+    
+    // logica
+    private func handleFileImport(_ result: Result<[URL], Error>) {
+        guard case .success(let urls) = result, let url = urls.first else { return }
+        
+        isImporting = true
+        
+        Task.detached {
+            let gotAccess = url.startAccessingSecurityScopedResource()
+            defer {
+                if gotAccess {
+                    url.stopAccessingSecurityScopedResource()
+                }
+                Task { @MainActor in self.isImporting = false }
+            }
+            
+            do {
+                let fileTitle = url.deletingPathExtension().lastPathComponent
+                var extractedText = ""
+                
+                if url.pathExtension.lowercased() == "pdf" {
+                    if let pdf = PDFDocument(url: url) {
+                        for i in 0..<pdf.pageCount {
+                            if let page = pdf.page(at: i) {
+                                extractedText += (page.string ?? "") + "\n"
+                            }
+                        }
+                    }
+                } else {
+                    extractedText = try String(contentsOf: url, encoding: .utf8)
+                }
+                
+                let finalText = extractedText.trimmingCharacters(in: .whitespacesAndNewlines)
+                
+                await MainActor.run {
+                    if !finalText.isEmpty {
+                        self.content = finalText
+                        if self.title.isEmpty {
+                            self.title = fileTitle
+                        }
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                    }
+                }
+            } catch {
+                print("Error importando archivo: \(error)")
+            }
+        }
+    }
 }
 
-// MARK: - Level Pill
 
 private struct LevelPill: View {
     let lvl: DifficultyLevel
@@ -194,9 +269,9 @@ private struct LevelPill: View {
 
     private var tint: Color {
         switch lvl {
-        case .basic:        return .green
-        case .intermediate: return .orange
-        case .advanced:     return .red
+        case .basic:        return .menta
+        case .intermediate: return .azulPrincipal
+        case .advanced:     return .moradoPrincipal
         }
     }
 

@@ -4,27 +4,25 @@ struct ComprehensionQuestion: Identifiable, Equatable {
     let id = UUID()
     let question: String
 
-    // MARK: Sí / No
-    /// Respuesta correcta esperada (generada por la IA junto con la pregunta).
+    // docs
     var expectedAnswer: Bool? = nil
     var answer: Bool? = nil
 
-    // MARK: Opción múltiple (experimental)
-    /// Opciones de respuesta. Vacío = pregunta de Sí/No.
+    // docs
     var options: [String] = []
-    /// Índice de la opción correcta dentro de `options`.
+    // docs
     var correctOptionIndex: Int? = nil
-    /// Índice de la opción elegida por el usuario.
+    // docs
     var selectedOptionIndex: Int? = nil
 
     var isMultipleChoice: Bool { !options.isEmpty }
 
-    /// Verdadero cuando el usuario ya respondió (en cualquier modalidad).
+    // docs
     var isAnswered: Bool {
         isMultipleChoice ? selectedOptionIndex != nil : answer != nil
     }
 
-    /// `nil` si aún no se responde o no hay respuesta esperada.
+    // docs
     var isCorrect: Bool? {
         if isMultipleChoice {
             guard let selectedOptionIndex, let correctOptionIndex else { return nil }

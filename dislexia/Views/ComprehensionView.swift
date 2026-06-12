@@ -70,7 +70,6 @@ struct ComprehensionView: View {
         }
     }
 
-    // MARK: - Progress Bar
 
     private var progressBar: some View {
         HStack(spacing: 12) {
@@ -102,7 +101,6 @@ struct ComprehensionView: View {
         .accessibilityLabel("Progreso: \(answeredCount) de \(questions.count) preguntas respondidas")
     }
 
-    // MARK: - Header
 
     private var headerSection: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -114,13 +112,12 @@ struct ComprehensionView: View {
         }
     }
 
-    // MARK: - Questions
 
     @ViewBuilder
     private var questionsSection: some View {
         if questions.isEmpty {
             if ai.isAvailable {
-                // La IA sí está disponible: fue un fallo puntual de generación.
+                // logica
                 ContentUnavailableView {
                     Label("No se pudieron crear las preguntas", systemImage: "questionmark.bubble")
                 } description: {
@@ -150,7 +147,7 @@ struct ComprehensionView: View {
                 }
                 .padding(.top, 40)
             } else {
-                // La IA no está disponible (simulador o equipo sin Apple Intelligence).
+                // logica
                 ContentUnavailableView {
                     Label("IA no disponible", systemImage: "wand.and.stars.inverse")
                 } description: {
@@ -173,13 +170,12 @@ struct ComprehensionView: View {
         }
     }
 
-    // MARK: - Completion Banner
 
     private var completionBanner: some View {
         HStack(spacing: 14) {
             Image(systemName: score == questions.count ? "trophy.fill" : "party.popper.fill")
                 .font(.largeTitle)
-                .foregroundStyle(score == questions.count ? Color.orange : Color.clarityTeal)
+                .foregroundStyle(score == questions.count ? Color.moradoPrincipal : Color.clarityTeal)
                 .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 2) {
                 Text(score == questions.count ? "¡Perfecto!" : "¡Muy bien!")
@@ -202,7 +198,6 @@ struct ComprehensionView: View {
         .accessibilityLabel("Completado. \(score) de \(questions.count) correctas.")
     }
 
-    // MARK: - Summary
 
     @ViewBuilder
     private var summarySection: some View {
@@ -235,7 +230,6 @@ struct ComprehensionView: View {
         .task { await loadSummary() }
     }
 
-    // MARK: - Helpers
 
     private func loadSummary() async {
         guard summary.isEmpty else { return }
@@ -269,13 +263,12 @@ struct ComprehensionView: View {
                 UINotificationFeedbackGenerator().notificationOccurred(.success)
             }
         } catch {
-            // Se mantiene el estado vacío; el botón permite volver a intentar.
+            // logica
         }
         isRetrying = false
     }
 }
 
-// MARK: - Question Card
 
 struct QuestionCard: View {
     let number: Int
@@ -311,7 +304,7 @@ struct QuestionCard: View {
                     systemImage: correct ? "checkmark.seal.fill" : "lightbulb.fill"
                 )
                 .font(.caption.weight(.semibold))
-                .foregroundStyle(correct ? Color.green : Color.orange)
+                .foregroundStyle(correct ? Color.menta : Color.moradoPrincipal)
                 .transition(.move(edge: .top).combined(with: .opacity))
             }
         }
@@ -325,7 +318,6 @@ struct QuestionCard: View {
         .shadow(color: .black.opacity(0.06), radius: 14, y: 4)
     }
 
-    // MARK: Sí / No
 
     private var yesNoButtons: some View {
         HStack(spacing: 12) {
@@ -333,7 +325,7 @@ struct QuestionCard: View {
                 label: "Sí",
                 icon: "hand.thumbsup.fill",
                 selected: question.answer == true,
-                tint: .green
+                tint: .menta
             ) {
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                 withAnimation(.spring(duration: 0.3)) { question.answer = true }
@@ -343,7 +335,7 @@ struct QuestionCard: View {
                 label: "No",
                 icon: "hand.thumbsdown.fill",
                 selected: question.answer == false,
-                tint: .red
+                tint: .moradoPrincipal
             ) {
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                 withAnimation(.spring(duration: 0.3)) { question.answer = false }
@@ -351,7 +343,6 @@ struct QuestionCard: View {
         }
     }
 
-    // MARK: Opción múltiple
 
     private var choiceOptions: some View {
         VStack(spacing: 10) {
@@ -385,17 +376,15 @@ struct QuestionCard: View {
 
     private var strokeColor: Color {
         switch question.isCorrect {
-        case .some(true):  return Color.green.opacity(0.45)
-        case .some(false): return Color.orange.opacity(0.45)
+        case .some(true):  return Color.menta.opacity(0.45)
+        case .some(false): return Color.moradoPrincipal.opacity(0.45)
         case .none:        return .clarityCardStroke
         }
     }
 }
 
-// MARK: - Solid Answer Button (Sí / No)
 
-/// Botón de respuesta con relleno sólido. Sustituye al efecto de vidrio
-/// condicional que a veces no registraba los toques al cambiar de variante.
+// docs
 private struct SolidAnswerButton: View {
     let label: String
     let icon: String
@@ -434,7 +423,6 @@ private struct SolidAnswerButton: View {
     }
 }
 
-// MARK: - Choice Option Row (opción múltiple)
 
 private struct ChoiceOptionRow: View {
     let letter: String

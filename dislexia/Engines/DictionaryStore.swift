@@ -1,23 +1,13 @@
 import Foundation
 import NaturalLanguage
 
-/// Entrada de diccionario offline usada para "anclar" (ground) las
-/// definiciones de la IA y evitar alucinaciones.
+// docs
 struct DictionaryEntry: Decodable, Sendable {
     let definitions: [String]
     let example: String?
 }
 
-/// Diccionarios offline empaquetados en la app (RAG ligero), uno por idioma.
-///
-/// La recuperación es por búsqueda exacta de lema — no se necesitan
-/// embeddings para palabras sueltas:
-/// 1. Búsqueda directa de la palabra en minúsculas.
-/// 2. Lematización con NLTagger ("corrían" → "correr", "running" → "run").
-/// 3. Heurística de plurales ("semillas" → "semilla", "boats" → "boat").
-///
-/// Para ampliar la cobertura, reemplaza los JSON con un extracto filtrado
-/// de Wiktionary (kaikki.org, licencia CC BY-SA).
+// docs
 final class DictionaryStore: Sendable {
     static let shared = DictionaryStore()
 
@@ -38,7 +28,7 @@ final class DictionaryStore: Sendable {
         return decoded
     }
 
-    /// Número de palabras disponibles (útil para depurar la carga del recurso).
+    // docs
     func wordCount(for language: ReadingLanguage) -> Int {
         entries(for: language).count
     }
@@ -50,7 +40,7 @@ final class DictionaryStore: Sendable {
         }
     }
 
-    /// Busca una palabra; devuelve `nil` si no hay entrada (la IA actúa sola).
+    // docs
     func lookup(_ word: String, language: ReadingLanguage = .spanish) -> DictionaryEntry? {
         let dict = entries(for: language)
         let clean = word
@@ -58,15 +48,13 @@ final class DictionaryStore: Sendable {
             .trimmingCharacters(in: .punctuationCharacters.union(.whitespaces))
         guard !clean.isEmpty else { return nil }
 
-        // 1. Coincidencia exacta
         if let hit = dict[clean] { return hit }
 
-        // 2. Lema (maneja conjugaciones y plurales irregulares)
+        // logica
         if let lemma = lemmatize(clean, language: language), let hit = dict[lemma] {
             return hit
         }
 
-        // 3. Heurística simple de plurales
         if language == .english, clean.hasSuffix("ies"),
            let hit = dict[String(clean.dropLast(3)) + "y"] { return hit }
         if clean.hasSuffix("es"), let hit = dict[String(clean.dropLast(2))] { return hit }

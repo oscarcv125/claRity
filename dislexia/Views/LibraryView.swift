@@ -10,6 +10,8 @@ struct LibraryView: View {
     @State private var showCamera = false
     @State private var showManualEntry = false
     @State private var selectedItem: LibraryItem? = nil
+    // Texto capturado pendiente: navegamos hasta que el sheet de la cámara termina de cerrarse
+    @State private var pendingCapturedItem: LibraryItem? = nil
 
     private let gridColumns = [
         GridItem(.flexible(), spacing: 12),
@@ -48,9 +50,14 @@ struct LibraryView: View {
                 bottomBar
             }
             .toolbar(.hidden, for: .navigationBar)
-            .sheet(isPresented: $showCamera) {
+            .sheet(isPresented: $showCamera, onDismiss: {
+                if let item = pendingCapturedItem {
+                    pendingCapturedItem = nil
+                    selectedItem = item
+                }
+            }) {
                 CameraView { capturedText in
-                    navigateToReader(text: capturedText, source: .camera)
+                    pendingCapturedItem = saveCapturedItem(text: capturedText, source: .camera)
                 }
             }
             .sheet(isPresented: $showManualEntry) {
@@ -64,7 +71,6 @@ struct LibraryView: View {
         }
     }
 
-    // MARK: - Hero Header
 
     private var heroHeader: some View {
         GeometryReader { geo in
@@ -91,7 +97,6 @@ struct LibraryView: View {
         .frame(height: 260)
     }
 
-    // MARK: - Filter Pills
 
     private var filterPillsRow: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -112,7 +117,6 @@ struct LibraryView: View {
         }
     }
 
-    // MARK: - Recent Section
 
     private var recentSection: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -134,7 +138,6 @@ struct LibraryView: View {
         .padding(.bottom, 20)
     }
 
-    // MARK: - Grid Section
 
     @ViewBuilder
     private var gridSection: some View {
@@ -166,12 +169,9 @@ struct LibraryView: View {
         }
     }
 
-    // MARK: - Bottom Bar
 
     private var bottomBar: some View {
-        // Botones separados (sin GlassEffectContainer): el contenedor con un
-        // Spacer entre vidrios fusionaba las áreas de toque y "Escribir"
-        // casi nunca respondía. contentShape garantiza toda la cápsula tocable.
+        // logica
         HStack(spacing: 12) {
             Button {
                 showManualEntry = true
@@ -211,10 +211,10 @@ struct LibraryView: View {
         .padding(.bottom, 8)
     }
 
-    // MARK: - Helpers
 
-    private func navigateToReader(text: String, source: TextSource) {
+    private func saveCapturedItem(text: String, source: TextSource) -> LibraryItem {
         let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "es_MX")
         formatter.dateFormat = "d MMM"
         let item = LibraryItem(
             title: "Texto capturado \(formatter.string(from: .now))",
@@ -224,11 +224,10 @@ struct LibraryView: View {
         )
         LibraryStore.shared.container.mainContext.insert(item)
         try? LibraryStore.shared.container.mainContext.save()
-        selectedItem = item
+        return item
     }
 }
 
-// MARK: - ClaRity Wordmark
 
 private struct ClaRityWordmark: View {
     var size: CGFloat = 38
@@ -246,7 +245,6 @@ private struct ClaRityWordmark: View {
     }
 }
 
-// MARK: - Glass Pill
 
 private struct GlassPill: View {
     let label: String
@@ -269,7 +267,6 @@ private struct GlassPill: View {
     }
 }
 
-// MARK: - Library Card
 
 private struct LibraryCard: View {
     let item: LibraryItem
@@ -302,13 +299,20 @@ private struct LibraryCard: View {
 
             Spacer(minLength: 0)
 
-            Text(item.level.rawValue)
-                .font(.caption2.weight(.semibold))
-                .padding(.horizontal, 8)
-                .padding(.vertical, 4)
-                .background(levelColor.opacity(0.12))
-                .foregroundStyle(levelColor)
-                .clipShape(Capsule())
+            HStack(spacing: 4) {
+                Circle()
+                    .fill(levelColor)
+                    .frame(width: 6, height: 6)
+                Text(item.level.rawValue)
+                    .font(.caption.weight(.medium))
+            }
+            .padding(.horizontal, 10)
+            .padding(.vertical, 5)
+            .background(levelColor.opacity(0.1), in: Capsule())
+            .overlay(
+                Capsule().stroke(levelColor.opacity(0.3), lineWidth: 0.5)
+            )
+            .foregroundStyle(levelColor)
         }
         .padding(16)
         .frame(minHeight: 170, alignment: .topLeading)
@@ -326,9 +330,9 @@ private struct LibraryCard: View {
 
     private var levelColor: Color {
         switch item.level {
-        case .basic:        return .green
-        case .intermediate: return .orange
-        case .advanced:     return .red
+        case .basic:        return .menta
+        case .intermediate: return .azulPrincipal
+        case .advanced:     return .moradoPrincipal
         }
     }
 
@@ -349,7 +353,6 @@ private struct LibraryCard: View {
     }
 }
 
-// MARK: - Recent Card
 
 private struct RecentCard: View {
     let item: LibraryItem
@@ -363,7 +366,7 @@ private struct RecentCard: View {
 
             Spacer(minLength: 0)
 
-            Text(item.body.prefix(50) + "…")
+            Text(item.body.prefix(50) + (item.body.count > 50 ? "…" : ""))
                 .font(.caption2)
                 .foregroundStyle(.secondary)
                 .lineLimit(2)

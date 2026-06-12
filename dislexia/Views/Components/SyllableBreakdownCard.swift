@@ -1,9 +1,6 @@
 import SwiftUI
 
-/// Tarjeta de pronunciación: muestra una palabra dividida en sílabas de
-/// colores. Cada sílaba se puede tocar para escucharla, y el botón principal
-/// pronuncia la palabra completa despacio, iluminando cada sílaba.
-/// Pensada para niños con dislexia o TDAH que están aprendiendo a pronunciar.
+// docs
 struct SyllableBreakdownCard: View {
     let word: String
     let language: ReadingLanguage
@@ -47,7 +44,6 @@ struct SyllableBreakdownCard: View {
         }
     }
 
-    // MARK: - Header
 
     private var header: some View {
         VStack(spacing: 10) {
@@ -68,7 +64,6 @@ struct SyllableBreakdownCard: View {
         .accessibilityLabel("Palabra \(word), \(syllables.count) sílabas")
     }
 
-    // MARK: - Chips
 
     private var syllableChips: some View {
         HStack(spacing: 10) {
@@ -114,7 +109,6 @@ struct SyllableBreakdownCard: View {
         chipPalette[index % chipPalette.count]
     }
 
-    // MARK: - Play all
 
     private var playAllButton: some View {
         Button {
@@ -139,13 +133,12 @@ struct SyllableBreakdownCard: View {
         .accessibilityLabel(isPlayingAll ? "Detener pronunciación" : "Escuchar la palabra despacio")
     }
 
-    // MARK: - Logic
 
     private func loadSyllables() async {
-        // 1. Heurística inmediata (siempre hay algo que mostrar).
+        // logica
         syllables = language.syllabify(word)
 
-        // 2. El inglés es irregular: si hay Apple Intelligence, la IA refina.
+        // logica
         guard language == .english, ai.isAvailable else { return }
         if let refined = try? await ai.syllabify(word: word), !refined.isEmpty {
             guard !Task.isCancelled, !isPlayingAll else { return }
@@ -174,7 +167,6 @@ struct SyllableBreakdownCard: View {
         UINotificationFeedbackGenerator().notificationOccurred(.success)
 
         playTask = Task {
-            // Sílaba por sílaba, iluminando cada chip.
             for (idx, syl) in syllables.enumerated() {
                 guard !Task.isCancelled else { return }
                 withAnimation { activeIndex = idx }
@@ -183,7 +175,7 @@ struct SyllableBreakdownCard: View {
             }
             guard !Task.isCancelled else { return }
 
-            // Pausa breve y luego la palabra completa, fluida.
+            // logica
             withAnimation { activeIndex = nil }
             try? await Task.sleep(for: .seconds(0.4))
             guard !Task.isCancelled else { return }

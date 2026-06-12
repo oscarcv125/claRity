@@ -6,14 +6,12 @@ import UIKit
 @MainActor
 final class TTSEngine: NSObject {
 
-    // MARK: - Public state
 
     var isPlaying: Bool = false
     var currentWordIndex: Int = -1
     var currentSyllableIndex: Int = -1
     var highlightRange: Range<String.Index>? = nil
 
-    // MARK: - Private
 
     private let synthesizer = AVSpeechSynthesizer()
     private var wordRanges: [Range<String.Index>] = []
@@ -22,17 +20,13 @@ final class TTSEngine: NSObject {
     private var language: ReadingLanguage = .spanish
     private var readingSpeed: Float = 0.42
     private var syllableTimers: [Timer] = []
-    /// Offset UTF-16 del utterance actual dentro de `fullText`
-    /// (necesario cuando se reproduce desde la mitad del texto).
+    // docs
     private var utteranceCharOffset: Int = 0
-    /// `true` mientras se pronuncia una palabra suelta (long-press),
-    /// para no mover el resaltado del texto principal.
+    // docs
     private var isPronouncingWord = false
-    /// Debounce del slider de velocidad: reiniciar el sintetizador en cada
-    /// paso del arrastre produce tartamudeo; se espera a que el dedo se asiente.
+    // docs
     private var speedRestartTask: Task<Void, Never>?
-    /// La velocidad cambió estando en pausa: el utterance pausado no puede
-    /// cambiar de rate, así que al reanudar se relanza desde la palabra actual.
+    // docs
     private var pendingSpeedRestart = false
 
     override init() {
@@ -45,7 +39,6 @@ final class TTSEngine: NSObject {
         )
     }
 
-    // MARK: - Public API
 
     func load(
         text: String,
@@ -67,8 +60,7 @@ final class TTSEngine: NSObject {
         isPronouncingWord = false
         pendingSpeedRestart = false
         speedRestartTask?.cancel()
-        // Limpia cualquier utterance pausado o en cola; si no, el nuevo
-        // quedaría encolado detrás y el botón parecería no responder.
+        // logica
         synthesizer.stopSpeaking(at: .immediate)
         cancelSyllableTimers()
 
@@ -98,9 +90,7 @@ final class TTSEngine: NSObject {
     }
 
     func resume() {
-        // El utterance pausado quedó obsoleto (cambió la velocidad) o el
-        // sintetizador fue detenido por una pronunciación suelta: se relanza
-        // desde la palabra actual en vez de "continuar" sobre nada.
+        // logica
         if pendingSpeedRestart || !synthesizer.isPaused {
             pendingSpeedRestart = false
             if currentWordIndex >= 0 {
@@ -127,18 +117,17 @@ final class TTSEngine: NSObject {
         highlightRange = nil
         utteranceCharOffset = 0
         cancelSyllableTimers()
-        // Libera el "ducking" para que el audio de otras apps vuelva a su volumen.
+        // logica
         try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
     }
 
-    /// Reanuda la reproducción desde una palabra específica,
-    /// manteniendo el resaltado sincronizado con `fullText`.
+    // docs
     func seek(to wordIndex: Int) {
         guard wordIndex >= 0, wordIndex < wordRanges.count else { return }
         synthesizer.stopSpeaking(at: .immediate)
         cancelSyllableTimers()
         isPronouncingWord = false
-        // El nuevo utterance ya usa la velocidad vigente.
+        // logica
         pendingSpeedRestart = false
 
         let range = wordRanges[wordIndex]
@@ -153,9 +142,7 @@ final class TTSEngine: NSObject {
         isPlaying = true
     }
 
-    /// Cambia la velocidad en vivo. El reinicio se retrasa 300 ms para no
-    /// reiniciar el sintetizador en cada paso del arrastre del slider
-    /// (eso producía tartamudeo y saltos de palabra).
+    // docs
     func setSpeed(_ speed: Double) {
         let newRate = Float(speed)
         guard newRate != readingSpeed else { return }
@@ -169,12 +156,12 @@ final class TTSEngine: NSObject {
                 self.seek(to: max(self.currentWordIndex, 0))
             }
         } else if currentWordIndex >= 0 {
-            // Pausado a mitad de lectura: aplicar la nueva velocidad al reanudar.
+            // logica
             pendingSpeedRestart = true
         }
     }
 
-    /// Pronuncia una palabra lentamente, sílaba por sílaba (long-press).
+    // docs
     func pronounceSlowly(word: String) {
         synthesizer.stopSpeaking(at: .immediate)
         cancelSyllableTimers()
@@ -184,7 +171,7 @@ final class TTSEngine: NSObject {
         try? AVAudioSession.sharedInstance().setActive(true)
 
         let syls = language.syllabify(word)
-        // Separar con "...", no con ", " — evita que TTS lea "na, ne" como "sodium, northeast"
+        // logica
         let utterance = AVSpeechUtterance(string: syls.joined(separator: " ... "))
         utterance.rate = 0.25
         utterance.voice = voice
@@ -193,8 +180,7 @@ final class TTSEngine: NSObject {
         UINotificationFeedbackGenerator().notificationOccurred(.success)
     }
 
-    /// Pronuncia un fragmento suelto (una sílaba o palabra) sin tocar el
-    /// estado de lectura principal. Usado por la tarjeta de sílabas.
+    // docs
     func speak(fragment: String, rate: Float = 0.3) {
         synthesizer.stopSpeaking(at: .immediate)
         cancelSyllableTimers()
@@ -203,8 +189,7 @@ final class TTSEngine: NSObject {
 
         try? AVAudioSession.sharedInstance().setActive(true)
 
-        // Si el fragmento es de 1-2 caracteres, agregamos espacios para evitar
-        // que TTS lo lea como abreviatura (na → "sodium", ne → "northeast", etc.)
+        // logica
         let textToSpeak = fragment.count <= 2 ? " \(fragment) " : fragment
         let utterance = AVSpeechUtterance(string: textToSpeak)
         utterance.rate = rate
@@ -212,13 +197,12 @@ final class TTSEngine: NSObject {
         synthesizer.speak(utterance)
     }
 
-    // MARK: - Voice
 
-    /// Caché de la mejor voz encontrada por idioma (buscarla es costoso).
+    // docs
     private var voiceCache: [ReadingLanguage: AVSpeechSynthesisVoice] = [:]
 
     private var voice: AVSpeechSynthesisVoice? {
-        // Voz Personal del usuario, si la activó y está autorizada.
+        // logica
         if AppPreferences.shared.usePersonalVoice,
            let personal = personalVoice(for: language) {
             return personal
@@ -226,26 +210,25 @@ final class TTSEngine: NSObject {
         return bestVoice(for: language)
     }
 
-    /// Voz Personal que coincida con el idioma; si no hay coincidencia
-    /// exacta, usa la primera disponible (la voz del usuario es única).
+    // docs
     private func personalVoice(for language: ReadingLanguage) -> AVSpeechSynthesisVoice? {
         let personals = AVSpeechSynthesisVoice.speechVoices()
             .filter { $0.voiceTraits.contains(.isPersonalVoice) }
         return personals.first { $0.language.hasPrefix(language.rawValue) } ?? personals.first
     }
 
-    /// Estado de autorización de Voz Personal.
+    // docs
     static var personalVoiceStatus: AVSpeechSynthesizer.PersonalVoiceAuthorizationStatus {
         AVSpeechSynthesizer.personalVoiceAuthorizationStatus
     }
 
-    /// `true` si hay al menos una Voz Personal autorizada y disponible.
+    // docs
     static var hasPersonalVoice: Bool {
         AVSpeechSynthesisVoice.speechVoices()
             .contains { $0.voiceTraits.contains(.isPersonalVoice) }
     }
 
-    /// Pide permiso para usar la Voz Personal del usuario.
+    // docs
     static func requestPersonalVoiceAccess() async -> AVSpeechSynthesizer.PersonalVoiceAuthorizationStatus {
         await withCheckedContinuation { continuation in
             AVSpeechSynthesizer.requestPersonalVoiceAuthorization { status in
@@ -254,16 +237,13 @@ final class TTSEngine: NSObject {
         }
     }
 
-    /// Elige la voz de mayor calidad instalada para el idioma:
-    /// premium > enhanced > compacta, prefiriendo el acento configurado
-    /// (es-MX / en-US). Si el usuario descarga una voz mejorada en
-    /// Ajustes → Accesibilidad → Contenido leído → Voces, se usa sola.
+    // docs
     private func bestVoice(for language: ReadingLanguage) -> AVSpeechSynthesisVoice? {
         if let cached = voiceCache[language] { return cached }
 
         let candidates = AVSpeechSynthesisVoice.speechVoices().filter { v in
             guard v.language.hasPrefix(language.rawValue) else { return false }
-            // Sin voces de broma (Bells, Boing…) ni Voz Personal.
+            // logica
             if v.voiceTraits.contains(.isNoveltyVoice) { return false }
             if v.voiceTraits.contains(.isPersonalVoice) { return false }
             return true
@@ -276,7 +256,7 @@ final class TTSEngine: NSObject {
             case .enhanced: s = 200
             default:        s = 100
             }
-            // Acento preferido primero (es-MX antes que es-ES, etc.)
+            // logica
             if let idx = language.voiceCodes.firstIndex(of: v.language) {
                 s += (language.voiceCodes.count - idx) * 10
             }
@@ -292,7 +272,6 @@ final class TTSEngine: NSObject {
         return best
     }
 
-    // MARK: - Syllable animation
 
     private func animateSyllables(wordIndex: Int, wordDurationSeconds: Double) {
         cancelSyllableTimers()
@@ -337,7 +316,6 @@ final class TTSEngine: NSObject {
     }
 }
 
-// MARK: - AVSpeechSynthesizerDelegate
 
 extension TTSEngine: AVSpeechSynthesizerDelegate {
 
@@ -405,7 +383,6 @@ extension TTSEngine: AVSpeechSynthesizerDelegate {
     }
 }
 
-// MARK: - Safe array subscript
 
 private extension Array {
     subscript(safe index: Int) -> Element? {

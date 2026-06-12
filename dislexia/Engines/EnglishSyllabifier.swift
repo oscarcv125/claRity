@@ -1,9 +1,6 @@
 import Foundation
 
-/// Silabificación heurística del inglés (agrupación de núcleos vocálicos).
-/// No es perfecta — el inglés no tiene reglas regulares — pero funciona bien
-/// para palabras escolares ("wa-ter", "but-ter-fly", "light-house").
-/// Cuando hay Apple Intelligence, `AIEngine.syllabify` la refina.
+// docs
 enum EnglishSyllabifier {
 
     static func syllabify(_ word: String) -> [String] {
@@ -13,7 +10,7 @@ enum EnglishSyllabifier {
         let chars = Array(cleaned)
         let vowels = Set("aeiouy")
 
-        // 1. Encuentra los grupos vocálicos (núcleos).
+        // logica
         var nuclei: [Range<Int>] = []
         var i = 0
         while i < chars.count {
@@ -27,7 +24,7 @@ enum EnglishSyllabifier {
             }
         }
 
-        // 2. "e" muda final: no forma sílaba propia (ta-ke → take).
+        // logica
         if nuclei.count > 1,
            let last = nuclei.last,
            last.count == 1,
@@ -38,10 +35,7 @@ enum EnglishSyllabifier {
 
         guard nuclei.count > 1 else { return [cleaned] }
 
-        // 3. Reparte las consonantes entre núcleos:
-        //    0 consonantes → corte justo antes del siguiente núcleo
-        //    1 consonante  → la consonante abre la siguiente sílaba (wa-ter)
-        //    2+            → se divide después de la primera (but-ter)
+        // logica
         var cuts: [Int] = []
         for k in 0..<(nuclei.count - 1) {
             let gapStart = nuclei[k].upperBound

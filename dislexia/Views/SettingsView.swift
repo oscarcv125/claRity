@@ -36,7 +36,6 @@ struct SettingsView: View {
         }
     }
 
-    // MARK: - Text Card
 
     @ViewBuilder
     private func textCard(prefs: Bindable<AppPreferences>) -> some View {
@@ -82,7 +81,6 @@ struct SettingsView: View {
         }
     }
 
-    // MARK: - Speed Card
 
     @ViewBuilder
     private func speedCard(prefs: Bindable<AppPreferences>) -> some View {
@@ -97,7 +95,6 @@ struct SettingsView: View {
         }
     }
 
-    // MARK: - Voice Card
 
     @ViewBuilder
     private func voiceCard(prefs: AppPreferences) -> some View {
@@ -169,7 +166,6 @@ struct SettingsView: View {
         }
     }
 
-    // MARK: - English Card
 
     @ViewBuilder
     private func englishCard(prefs: AppPreferences) -> some View {
@@ -230,7 +226,6 @@ struct SettingsView: View {
         }
     }
 
-    // MARK: - Background Card
 
     @ViewBuilder
     private func backgroundCard(prefs: AppPreferences) -> some View {
@@ -252,7 +247,6 @@ struct SettingsView: View {
         }
     }
 
-    // MARK: - Preview Card
 
     @ViewBuilder
     private func previewCard(prefs: AppPreferences) -> some View {
@@ -290,7 +284,6 @@ struct SettingsView: View {
     }
 }
 
-// MARK: - Glass Card Container
 
 private struct GlassCard<Content: View>: View {
     let title: String
@@ -315,7 +308,6 @@ private struct GlassCard<Content: View>: View {
     }
 }
 
-// MARK: - Styled Slider
 
 private struct StyledSlider: View {
     let label: String
@@ -338,7 +330,6 @@ private struct StyledSlider: View {
     }
 }
 
-// MARK: - Color Swatch
 
 private struct ColorSwatch: View {
     let option: BackgroundOption

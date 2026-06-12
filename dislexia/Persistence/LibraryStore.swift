@@ -19,12 +19,15 @@ final class LibraryStore {
 
     func seedIfNeeded() {
         let context = container.mainContext
-        let count = (try? context.fetchCount(FetchDescriptor<LibraryItem>())) ?? 0
-        guard count == 0 else { return }
-        for item in PreloadedLibrary.items {
+        // logica
+        let existing = (try? context.fetch(FetchDescriptor<LibraryItem>())) ?? []
+        let existingTitles = Set(existing.map(\.title))
+        var inserted = false
+        for item in PreloadedLibrary.items where !existingTitles.contains(item.title) {
             context.insert(item)
+            inserted = true
         }
-        try? context.save()
+        if inserted { try? context.save() }
     }
 
     func save(title: String, body: String, level: DifficultyLevel, source: TextSource) {

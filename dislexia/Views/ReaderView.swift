@@ -2,7 +2,7 @@ import SwiftUI
 import NaturalLanguage
 import SwiftData
 
-/// Palabra seleccionada con doble toque para la tarjeta de sílabas.
+// docs
 private struct BreakdownTarget: Identifiable {
     let id = UUID()
     let word: String
@@ -16,25 +16,23 @@ struct ReaderView: View {
     @State private var tts = TTSEngine()
     @State private var ai = AIEngine()
 
-    // Idioma del documento (detectado al abrir, ajustable en la barra)
+    // logica
     @State private var language: ReadingLanguage = .spanish
 
-    // Tarjeta de sílabas (doble toque sobre una palabra)
+    // logica
     @State private var breakdownTarget: BreakdownTarget? = nil
 
-    // Word definition overlay
     @State private var tappedWord: String? = nil
     @State private var wordDefinition: WordDefinition? = nil
     @State private var isDefining = false
     @State private var defineTask: Task<Void, Never>? = nil
 
-    // Comprehension sheet
     @State private var showComprehension = false
     @State private var comprehensionQuestions: [ComprehensionQuestion] = []
     @State private var isGeneratingQuestions = false
 
-    // Settings sheet
     @State private var showSettings = false
+    @State private var showTextChat = false
 
     var body: some View {
         @Bindable var prefs = prefs
@@ -75,11 +73,22 @@ struct ReaderView: View {
         .toolbar {
             ToolbarItemGroup(placement: .topBarTrailing) {
                 languageMenu
+                askAIButton
                 settingsButton
             }
         }
         .sheet(isPresented: $showSettings) {
             SettingsView()
+        }
+        .sheet(isPresented: $showTextChat) {
+            TextChatView(
+                title: item.title,
+                text: item.body,
+                language: language,
+                englishMode: prefs.englishDefinitionMode,
+                ai: ai
+            )
+            .presentationDragIndicator(.visible)
         }
         .sheet(isPresented: $showComprehension) {
             ComprehensionView(
@@ -118,7 +127,6 @@ struct ReaderView: View {
         }
     }
 
-    // MARK: - Scroll content
 
     private var scrollContent: some View {
         ScrollView {
@@ -142,7 +150,6 @@ struct ReaderView: View {
         }
     }
 
-    // MARK: - Toolbar items
 
     private var languageMenu: some View {
         Menu {
@@ -175,6 +182,21 @@ struct ReaderView: View {
         .accessibilityHint("Cambia el idioma de la voz y las definiciones")
     }
 
+    private var askAIButton: some View {
+        Button {
+            tts.pause()
+            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            showTextChat = true
+        } label: {
+            Image(systemName: "sparkles")
+                .frame(width: 36, height: 36)
+                .foregroundStyle(Color.clarityTeal)
+        }
+        .glassEffect(.regular.interactive(), in: Circle())
+        .accessibilityLabel("Preguntarle a la IA sobre este texto")
+        .accessibilityHint("Abre un chat para hacer preguntas sobre el texto abierto")
+    }
+
     private var settingsButton: some View {
         Button { showSettings = true } label: {
             Image(systemName: "textformat.size")
@@ -184,7 +206,6 @@ struct ReaderView: View {
         .accessibilityLabel("Abrir configuración de lectura")
     }
 
-    // MARK: - Generating questions overlay
 
     private var generatingOverlay: some View {
         VStack(spacing: 12) {
@@ -200,7 +221,6 @@ struct ReaderView: View {
         .transition(.opacity.combined(with: .scale(scale: 0.9)))
     }
 
-    // MARK: - Session
 
     private func prepareSession(text: String) {
         let tokenizer = NLTokenizer(unit: .word)
@@ -217,7 +237,6 @@ struct ReaderView: View {
         tts.load(text: text, wordRanges: ranges, syllables: syls, language: language)
     }
 
-    // MARK: - Actions
 
     private func handlePlayPause() {
         if tts.isPlaying {
@@ -230,8 +249,7 @@ struct ReaderView: View {
     }
 
     private func handleWordTap(_ word: String, _ context: String) {
-        // Cancela cualquier definición en curso para evitar que resultados
-        // viejos reemplacen al más reciente (parpadeo de definiciones).
+        // logica
         defineTask?.cancel()
         tappedWord = word
         wordDefinition = nil
@@ -246,16 +264,21 @@ struct ReaderView: View {
                     englishMode: prefs.englishDefinitionMode
                 )
             } catch {
+                let inEnglish = language == .english && prefs.englishDefinitionMode == .immersion
                 result = WordDefinition(
                     word: word,
                     senses: [
-                        .init(text: "No se pudo obtener la definición en este dispositivo.", isCurrent: true)
+                        .init(
+                            text: inEnglish
+                                ? "Couldn't get a definition on this device."
+                                : "No se pudo obtener la definición en este dispositivo.",
+                            isCurrent: true
+                        )
                     ],
                     example: nil
                 )
             }
-            // Descarta resultados obsoletos: solo aplica si esta sigue siendo
-            // la palabra seleccionada y la tarea no fue cancelada.
+            // logica
             guard !Task.isCancelled, tappedWord == word else { return }
             wordDefinition = result
             isDefining = false

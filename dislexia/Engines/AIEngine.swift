@@ -7,8 +7,8 @@ import NaturalLanguage
 @MainActor
 final class AIEngine {
 
-    /// EXPERIMENTAL: preguntas de opción múltiple en el quiz.
-    /// Cambiar a `false` para volver al quiz de solo Sí/No.
+    // prueba
+    // docs
     static let multipleChoiceEnabled = true
 
     enum AIError: LocalizedError {
@@ -30,16 +30,14 @@ final class AIEngine {
         return false
     }
 
-    /// Precalienta el modelo para que la primera respuesta sea rápida.
+    // docs
     func prewarm() {
         guard isAvailable else { return }
         LanguageModelSession(model: SystemLanguageModel.default).prewarm()
     }
 
-    // MARK: - Simplify text (streaming)
 
-    /// Simplifica el texto transmitiendo el resultado en vivo (efecto máquina de escribir).
-    /// El texto simplificado se genera en el MISMO idioma del documento.
+    // docs
     func simplify(
         text: String,
         language: ReadingLanguage = .spanish,
@@ -76,14 +74,10 @@ final class AIEngine {
         return final.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
-    // MARK: - Define word
 
-    /// Define una palabra con un esquema híbrido anti-alucinaciones:
-    /// 1. Palabra en el diccionario offline → devuelve definición directa (sin IA).
-    /// 2. Palabra fuera del diccionario → la IA genera la definición (fallback).
-    /// 3. IA no disponible + sin diccionario → error.
-    ///
-    /// TEMPORARY: AI-only mode for testing (dictionary disabled)
+    // docs
+    // error
+    // prueba
     func define(
         word: String,
         context: String,
@@ -92,21 +86,17 @@ final class AIEngine {
     ) async throws -> WordDefinition {
         let entry = DictionaryStore.shared.lookup(word, language: language)
 
-        // TEMPORARY: Skip dictionary, force AI for testing
-        // if let entry {
-        //     return definition(from: entry, for: word)
-        // }
+        // prueba
+        // logica
 
-        // Nombres propios (personas, lugares, organizaciones) sin entrada de
-        // diccionario: respuesta clara y amigable sin pedirle nada a la IA,
-        // que solía alucinar significados raros para ellos.
+        // logica
         if let properNoun = properNounDefinition(
                 for: word, in: context, language: language, englishMode: englishMode
            ) {
             return properNoun
         }
 
-        // FORCE AI for all words (testing)
+        // prueba
         guard isAvailable else {
             if let entry { return definition(from: entry, for: word) }
             throw AIError.modelUnavailable
@@ -116,7 +106,7 @@ final class AIEngine {
         let prompt = definePrompt(
             word: word,
             context: context,
-            entry: entry,  // Pass dictionary entry as grounding
+            entry: entry, // logica
             language: language,
             englishMode: englishMode
         )
@@ -132,8 +122,7 @@ final class AIEngine {
         }
     }
 
-    /// Detecta nombres propios con NLTagger y devuelve una explicación fija.
-    /// Devuelve `nil` si la palabra no parece nombre propio.
+    // docs
     private func properNounDefinition(
         for word: String,
         in context: String,
@@ -177,8 +166,7 @@ final class AIEngine {
         )
     }
 
-    /// Mantiene el ejemplo solo si contiene la palabra (o su raíz) ignorando
-    /// mayúsculas y acentos; si no, usa el ejemplo del diccionario.
+    // docs
     private func validatedExample(
         _ example: String?,
         word: String,
@@ -201,15 +189,14 @@ final class AIEngine {
         let needle = normalize(word)
         guard !needle.isEmpty else { return false }
         if haystack.contains(needle) { return true }
-        // Acepta formas flexionadas: "corría" cuenta para "correr".
+        // logica
         let stemLength = max(4, needle.count - 2)
         let stem = String(needle.prefix(stemLength))
         return haystack.contains(stem)
     }
 
-    /// Construye el prompt de definición según idioma del documento y modo.
-    /// Las etiquetas (SIGNIFICADO/USO_ACTUAL/EJEMPLO) se mantienen iguales en
-    /// todos los casos para que el parser no cambie.
+    // docs
+    // pendiente
     private func definePrompt(
         word: String,
         context: String,
@@ -297,7 +284,7 @@ final class AIEngine {
         }
     }
 
-    /// Construye una definición directamente desde el diccionario offline (sin IA).
+    // docs
     private func definition(from entry: DictionaryEntry, for word: String) -> WordDefinition {
         WordDefinition(
             word: word,
@@ -320,13 +307,12 @@ final class AIEngine {
             let trimmed = line.trimmingCharacters(in: .whitespacesAndNewlines)
             if trimmed.isEmpty { continue }
 
-            // Acepta etiquetas en español o inglés (el modelo a veces las traduce).
+            // logica
             if (trimmed.hasPrefix("SIGNIFICADO") || trimmed.hasPrefix("MEANING")),
                let colonIndex = trimmed.firstIndex(of: ":") {
-                let prefix = trimmed[..<colonIndex] // e.g. "SIGNIFICADO 1"
+                let prefix = trimmed[..<colonIndex]
                 let content = trimmed[trimmed.index(after: colonIndex)...].trimmingCharacters(in: .whitespaces)
 
-                // Extract number
                 let numString = prefix.components(separatedBy: .whitespaces).last ?? ""
                 if let num = Int(numString) {
                     meaningTexts[num] = content
@@ -342,7 +328,6 @@ final class AIEngine {
             }
         }
 
-        // Sort and map to Senses
         let sortedKeys = meaningTexts.keys.sorted()
         for key in sortedKeys {
             if let meaning = meaningTexts[key] {
@@ -350,7 +335,7 @@ final class AIEngine {
             }
         }
 
-        // Fallback if no meanings parsed correctly
+        // error
         if senses.isEmpty {
             senses.append(WordDefinition.Sense(text: text, isCurrent: true))
         }
@@ -358,14 +343,8 @@ final class AIEngine {
         return WordDefinition(word: word, senses: senses, example: example)
     }
 
-    // MARK: - Comprehension questions
 
-    /// Genera 3 preguntas de Sí/No junto con su respuesta correcta esperada.
-    /// Usa generación guiada (@Generable): la estructura está garantizada por
-    /// el modelo, sin parseo de texto libre (que a veces devolvía el formato
-    /// de ejemplo literal, como "pregunta|SI").
-    /// Para documentos en inglés, el idioma de las preguntas depende del modo:
-    /// práctica → inglés; traducir → español.
+    // docs
     func generateQuestions(
         for text: String,
         language: ReadingLanguage = .spanish,
@@ -377,21 +356,21 @@ final class AIEngine {
         if inEnglish {
             prompt = """
             The user read this text:
-            \(text.prefix(800))
+            \(text.prefix(1500))
 
             Generate exactly 3 reading comprehension questions about that text that can be \
             answered with Yes or No. The questions must be simple, for an elementary school \
-            child, written in English, and based only on what the text says. \
+            child, written in English, and based ONLY on facts stated explicitly in the text. \
             Include at least one question whose correct answer is No.
             """
         } else {
             prompt = """
             El usuario leyó este texto:
-            \(text.prefix(800))
+            \(text.prefix(1500))
 
             Genera exactamente 3 preguntas de comprensión lectora sobre ese texto que se \
             respondan con Sí o No. Las preguntas deben ser simples, para un niño de primaria, \
-            en español, y basadas solo en lo que dice el texto. \
+            en español, y basadas SOLO en hechos que el texto dice explícitamente. \
             Incluye al menos una pregunta cuya respuesta correcta sea No.
             """
         }
@@ -410,9 +389,9 @@ final class AIEngine {
             throw AIError.generationFailed("No se pudieron interpretar las preguntas.")
         }
 
-        // EXPERIMENTAL: mezcla 2 de Sí/No + 2 de opción múltiple.
-        // Si la generación de opción múltiple falla, el quiz queda
-        // como antes (solo Sí/No) sin error visible.
+        // prueba
+        // logica
+        // error
         if Self.multipleChoiceEnabled, yesNo.count >= 2 {
             let choice = (try? await generateChoiceQuestions(
                 for: text, inEnglish: inEnglish
@@ -424,7 +403,10 @@ final class AIEngine {
         return Array(yesNo.prefix(3))
     }
 
-    /// Genera preguntas de opción múltiple (3 opciones) con generación guiada.
+    // docs
+    // El modelo NO genera índices: genera la respuesta correcta + 2 incorrectas.
+    // Nosotros insertamos la correcta en una posición aleatoria, así el índice
+    // correcto es correcto por construcción y no puede desalinearse.
     private func generateChoiceQuestions(
         for text: String,
         inEnglish: Bool
@@ -434,46 +416,79 @@ final class AIEngine {
         if inEnglish {
             prompt = """
             The user read this text:
-            \(text.prefix(800))
+            \(text.prefix(1500))
 
             Generate exactly 2 multiple-choice reading comprehension questions about that \
-            text. Each question must have exactly 3 short answer options with only one \
-            correct option. Simple language for an elementary school child, in English, \
-            based only on what the text says.
+            text. For each question, give the correct answer and exactly 2 plausible but \
+            incorrect answers. The correct answer MUST be stated explicitly in the text — \
+            copy it from the text. The incorrect answers must be clearly false according \
+            to the text. Simple language for an elementary school child, in English.
             """
         } else {
             prompt = """
             El usuario leyó este texto:
-            \(text.prefix(800))
+            \(text.prefix(1500))
 
             Genera exactamente 2 preguntas de comprensión lectora de opción múltiple sobre \
-            ese texto. Cada pregunta debe tener exactamente 3 opciones de respuesta cortas \
-            y solo una opción correcta. Lenguaje simple para un niño de primaria, en \
-            español, basadas solo en lo que dice el texto.
+            ese texto. Para cada pregunta, da la respuesta correcta y exactamente 2 \
+            respuestas incorrectas pero creíbles. La respuesta correcta DEBE estar dicha \
+            explícitamente en el texto: cópiala del texto. Las respuestas incorrectas \
+            deben ser claramente falsas según el texto. Lenguaje simple para un niño de \
+            primaria, en español.
             """
         }
 
         let response = try await session.respond(to: prompt, generating: GeneratedChoiceQuiz.self)
         return response.content.questions.compactMap { q -> ComprehensionQuestion? in
             let question = q.text.trimmingCharacters(in: .whitespacesAndNewlines)
-            let options = q.options
+            let correct = q.correctAnswer.trimmingCharacters(in: .whitespacesAndNewlines)
+            let wrong = q.wrongAnswers
                 .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
-                .filter { !$0.isEmpty }
-                .prefix(3)
+                .filter { !$0.isEmpty && normalized($0) != normalized(correct) }
             guard isValidQuestion(question),
-                  options.count == 3,
-                  (0..<3).contains(q.correctIndex)
+                  !correct.isEmpty,
+                  wrong.count >= 2,
+                  answerIsSupported(correct, by: text)
             else { return nil }
+
+            var options = Array(wrong.prefix(2))
+            let correctIndex = Int.random(in: 0...options.count)
+            options.insert(correct, at: correctIndex)
             return ComprehensionQuestion(
                 question: question,
-                options: Array(options),
-                correctOptionIndex: q.correctIndex
+                options: options,
+                correctOptionIndex: correctIndex
             )
         }
     }
 
-    /// Descarta ecos de plantilla ("pregunta", "question") y textos demasiado
-    /// cortos para ser una pregunta real.
+    // logica
+    // Verifica que la respuesta "correcta" del modelo realmente esté respaldada
+    // por el texto. Si no aparece (literal o por palabras clave), se descarta la
+    // pregunta en lugar de mostrar una respuesta inventada.
+    private func answerIsSupported(_ answer: String, by text: String) -> Bool {
+        let haystack = normalized(text)
+        let needle = normalized(answer)
+            .trimmingCharacters(in: CharacterSet.punctuationCharacters.union(.whitespaces))
+        guard !needle.isEmpty else { return false }
+        if haystack.contains(needle) { return true }
+        // Respuestas parafraseadas: todas las palabras significativas deben estar en el texto
+        let words = needle
+            .components(separatedBy: CharacterSet.alphanumerics.inverted)
+            .filter { $0.count >= 4 || Int($0) != nil }
+        guard !words.isEmpty else { return false }
+        return words.allSatisfy { haystack.contains($0) }
+    }
+
+    private func normalized(_ s: String) -> String {
+        s.folding(
+            options: [.diacriticInsensitive, .caseInsensitive],
+            locale: Locale(identifier: "es")
+        )
+        .trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    // docs
     private func isValidQuestion(_ question: String) -> Bool {
         guard question.count >= 8 else { return false }
         let normalized = question.lowercased()
@@ -481,7 +496,6 @@ final class AIEngine {
         return normalized != "pregunta" && normalized != "question"
     }
 
-    // MARK: - Summary
 
     func summarize(
         text: String,
@@ -511,11 +525,9 @@ final class AIEngine {
         return response.content.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
-    // MARK: - Syllabification (English refinement)
 
-    /// Pide a la IA dividir una palabra inglesa en sílabas
-    /// ("butterfly" → ["but", "ter", "fly"]). Si el resultado no
-    /// reconstruye la palabra original, lanza error y se usa la heurística.
+    // docs
+    // error
     func syllabify(word: String) async throws -> [String] {
         let session = try makeSession()
         let prompt = """
@@ -538,7 +550,91 @@ final class AIEngine {
         return parts
     }
 
-    // MARK: - Session factory
+
+    // Chat sobre el texto abierto (Apple Intelligence).
+    // Se reutiliza la misma sesión mientras sea el mismo texto/idioma, así el
+    // modelo recuerda las preguntas anteriores (conversación multi-turno).
+    private var chatSession: LanguageModelSession?
+    private var chatContextKey: String?
+
+    func resetChat() {
+        chatSession = nil
+        chatContextKey = nil
+    }
+
+    func ask(
+        question: String,
+        about text: String,
+        language: ReadingLanguage = .spanish,
+        englishMode: EnglishDefinitionMode = .translate,
+        onPartial: @escaping (String) -> Void
+    ) async throws -> String {
+        let model = SystemLanguageModel.default
+        guard case .available = model.availability else {
+            throw AIError.modelUnavailable
+        }
+
+        let key = "\(language)|\(englishMode)|\(text.hashValue)"
+        if chatSession == nil || chatContextKey != key {
+            chatSession = LanguageModelSession(
+                model: model,
+                instructions: chatInstructions(
+                    for: text, language: language, englishMode: englishMode
+                )
+            )
+            chatContextKey = key
+        }
+        guard let session = chatSession, !session.isResponding else {
+            throw AIError.generationFailed("Espera a que termine la respuesta anterior.")
+        }
+
+        do {
+            var final = ""
+            let stream = session.streamResponse(to: question)
+            for try await partial in stream {
+                final = partial.content
+                onPartial(final)
+            }
+            return final.trimmingCharacters(in: .whitespacesAndNewlines)
+        } catch {
+            // Si la conversación creció demasiado o falló, se reinicia la sesión
+            // para que la siguiente pregunta empiece limpia.
+            resetChat()
+            throw error
+        }
+    }
+
+    private func chatInstructions(
+        for text: String,
+        language: ReadingLanguage,
+        englishMode: EnglishDefinitionMode
+    ) -> String {
+        let inEnglish = language == .english && englishMode == .immersion
+        if inEnglish {
+            return """
+            You are a friendly reading assistant for a person with dyslexia.
+            The user is reading this text:
+            ---
+            \(text.prefix(3000))
+            ---
+            Answer their questions about the text in English.
+            Use short sentences and simple words. Maximum 3 sentences per answer.
+            Base every answer ONLY on the text. If the answer is not in the text, \
+            say so clearly instead of guessing.
+            """
+        }
+        return """
+        Eres un asistente de lectura amable para una persona con dislexia.
+        El usuario está leyendo este texto:
+        ---
+        \(text.prefix(3000))
+        ---
+        Responde sus preguntas sobre el texto en español.
+        Usa oraciones cortas y palabras sencillas. Máximo 3 oraciones por respuesta.
+        Basa cada respuesta ÚNICAMENTE en el texto. Si la respuesta no está en el \
+        texto, dilo claramente en lugar de adivinar.
+        """
+    }
 
     private func makeSession() throws -> LanguageModelSession {
         let model = SystemLanguageModel.default
@@ -549,10 +645,8 @@ final class AIEngine {
     }
 }
 
-// MARK: - Guided generation schemas
 
-/// Esquema de generación guiada para el quiz de comprensión.
-/// El modelo está obligado a producir esta estructura exacta.
+// docs
 @Generable
 struct GeneratedQuiz {
     @Guide(description: "Exactamente 3 preguntas de comprensión de sí o no sobre el texto leído")
@@ -567,7 +661,7 @@ struct GeneratedQuizQuestion {
     var answerIsYes: Bool
 }
 
-/// Esquema de generación guiada para preguntas de opción múltiple (experimental).
+// prueba
 @Generable
 struct GeneratedChoiceQuiz {
     @Guide(description: "Exactamente 2 preguntas de opción múltiple sobre el texto leído")
@@ -578,8 +672,8 @@ struct GeneratedChoiceQuiz {
 struct GeneratedChoiceQuestion {
     @Guide(description: "Una pregunta corta y simple sobre el texto")
     var text: String
-    @Guide(description: "Exactamente 3 opciones de respuesta cortas; solo una es correcta")
-    var options: [String]
-    @Guide(description: "Índice (0, 1 o 2) de la opción correcta dentro de options")
-    var correctIndex: Int
+    @Guide(description: "La respuesta correcta, copiada explícitamente del texto")
+    var correctAnswer: String
+    @Guide(description: "Exactamente 2 respuestas incorrectas pero creíbles, cortas")
+    var wrongAnswers: [String]
 }

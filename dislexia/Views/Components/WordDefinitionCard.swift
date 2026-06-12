@@ -103,8 +103,7 @@ struct WordDefinitionCard: View {
         }
         .padding(20)
         .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 22, style: .continuous))
-        // Bloquea los toques para que no atraviesen la tarjeta
-        // y seleccionen palabras del texto que está detrás.
+        // logica
         .contentShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
         .onTapGesture {}
         .padding(.horizontal, 16)

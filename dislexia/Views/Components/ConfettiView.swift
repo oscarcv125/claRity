@@ -1,7 +1,6 @@
 import SwiftUI
 
-/// Lluvia de confeti ligera (Canvas + TimelineView) para celebrar el quiz completado.
-/// No intercepta toques y se desvanece sola después de ~2.5 s.
+// docs
 struct ConfettiView: View {
     @State private var start = Date()
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -43,7 +42,7 @@ struct ConfettiView: View {
     }
 }
 
-/// Generador determinista para que el confeti sea estable entre frames.
+// docs
 private struct SeededRandom: RandomNumberGenerator {
     var state: UInt64
     init(seed: UInt64) { state = seed }

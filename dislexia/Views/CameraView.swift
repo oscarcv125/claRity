@@ -19,7 +19,6 @@ struct CameraView: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: CameraViewController, context: Context) {}
 }
 
-// MARK: - Camera view controller
 
 final class CameraViewController: UIViewController {
     var onTextExtracted: ((String) -> Void)?
@@ -39,14 +38,12 @@ final class CameraViewController: UIViewController {
 
     private func presentSource() {
         if VNDocumentCameraViewController.isSupported {
-            // Escáner de documentos de Apple: detecta los bordes de la página
-            // y permite ajustar el recorte — evita que se cuele texto de la
-            // página de al lado.
+            // logica
             let scanner = VNDocumentCameraViewController()
             scanner.delegate = self
             present(scanner, animated: true)
         } else {
-            // Simulador / sin cámara: galería con recorte nativo.
+            // logica
             presentLibraryPicker()
         }
     }
@@ -121,7 +118,6 @@ final class CameraViewController: UIViewController {
     }
 }
 
-// MARK: - VNDocumentCameraViewControllerDelegate
 
 extension CameraViewController: VNDocumentCameraViewControllerDelegate {
 
@@ -155,7 +151,6 @@ extension CameraViewController: VNDocumentCameraViewControllerDelegate {
     }
 }
 
-// MARK: - UIImagePickerControllerDelegate (fallback galería)
 
 extension CameraViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 

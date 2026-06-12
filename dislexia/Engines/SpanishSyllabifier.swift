@@ -1,11 +1,9 @@
 import Foundation
 import NaturalLanguage
 
-/// Full Spanish syllabification following RAE rules.
-/// Example: syllabify("aprender") → ["a", "pren", "der"]
+// docs
 enum SpanishSyllabifier {
 
-    // MARK: - Public API
 
     static func syllabify(_ word: String) -> [String] {
         let lower = word.lowercased()
@@ -57,7 +55,6 @@ enum SpanishSyllabifier {
         return syllables.isEmpty ? [word] : syllables
     }
 
-    // MARK: - Vowel detection
 
     static func isVowel(_ c: Character) -> Bool {
         "aeiouáéíóúü".contains(c)
@@ -71,7 +68,6 @@ enum SpanishSyllabifier {
         "iuíú".contains(c)
     }
 
-    // MARK: - Nucleus (handles diphthongs and triphthongs)
 
     private static func findNucleus(in chars: [Character], from start: Int) -> Int? {
         guard let firstVowelIdx = (start..<chars.count).first(where: { isVowel(chars[$0]) })
@@ -83,9 +79,7 @@ enum SpanishSyllabifier {
             let next = chars[nucleusEnd + 1]
             if isVowel(next) {
                 let current = chars[nucleusEnd]
-                // RAE: hiato solo si ambas vocales son fuertes (a/e/o, con o sin tilde)
-                // o si hay una vocal débil acentuada (í/ú). Una fuerte acentuada +
-                // débil sigue siendo diptongo: "también" → tam-bién, "adiós" → a-diós.
+                // logica
                 let bothStrong   = isStrongVowel(current) && isStrongVowel(next)
                 let weakAccented = "íú".contains(current) || "íú".contains(next)
 
@@ -104,7 +98,6 @@ enum SpanishSyllabifier {
         return nucleusEnd
     }
 
-    // MARK: - Helpers
 
     private static func findNextVowel(in chars: [Character], from start: Int) -> Int? {
         (start..<chars.count).first(where: { isVowel(chars[$0]) })
@@ -119,17 +112,16 @@ enum SpanishSyllabifier {
             let inseparable = ["bl","br","cl","cr","dr","fl","fr","gl","gr",
                                "pl","pr","tr","ch","ll","rr"]
             return inseparable.contains(pair) ? 0 : 1
-        case 3:
+        default:
+            // 3+ consonantes: el grupo inseparable final (p. ej. "tr" en "nstr")
+            // pertenece a la siguiente sílaba — ins-truc-ción, no inst-ruc-ción
             let last2 = String(consonants.suffix(2))
             let inseparable2 = ["bl","br","cl","cr","dr","fl","fr","gl","gr","pl","pr","tr"]
             return inseparable2.contains(last2) ? consonants.count - 2 : consonants.count - 1
-        default:
-            return consonants.count - 1
         }
     }
 }
 
-// MARK: - NLTokenizer integration
 
 extension SpanishSyllabifier {
 

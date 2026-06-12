@@ -17,8 +17,7 @@ struct ReadingControlBar: View {
         .padding(.vertical, 16)
         .padding(.horizontal, 20)
         .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 28, style: .continuous))
-        // Bloquea los toques para que no atraviesen la barra
-        // y seleccionen palabras del texto que está detrás.
+        // logica
         .contentShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
         .onTapGesture {}
         .padding(.horizontal, 12)
@@ -26,7 +25,6 @@ struct ReadingControlBar: View {
         .shadow(color: .black.opacity(0.12), radius: 20, y: -8)
     }
 
-    // MARK: - Speed Row
 
     private var speedRow: some View {
         HStack(spacing: 10) {
@@ -46,7 +44,6 @@ struct ReadingControlBar: View {
         }
     }
 
-    // MARK: - Playback Row
 
     private var playbackRow: some View {
         HStack(spacing: 24) {
@@ -76,7 +73,7 @@ struct ReadingControlBar: View {
             Button(action: onComplete) {
                 Image(systemName: "checkmark")
                     .font(.title3.weight(.semibold))
-                    .foregroundStyle(.green)
+                    .foregroundStyle(Color.menta)
                     .frame(width: 48, height: 48)
             }
             .buttonStyle(.plain)
@@ -95,7 +92,6 @@ struct ReadingControlBar: View {
     }
 }
 
-// MARK: - Speed Slider
 
 private struct SpeedSlider: View {
     @Binding var value: Double

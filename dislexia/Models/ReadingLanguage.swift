@@ -1,7 +1,7 @@
 import Foundation
 import NaturalLanguage
 
-/// Idioma del documento que se está leyendo (no del UI de la app).
+// docs
 enum ReadingLanguage: String, CaseIterable, Identifiable, Sendable {
     case spanish = "es"
     case english = "en"
@@ -15,7 +15,7 @@ enum ReadingLanguage: String, CaseIterable, Identifiable, Sendable {
         }
     }
 
-    /// Código corto para la insignia del selector de idioma.
+    // docs
     var shortCode: String {
         switch self {
         case .spanish: return "ES"
@@ -30,7 +30,7 @@ enum ReadingLanguage: String, CaseIterable, Identifiable, Sendable {
         }
     }
 
-    /// Voces BCP-47 en orden de preferencia para AVSpeechSynthesisVoice.
+    // docs
     var voiceCodes: [String] {
         switch self {
         case .spanish: return ["es-MX", "es-ES", "es"]
@@ -38,7 +38,7 @@ enum ReadingLanguage: String, CaseIterable, Identifiable, Sendable {
         }
     }
 
-    /// Sílabas según el idioma (RAE para español, heurística para inglés).
+    // docs
     func syllabify(_ word: String) -> [String] {
         switch self {
         case .spanish: return SpanishSyllabifier.syllabify(word)
@@ -46,8 +46,7 @@ enum ReadingLanguage: String, CaseIterable, Identifiable, Sendable {
         }
     }
 
-    /// Detecta el idioma dominante de un texto (limitado a es/en).
-    /// Español por defecto si no se puede determinar.
+    // docs
     static func detect(from text: String) -> ReadingLanguage {
         let recognizer = NLLanguageRecognizer()
         recognizer.languageConstraints = [.spanish, .english]
@@ -57,11 +56,11 @@ enum ReadingLanguage: String, CaseIterable, Identifiable, Sendable {
     }
 }
 
-/// Qué hacer con definiciones y preguntas cuando el documento está en inglés.
+// docs
 enum EnglishDefinitionMode: String, CaseIterable, Identifiable {
-    /// Explica en español (con la traducción) — para entender el texto.
+    // docs
     case translate = "translate"
-    /// Todo en inglés sencillo — para practicar el idioma.
+    // pendiente
     case immersion = "immersion"
 
     var id: String { rawValue }

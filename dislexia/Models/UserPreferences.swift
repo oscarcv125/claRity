@@ -33,7 +33,7 @@ enum BackgroundOption: String, CaseIterable, Identifiable {
         switch self {
         case .white:      return Color.blancoPrincipal
         case .cream:      return Color(hex: "#FFFDF0")
-        case .lightBlue:  return Color.lavandaClara // using Lavanda clara as light blue substitute to align with new palette
+        case .lightBlue:  return Color.lavandaClara // logica
         case .lightGreen: return Color(hex: "#F0FFF4")
         case .dark:       return Color(hex: "#1A1A1A")
         }
