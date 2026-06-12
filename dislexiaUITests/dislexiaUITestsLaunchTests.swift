@@ -1,10 +1,3 @@
-//
-//  dislexiaUITestsLaunchTests.swift
-//  dislexiaUITests
-//
-//  Created by isa chairez on 11/06/26.
-//
-
 import XCTest
 
 final class dislexiaUITestsLaunchTests: XCTestCase {

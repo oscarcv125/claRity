@@ -1,10 +1,3 @@
-//
-//  dislexiaTests.swift
-//  dislexiaTests
-//
-//  Created by isa chairez on 11/06/26.
-//
-
 import Testing
 @testable import dislexia
 

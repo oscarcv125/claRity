@@ -1,10 +1,3 @@
-//
-//  ContentView.swift
-//  dislexia
-//
-//  Created by isa chairez on 11/06/26.
-//
-
 import SwiftUI
 
 struct ContentView: View {
