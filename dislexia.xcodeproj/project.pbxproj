@@ -6,6 +6,33 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		969750D42FDBAED200CFC687 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 969750CF2FDBAED200CFC687 /* Assets.xcassets */; };
+		969750D52FDBAED200CFC687 /* dislexiaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969750D12FDBAED200CFC687 /* dislexiaApp.swift */; };
+		969750D62FDBAED200CFC687 /* TTSEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969750B82FDBAED200CFC687 /* TTSEngine.swift */; };
+		969750D72FDBAED200CFC687 /* OCREngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969750B62FDBAED200CFC687 /* OCREngine.swift */; };
+		969750D82FDBAED200CFC687 /* LibraryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969750C12FDBAED200CFC687 /* LibraryStore.swift */; };
+		969750D92FDBAED200CFC687 /* ManualEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969750C32FDBAED200CFC687 /* ManualEntryView.swift */; };
+		969750DA2FDBAED200CFC687 /* ReadingSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969750BC2FDBAED200CFC687 /* ReadingSession.swift */; };
+		969750DB2FDBAED200CFC687 /* SpanishSyllabifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969750B72FDBAED200CFC687 /* SpanishSyllabifier.swift */; };
+		969750DC2FDBAED200CFC687 /* AIEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969750B52FDBAED200CFC687 /* AIEngine.swift */; };
+		969750DD2FDBAED200CFC687 /* ComprehensionQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969750BA2FDBAED200CFC687 /* ComprehensionQuestion.swift */; };
+		969750DE2FDBAED200CFC687 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969750CC2FDBAED200CFC687 /* SettingsView.swift */; };
+		969750DF2FDBAED200CFC687 /* ReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969750CB2FDBAED200CFC687 /* ReaderView.swift */; };
+		969750E02FDBAED200CFC687 /* SyllableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969750C52FDBAED200CFC687 /* SyllableTextView.swift */; };
+		969750E12FDBAED200CFC687 /* AppPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969750CE2FDBAED200CFC687 /* AppPreferences.swift */; };
+		969750E22FDBAED200CFC687 /* ComprehensionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969750C92FDBAED200CFC687 /* ComprehensionView.swift */; };
+		969750E32FDBAED200CFC687 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969750C82FDBAED200CFC687 /* CameraView.swift */; };
+		969750E42FDBAED200CFC687 /* ReadingControlBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969750C42FDBAED200CFC687 /* ReadingControlBar.swift */; };
+		969750E52FDBAED200CFC687 /* PreloadedLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969750D22FDBAED200CFC687 /* PreloadedLibrary.swift */; };
+		969750E62FDBAED200CFC687 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969750D02FDBAED200CFC687 /* ContentView.swift */; };
+		969750E72FDBAED200CFC687 /* LibraryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969750BB2FDBAED200CFC687 /* LibraryItem.swift */; };
+		969750E82FDBAED200CFC687 /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969750BF2FDBAED200CFC687 /* AppRouter.swift */; };
+		969750E92FDBAED200CFC687 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969750CA2FDBAED200CFC687 /* LibraryView.swift */; };
+		969750EA2FDBAED200CFC687 /* UserPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969750BD2FDBAED200CFC687 /* UserPreferences.swift */; };
+		969750EB2FDBAED200CFC687 /* WordDefinitionCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969750C62FDBAED200CFC687 /* WordDefinitionCard.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		96974FEF2FDB9E4E00CFC687 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,6 +54,30 @@
 		96974FE12FDB9E4D00CFC687 /* dislexia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = dislexia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		96974FEE2FDB9E4E00CFC687 /* dislexiaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = dislexiaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		96974FF82FDB9E4E00CFC687 /* dislexiaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = dislexiaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		969750B52FDBAED200CFC687 /* AIEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIEngine.swift; sourceTree = "<group>"; };
+		969750B62FDBAED200CFC687 /* OCREngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCREngine.swift; sourceTree = "<group>"; };
+		969750B72FDBAED200CFC687 /* SpanishSyllabifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpanishSyllabifier.swift; sourceTree = "<group>"; };
+		969750B82FDBAED200CFC687 /* TTSEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TTSEngine.swift; sourceTree = "<group>"; };
+		969750BA2FDBAED200CFC687 /* ComprehensionQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComprehensionQuestion.swift; sourceTree = "<group>"; };
+		969750BB2FDBAED200CFC687 /* LibraryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryItem.swift; sourceTree = "<group>"; };
+		969750BC2FDBAED200CFC687 /* ReadingSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingSession.swift; sourceTree = "<group>"; };
+		969750BD2FDBAED200CFC687 /* UserPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
+		969750BF2FDBAED200CFC687 /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
+		969750C12FDBAED200CFC687 /* LibraryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryStore.swift; sourceTree = "<group>"; };
+		969750C32FDBAED200CFC687 /* ManualEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualEntryView.swift; sourceTree = "<group>"; };
+		969750C42FDBAED200CFC687 /* ReadingControlBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingControlBar.swift; sourceTree = "<group>"; };
+		969750C52FDBAED200CFC687 /* SyllableTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyllableTextView.swift; sourceTree = "<group>"; };
+		969750C62FDBAED200CFC687 /* WordDefinitionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordDefinitionCard.swift; sourceTree = "<group>"; };
+		969750C82FDBAED200CFC687 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
+		969750C92FDBAED200CFC687 /* ComprehensionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComprehensionView.swift; sourceTree = "<group>"; };
+		969750CA2FDBAED200CFC687 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
+		969750CB2FDBAED200CFC687 /* ReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderView.swift; sourceTree = "<group>"; };
+		969750CC2FDBAED200CFC687 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		969750CE2FDBAED200CFC687 /* AppPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppPreferences.swift; sourceTree = "<group>"; };
+		969750CF2FDBAED200CFC687 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		969750D02FDBAED200CFC687 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		969750D12FDBAED200CFC687 /* dislexiaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dislexiaApp.swift; sourceTree = "<group>"; };
+		969750D22FDBAED200CFC687 /* PreloadedLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreloadedLibrary.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -75,6 +126,7 @@
 		96974FD82FDB9E4D00CFC687 = {
 			isa = PBXGroup;
 			children = (
+				969750D32FDBAED200CFC687 /* dislexia 2 */,
 				96974FE32FDB9E4D00CFC687 /* dislexia */,
 				96974FF12FDB9E4E00CFC687 /* dislexiaTests */,
 				96974FFB2FDB9E4E00CFC687 /* dislexiaUITests */,
@@ -90,6 +142,85 @@
 				96974FF82FDB9E4E00CFC687 /* dislexiaUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		969750B92FDBAED200CFC687 /* Engines */ = {
+			isa = PBXGroup;
+			children = (
+				969750B52FDBAED200CFC687 /* AIEngine.swift */,
+				969750B62FDBAED200CFC687 /* OCREngine.swift */,
+				969750B72FDBAED200CFC687 /* SpanishSyllabifier.swift */,
+				969750B82FDBAED200CFC687 /* TTSEngine.swift */,
+			);
+			path = Engines;
+			sourceTree = "<group>";
+		};
+		969750BE2FDBAED200CFC687 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				969750BA2FDBAED200CFC687 /* ComprehensionQuestion.swift */,
+				969750BB2FDBAED200CFC687 /* LibraryItem.swift */,
+				969750BC2FDBAED200CFC687 /* ReadingSession.swift */,
+				969750BD2FDBAED200CFC687 /* UserPreferences.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		969750C02FDBAED200CFC687 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				969750BF2FDBAED200CFC687 /* AppRouter.swift */,
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
+		969750C22FDBAED200CFC687 /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				969750C12FDBAED200CFC687 /* LibraryStore.swift */,
+			);
+			path = Persistence;
+			sourceTree = "<group>";
+		};
+		969750C72FDBAED200CFC687 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				969750C32FDBAED200CFC687 /* ManualEntryView.swift */,
+				969750C42FDBAED200CFC687 /* ReadingControlBar.swift */,
+				969750C52FDBAED200CFC687 /* SyllableTextView.swift */,
+				969750C62FDBAED200CFC687 /* WordDefinitionCard.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		969750CD2FDBAED200CFC687 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				969750C72FDBAED200CFC687 /* Components */,
+				969750C82FDBAED200CFC687 /* CameraView.swift */,
+				969750C92FDBAED200CFC687 /* ComprehensionView.swift */,
+				969750CA2FDBAED200CFC687 /* LibraryView.swift */,
+				969750CB2FDBAED200CFC687 /* ReaderView.swift */,
+				969750CC2FDBAED200CFC687 /* SettingsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		969750D32FDBAED200CFC687 /* dislexia 2 */ = {
+			isa = PBXGroup;
+			children = (
+				969750B92FDBAED200CFC687 /* Engines */,
+				969750BE2FDBAED200CFC687 /* Models */,
+				969750C02FDBAED200CFC687 /* Navigation */,
+				969750C22FDBAED200CFC687 /* Persistence */,
+				969750CD2FDBAED200CFC687 /* Views */,
+				969750CE2FDBAED200CFC687 /* AppPreferences.swift */,
+				969750CF2FDBAED200CFC687 /* Assets.xcassets */,
+				969750D02FDBAED200CFC687 /* ContentView.swift */,
+				969750D12FDBAED200CFC687 /* dislexiaApp.swift */,
+				969750D22FDBAED200CFC687 /* PreloadedLibrary.swift */,
+			);
+			path = "dislexia 2";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -212,6 +343,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				969750D42FDBAED200CFC687 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,6 +368,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				969750D52FDBAED200CFC687 /* dislexiaApp.swift in Sources */,
+				969750D62FDBAED200CFC687 /* TTSEngine.swift in Sources */,
+				969750D72FDBAED200CFC687 /* OCREngine.swift in Sources */,
+				969750D82FDBAED200CFC687 /* LibraryStore.swift in Sources */,
+				969750D92FDBAED200CFC687 /* ManualEntryView.swift in Sources */,
+				969750DA2FDBAED200CFC687 /* ReadingSession.swift in Sources */,
+				969750DB2FDBAED200CFC687 /* SpanishSyllabifier.swift in Sources */,
+				969750DC2FDBAED200CFC687 /* AIEngine.swift in Sources */,
+				969750DD2FDBAED200CFC687 /* ComprehensionQuestion.swift in Sources */,
+				969750DE2FDBAED200CFC687 /* SettingsView.swift in Sources */,
+				969750DF2FDBAED200CFC687 /* ReaderView.swift in Sources */,
+				969750E02FDBAED200CFC687 /* SyllableTextView.swift in Sources */,
+				969750E12FDBAED200CFC687 /* AppPreferences.swift in Sources */,
+				969750E22FDBAED200CFC687 /* ComprehensionView.swift in Sources */,
+				969750E32FDBAED200CFC687 /* CameraView.swift in Sources */,
+				969750E42FDBAED200CFC687 /* ReadingControlBar.swift in Sources */,
+				969750E52FDBAED200CFC687 /* PreloadedLibrary.swift in Sources */,
+				969750E62FDBAED200CFC687 /* ContentView.swift in Sources */,
+				969750E72FDBAED200CFC687 /* LibraryItem.swift in Sources */,
+				969750E82FDBAED200CFC687 /* AppRouter.swift in Sources */,
+				969750E92FDBAED200CFC687 /* LibraryView.swift in Sources */,
+				969750EA2FDBAED200CFC687 /* UserPreferences.swift in Sources */,
+				969750EB2FDBAED200CFC687 /* WordDefinitionCard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
