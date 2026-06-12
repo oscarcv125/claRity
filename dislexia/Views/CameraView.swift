@@ -1,5 +1,6 @@
 import SwiftUI
 import UIKit
+import VisionKit
 
 struct CameraView: UIViewControllerRepresentable {
     let onCapture: (String) -> Void
@@ -37,22 +38,28 @@ final class CameraViewController: UIViewController {
     }
 
     private func presentSource() {
-        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            presentPicker(source: .camera)
+        if VNDocumentCameraViewController.isSupported {
+            // Escáner de documentos de Apple: detecta los bordes de la página
+            // y permite ajustar el recorte — evita que se cuele texto de la
+            // página de al lado.
+            let scanner = VNDocumentCameraViewController()
+            scanner.delegate = self
+            present(scanner, animated: true)
         } else {
-            presentPicker(source: .photoLibrary)
+            // Simulador / sin cámara: galería con recorte nativo.
+            presentLibraryPicker()
         }
     }
 
-    private func presentPicker(source: UIImagePickerController.SourceType) {
+    private func presentLibraryPicker() {
         let picker = UIImagePickerController()
-        picker.sourceType = source
+        picker.sourceType = .photoLibrary
         picker.delegate = self
-        picker.allowsEditing = false
+        picker.allowsEditing = true
         present(picker, animated: true)
     }
 
-    private func processImage(_ image: UIImage) {
+    private func processImages(_ images: [UIImage]) {
         let alert = UIAlertController(title: "Procesando texto…", message: nil, preferredStyle: .alert)
         let indicator = UIActivityIndicatorView(style: .medium)
         indicator.startAnimating()
@@ -65,10 +72,15 @@ final class CameraViewController: UIViewController {
         present(alert, animated: true)
 
         Task { @MainActor in
-            await ocrEngine.recognizeText(from: image)
+            var pages: [String] = []
+            for image in images {
+                await ocrEngine.recognizeText(from: image)
+                let pageText = ocrEngine.extractedText.trimmingCharacters(in: .whitespacesAndNewlines)
+                if !pageText.isEmpty { pages.append(pageText) }
+            }
+            let text = pages.joined(separator: "\n\n")
             alert.dismiss(animated: true) {
-                let text = self.ocrEngine.extractedText
-                if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                if text.isEmpty {
                     self.showError()
                 } else {
                     self.showPreview(text: text)
@@ -109,7 +121,41 @@ final class CameraViewController: UIViewController {
     }
 }
 
-// MARK: - UIImagePickerControllerDelegate
+// MARK: - VNDocumentCameraViewControllerDelegate
+
+extension CameraViewController: VNDocumentCameraViewControllerDelegate {
+
+    func documentCameraViewController(
+        _ controller: VNDocumentCameraViewController,
+        didFinishWith scan: VNDocumentCameraScan
+    ) {
+        let images = (0..<scan.pageCount).map { scan.imageOfPage(at: $0) }
+        controller.dismiss(animated: true) { [weak self] in
+            guard !images.isEmpty else {
+                self?.onCancel?()
+                return
+            }
+            self?.processImages(images)
+        }
+    }
+
+    func documentCameraViewControllerDidCancel(_ controller: VNDocumentCameraViewController) {
+        controller.dismiss(animated: true) { [weak self] in
+            self?.onCancel?()
+        }
+    }
+
+    func documentCameraViewController(
+        _ controller: VNDocumentCameraViewController,
+        didFailWithError error: Error
+    ) {
+        controller.dismiss(animated: true) { [weak self] in
+            self?.showError()
+        }
+    }
+}
+
+// MARK: - UIImagePickerControllerDelegate (fallback galería)
 
 extension CameraViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
@@ -118,11 +164,12 @@ extension CameraViewController: UIImagePickerControllerDelegate, UINavigationCon
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
     ) {
         picker.dismiss(animated: true)
-        guard let image = info[.originalImage] as? UIImage else {
+        let image = (info[.editedImage] as? UIImage) ?? (info[.originalImage] as? UIImage)
+        guard let image else {
             onCancel?()
             return
         }
-        processImage(image)
+        processImages([image])
     }
 
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {

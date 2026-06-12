@@ -1,0 +1,371 @@
+{
+  "bank": {
+    "definitions": [
+      "A place where people keep their money safe.",
+      "The land along the side of a river.",
+      "A large group of things, like clouds or fish."
+    ],
+    "example": "We walked along the bank of the river."
+  },
+  "bat": {
+    "definitions": [
+      "A small animal that flies at night.",
+      "A wooden stick used to hit a ball."
+    ],
+    "example": "The bat flew out of the cave at night."
+  },
+  "light": {
+    "definitions": [
+      "The brightness that lets us see things.",
+      "Not heavy; easy to lift.",
+      "Pale in color."
+    ],
+    "example": "Turn on the light so we can read."
+  },
+  "leaf": {
+    "definitions": [
+      "The flat green part of a plant or tree.",
+      "A single page of a book."
+    ],
+    "example": "A yellow leaf fell from the tree."
+  },
+  "wave": {
+    "definitions": [
+      "Moving water that rises on the sea.",
+      "Moving your hand to say hello or goodbye."
+    ],
+    "example": "A big wave splashed on the beach."
+  },
+  "ring": {
+    "definitions": [
+      "A small circle of metal worn on a finger.",
+      "The sound a bell or phone makes."
+    ],
+    "example": "I heard the phone ring twice."
+  },
+  "watch": {
+    "definitions": [
+      "To look at something for a while.",
+      "A small clock you wear on your wrist."
+    ],
+    "example": "Let's watch the birds in the garden."
+  },
+  "park": {
+    "definitions": [
+      "An open place with grass and trees where people play.",
+      "To leave a car in a place for a while."
+    ],
+    "example": "We played soccer at the park."
+  },
+  "rock": {
+    "definitions": [
+      "A big hard stone.",
+      "To move gently from side to side.",
+      "A kind of loud music."
+    ],
+    "example": "The boat hit a rock near the shore."
+  },
+  "star": {
+    "definitions": [
+      "A bright light we see in the night sky.",
+      "A famous person, like a singer or athlete.",
+      "A shape with five points."
+    ],
+    "example": "The brightest star shines in the north."
+  },
+  "play": {
+    "definitions": [
+      "To have fun with games or toys.",
+      "To make music with an instrument.",
+      "A story acted on a stage."
+    ],
+    "example": "The children play in the yard after school."
+  },
+  "fall": {
+    "definitions": [
+      "To drop down to the ground.",
+      "The season after summer, when leaves drop."
+    ],
+    "example": "Be careful not to fall on the ice."
+  },
+  "kind": {
+    "definitions": [
+      "Nice and caring with other people.",
+      "A type or group of things."
+    ],
+    "example": "She is very kind to animals."
+  },
+  "bark": {
+    "definitions": [
+      "The sound a dog makes.",
+      "The hard outside skin of a tree."
+    ],
+    "example": "We heard the dog bark at the door."
+  },
+  "fly": {
+    "definitions": [
+      "To move through the air with wings.",
+      "A small insect with wings."
+    ],
+    "example": "Birds fly south in the winter."
+  },
+  "well": {
+    "definitions": [
+      "In a good way.",
+      "A deep hole in the ground with water.",
+      "Healthy, not sick."
+    ],
+    "example": "She sings very well."
+  },
+  "spring": {
+    "definitions": [
+      "The season when flowers start to grow.",
+      "A metal coil that bounces back.",
+      "A place where water comes out of the ground."
+    ],
+    "example": "Flowers bloom in the spring."
+  },
+  "trunk": {
+    "definitions": [
+      "The thick main part of a tree.",
+      "The long nose of an elephant.",
+      "A big box for keeping things."
+    ],
+    "example": "The elephant lifted food with its trunk."
+  },
+  "match": {
+    "definitions": [
+      "A small stick that makes fire.",
+      "A game between two teams.",
+      "Things that look good together."
+    ],
+    "example": "We watched the soccer match on Sunday."
+  },
+  "pen": {
+    "definitions": [
+      "A tool used for writing with ink.",
+      "A small closed place for farm animals."
+    ],
+    "example": "I wrote my name with a blue pen."
+  },
+  "right": {
+    "definitions": [
+      "Correct, with no mistakes.",
+      "The opposite side of left."
+    ],
+    "example": "Your answer is right, good job!"
+  },
+  "mean": {
+    "definitions": [
+      "Not nice; unkind to others.",
+      "What a word or sign wants to say."
+    ],
+    "example": "What does this word mean?"
+  },
+  "cold": {
+    "definitions": [
+      "With a low temperature, not warm.",
+      "A sickness that makes you sneeze."
+    ],
+    "example": "The water in the lake is very cold."
+  },
+  "sea": {
+    "definitions": ["A very big area of salt water."],
+    "example": "Fish and whales live in the sea."
+  },
+  "boat": {
+    "definitions": ["A small vehicle that floats and moves on water."],
+    "example": "We crossed the lake in a small boat."
+  },
+  "sail": {
+    "definitions": [
+      "A big cloth that catches the wind to move a boat.",
+      "To travel on water in a boat."
+    ],
+    "example": "The wind pushed the white sail."
+  },
+  "net": {
+    "definitions": [
+      "Threads tied together with holes, used to catch fish.",
+      "Short for internet."
+    ],
+    "example": "The fisher threw the net into the water."
+  },
+  "fish": {
+    "definitions": [
+      "An animal that lives and swims in water.",
+      "To try to catch fish."
+    ],
+    "example": "We saw colorful fish in the tank."
+  },
+  "lighthouse": {
+    "definitions": ["A tall tower with a bright light that guides boats at night."],
+    "example": "The lighthouse helped the ship find the port."
+  },
+  "wind": {
+    "definitions": ["Air that moves, sometimes very fast."],
+    "example": "The wind blew the leaves around."
+  },
+  "bird": {
+    "definitions": ["An animal with feathers and wings that can usually fly."],
+    "example": "A small bird sang in the tree."
+  },
+  "map": {
+    "definitions": ["A drawing that shows where places are."],
+    "example": "We used a map to find the museum."
+  },
+  "island": {
+    "definitions": ["Land with water all around it."],
+    "example": "The boat took us to a small island."
+  },
+  "treasure": {
+    "definitions": ["Gold, jewels, or very valuable things, often hidden."],
+    "example": "The pirates buried their treasure in the sand."
+  },
+  "compass": {
+    "definitions": ["A tool with a needle that always points north."],
+    "example": "The compass showed us which way to go."
+  },
+  "sun": {
+    "definitions": ["The big bright star that gives us light and heat during the day."],
+    "example": "The sun rises every morning."
+  },
+  "moon": {
+    "definitions": ["The big round object that shines in the sky at night."],
+    "example": "The full moon lit up the beach."
+  },
+  "water": {
+    "definitions": ["The clear liquid we drink and that fills rivers and seas."],
+    "example": "Drink water when you are thirsty."
+  },
+  "plant": {
+    "definitions": [
+      "A living thing that grows in the ground, like flowers and trees.",
+      "To put seeds in the ground so they grow."
+    ],
+    "example": "This plant needs sun and water."
+  },
+  "tree": {
+    "definitions": ["A tall plant with a trunk, branches, and leaves."],
+    "example": "We rested under a big tree."
+  },
+  "brain": {
+    "definitions": ["The organ inside your head that thinks and remembers."],
+    "example": "Your brain helps you learn new things."
+  },
+  "bread": {
+    "definitions": ["A food made of flour and baked in an oven."],
+    "example": "We ate warm bread with butter."
+  },
+  "school": {
+    "definitions": [
+      "The place where children go to learn.",
+      "A big group of fish swimming together."
+    ],
+    "example": "We learn to read at school."
+  },
+  "book": {
+    "definitions": ["Pages with words and pictures joined together to read."],
+    "example": "I read a book about dinosaurs."
+  },
+  "house": {
+    "definitions": ["A building where people live."],
+    "example": "My house has a red door."
+  },
+  "friend": {
+    "definitions": ["A person you like and enjoy spending time with."],
+    "example": "I play with my best friend every day."
+  },
+  "dog": {
+    "definitions": ["A friendly animal that barks and often lives with people."],
+    "example": "My dog loves to chase the ball."
+  },
+  "cat": {
+    "definitions": ["A small soft animal that says meow."],
+    "example": "The cat sleeps on the sofa."
+  },
+  "rain": {
+    "definitions": ["Drops of water that fall from the clouds."],
+    "example": "The rain made puddles on the street."
+  },
+  "cloud": {
+    "definitions": ["A white or gray shape in the sky made of tiny water drops."],
+    "example": "That cloud looks like a rabbit."
+  },
+  "morning": {
+    "definitions": ["The first part of the day, before noon."],
+    "example": "I brush my teeth every morning."
+  },
+  "night": {
+    "definitions": ["The dark part of the day, when we sleep."],
+    "example": "Stars come out at night."
+  },
+  "food": {
+    "definitions": ["What people and animals eat to live and grow."],
+    "example": "My favorite food is pizza."
+  },
+  "story": {
+    "definitions": [
+      "A tale about people and things that happen, real or invented.",
+      "One floor of a building."
+    ],
+    "example": "Grandpa told us a funny story."
+  },
+  "letter": {
+    "definitions": [
+      "A symbol of the alphabet, like A or B.",
+      "A written message you send to someone."
+    ],
+    "example": "I wrote a letter to my cousin."
+  },
+  "machine": {
+    "definitions": ["A thing with parts that work together to do a job."],
+    "example": "The washing machine cleans our clothes."
+  },
+  "computer": {
+    "definitions": ["A machine that stores information and runs programs."],
+    "example": "We use the computer to do homework."
+  },
+  "city": {
+    "definitions": ["A big town where many people live and work."],
+    "example": "The city has tall buildings and busy streets."
+  },
+  "river": {
+    "definitions": ["A long line of water that flows to the sea."],
+    "example": "We crossed the river on a wooden bridge."
+  },
+  "mountain": {
+    "definitions": ["Very high land, much bigger than a hill."],
+    "example": "Snow covers the top of the mountain."
+  },
+  "fire": {
+    "definitions": ["The hot bright flames made when something burns."],
+    "example": "We warmed our hands by the fire."
+  },
+  "heart": {
+    "definitions": [
+      "The organ that pumps blood through your body.",
+      "A shape that means love."
+    ],
+    "example": "Your heart beats faster when you run."
+  },
+  "seed": {
+    "definitions": ["The small part of a plant that can grow into a new plant."],
+    "example": "We planted a sunflower seed in a pot."
+  },
+  "second": {
+    "definitions": [
+      "A very short moment of time.",
+      "The one that comes after the first."
+    ],
+    "example": "Wait a second, I'm almost ready."
+  },
+  "ship": {
+    "definitions": ["A very big boat that travels on the sea."],
+    "example": "The ship carried boxes across the ocean."
+  },
+  "port": {
+    "definitions": ["A place by the sea where boats stop and load things."],
+    "example": "The fishing boats returned to the port."
+  }
+}

@@ -19,39 +19,64 @@ final class TTSEngine: NSObject {
     private var wordRanges: [Range<String.Index>] = []
     private var syllables: [[String]] = []
     private var fullText: String = ""
+    private var language: ReadingLanguage = .spanish
     private var readingSpeed: Float = 0.42
     private var syllableTimers: [Timer] = []
+    /// Offset UTF-16 del utterance actual dentro de `fullText`
+    /// (necesario cuando se reproduce desde la mitad del texto).
+    private var utteranceCharOffset: Int = 0
+    /// `true` mientras se pronuncia una palabra suelta (long-press),
+    /// para no mover el resaltado del texto principal.
+    private var isPronouncingWord = false
+    /// Debounce del slider de velocidad: reiniciar el sintetizador en cada
+    /// paso del arrastre produce tartamudeo; se espera a que el dedo se asiente.
+    private var speedRestartTask: Task<Void, Never>?
+    /// La velocidad cambió estando en pausa: el utterance pausado no puede
+    /// cambiar de rate, así que al reanudar se relanza desde la palabra actual.
+    private var pendingSpeedRestart = false
 
     override init() {
         super.init()
         synthesizer.delegate = self
-
         try? AVAudioSession.sharedInstance().setCategory(
             .playback,
             mode: .spokenAudio,
             options: .duckOthers
         )
-        try? AVAudioSession.sharedInstance().setActive(true)
     }
 
     // MARK: - Public API
 
-    func load(text: String, wordRanges: [Range<String.Index>], syllables: [[String]]) {
+    func load(
+        text: String,
+        wordRanges: [Range<String.Index>],
+        syllables: [[String]],
+        language: ReadingLanguage = .spanish
+    ) {
         fullText = text
         self.wordRanges = wordRanges
         self.syllables = syllables
+        self.language = language
         stop()
     }
 
     func play(speed: Double = 0.42) {
         guard !fullText.isEmpty else { return }
         readingSpeed = Float(speed)
+        utteranceCharOffset = 0
+        isPronouncingWord = false
+        pendingSpeedRestart = false
+        speedRestartTask?.cancel()
+        // Limpia cualquier utterance pausado o en cola; si no, el nuevo
+        // quedaría encolado detrás y el botón parecería no responder.
+        synthesizer.stopSpeaking(at: .immediate)
+        cancelSyllableTimers()
+
+        try? AVAudioSession.sharedInstance().setActive(true)
 
         let utterance = AVSpeechUtterance(string: fullText)
         utterance.rate = readingSpeed
-        utterance.voice = AVSpeechSynthesisVoice(language: "es-MX")
-            ?? AVSpeechSynthesisVoice(language: "es-ES")
-            ?? AVSpeechSynthesisVoice(language: "es")
+        utterance.voice = voice
         utterance.postUtteranceDelay = 0.05
         utterance.preUtteranceDelay = 0
 
@@ -62,6 +87,10 @@ final class TTSEngine: NSObject {
     }
 
     func pause() {
+        guard synthesizer.isSpeaking else {
+            isPlaying = false
+            return
+        }
         synthesizer.pauseSpeaking(at: .word)
         isPlaying = false
         cancelSyllableTimers()
@@ -69,32 +98,194 @@ final class TTSEngine: NSObject {
     }
 
     func resume() {
+        // El utterance pausado quedó obsoleto (cambió la velocidad) o el
+        // sintetizador fue detenido por una pronunciación suelta: se relanza
+        // desde la palabra actual en vez de "continuar" sobre nada.
+        if pendingSpeedRestart || !synthesizer.isPaused {
+            pendingSpeedRestart = false
+            if currentWordIndex >= 0 {
+                seek(to: currentWordIndex)
+            } else {
+                play(speed: Double(readingSpeed))
+            }
+            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            return
+        }
         synthesizer.continueSpeaking()
         isPlaying = true
         UIImpactFeedbackGenerator(style: .light).impactOccurred()
     }
 
     func stop() {
+        speedRestartTask?.cancel()
+        pendingSpeedRestart = false
         synthesizer.stopSpeaking(at: .immediate)
         isPlaying = false
+        isPronouncingWord = false
         currentWordIndex = -1
         currentSyllableIndex = -1
         highlightRange = nil
+        utteranceCharOffset = 0
         cancelSyllableTimers()
+        // Libera el "ducking" para que el audio de otras apps vuelva a su volumen.
+        try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
     }
 
+    /// Reanuda la reproducción desde una palabra específica,
+    /// manteniendo el resaltado sincronizado con `fullText`.
     func seek(to wordIndex: Int) {
-        guard wordIndex < wordRanges.count else { return }
-        stop()
+        guard wordIndex >= 0, wordIndex < wordRanges.count else { return }
+        synthesizer.stopSpeaking(at: .immediate)
+        cancelSyllableTimers()
+        isPronouncingWord = false
+        // El nuevo utterance ya usa la velocidad vigente.
+        pendingSpeedRestart = false
+
         let range = wordRanges[wordIndex]
-        let substring = String(fullText[range.lowerBound...])
-        let utterance = AVSpeechUtterance(string: substring)
+        utteranceCharOffset = NSRange(range.lowerBound..<fullText.endIndex, in: fullText).location
+
+        try? AVAudioSession.sharedInstance().setActive(true)
+
+        let utterance = AVSpeechUtterance(string: String(fullText[range.lowerBound...]))
         utterance.rate = readingSpeed
-        utterance.voice = AVSpeechSynthesisVoice(language: "es-MX")
-            ?? AVSpeechSynthesisVoice(language: "es-ES")
+        utterance.voice = voice
         synthesizer.speak(utterance)
         isPlaying = true
-        currentWordIndex = wordIndex - 1
+    }
+
+    /// Cambia la velocidad en vivo. El reinicio se retrasa 300 ms para no
+    /// reiniciar el sintetizador en cada paso del arrastre del slider
+    /// (eso producía tartamudeo y saltos de palabra).
+    func setSpeed(_ speed: Double) {
+        let newRate = Float(speed)
+        guard newRate != readingSpeed else { return }
+        readingSpeed = newRate
+
+        if isPlaying {
+            speedRestartTask?.cancel()
+            speedRestartTask = Task { [weak self] in
+                try? await Task.sleep(for: .milliseconds(300))
+                guard !Task.isCancelled, let self, self.isPlaying else { return }
+                self.seek(to: max(self.currentWordIndex, 0))
+            }
+        } else if currentWordIndex >= 0 {
+            // Pausado a mitad de lectura: aplicar la nueva velocidad al reanudar.
+            pendingSpeedRestart = true
+        }
+    }
+
+    /// Pronuncia una palabra lentamente, sílaba por sílaba (long-press).
+    func pronounceSlowly(word: String) {
+        synthesizer.stopSpeaking(at: .immediate)
+        cancelSyllableTimers()
+        isPlaying = false
+        isPronouncingWord = true
+
+        try? AVAudioSession.sharedInstance().setActive(true)
+
+        let syls = language.syllabify(word)
+        let utterance = AVSpeechUtterance(string: syls.joined(separator: ", "))
+        utterance.rate = 0.25
+        utterance.voice = voice
+        synthesizer.speak(utterance)
+
+        UINotificationFeedbackGenerator().notificationOccurred(.success)
+    }
+
+    /// Pronuncia un fragmento suelto (una sílaba o palabra) sin tocar el
+    /// estado de lectura principal. Usado por la tarjeta de sílabas.
+    func speak(fragment: String, rate: Float = 0.3) {
+        synthesizer.stopSpeaking(at: .immediate)
+        cancelSyllableTimers()
+        isPlaying = false
+        isPronouncingWord = true
+
+        try? AVAudioSession.sharedInstance().setActive(true)
+
+        let utterance = AVSpeechUtterance(string: fragment)
+        utterance.rate = rate
+        utterance.voice = voice
+        synthesizer.speak(utterance)
+    }
+
+    // MARK: - Voice
+
+    /// Caché de la mejor voz encontrada por idioma (buscarla es costoso).
+    private var voiceCache: [ReadingLanguage: AVSpeechSynthesisVoice] = [:]
+
+    private var voice: AVSpeechSynthesisVoice? {
+        // Voz Personal del usuario, si la activó y está autorizada.
+        if AppPreferences.shared.usePersonalVoice,
+           let personal = personalVoice(for: language) {
+            return personal
+        }
+        return bestVoice(for: language)
+    }
+
+    /// Voz Personal que coincida con el idioma; si no hay coincidencia
+    /// exacta, usa la primera disponible (la voz del usuario es única).
+    private func personalVoice(for language: ReadingLanguage) -> AVSpeechSynthesisVoice? {
+        let personals = AVSpeechSynthesisVoice.speechVoices()
+            .filter { $0.voiceTraits.contains(.isPersonalVoice) }
+        return personals.first { $0.language.hasPrefix(language.rawValue) } ?? personals.first
+    }
+
+    /// Estado de autorización de Voz Personal.
+    static var personalVoiceStatus: AVSpeechSynthesizer.PersonalVoiceAuthorizationStatus {
+        AVSpeechSynthesizer.personalVoiceAuthorizationStatus
+    }
+
+    /// `true` si hay al menos una Voz Personal autorizada y disponible.
+    static var hasPersonalVoice: Bool {
+        AVSpeechSynthesisVoice.speechVoices()
+            .contains { $0.voiceTraits.contains(.isPersonalVoice) }
+    }
+
+    /// Pide permiso para usar la Voz Personal del usuario.
+    static func requestPersonalVoiceAccess() async -> AVSpeechSynthesizer.PersonalVoiceAuthorizationStatus {
+        await withCheckedContinuation { continuation in
+            AVSpeechSynthesizer.requestPersonalVoiceAuthorization { status in
+                continuation.resume(returning: status)
+            }
+        }
+    }
+
+    /// Elige la voz de mayor calidad instalada para el idioma:
+    /// premium > enhanced > compacta, prefiriendo el acento configurado
+    /// (es-MX / en-US). Si el usuario descarga una voz mejorada en
+    /// Ajustes → Accesibilidad → Contenido leído → Voces, se usa sola.
+    private func bestVoice(for language: ReadingLanguage) -> AVSpeechSynthesisVoice? {
+        if let cached = voiceCache[language] { return cached }
+
+        let candidates = AVSpeechSynthesisVoice.speechVoices().filter { v in
+            guard v.language.hasPrefix(language.rawValue) else { return false }
+            // Sin voces de broma (Bells, Boing…) ni Voz Personal.
+            if v.voiceTraits.contains(.isNoveltyVoice) { return false }
+            if v.voiceTraits.contains(.isPersonalVoice) { return false }
+            return true
+        }
+
+        func score(_ v: AVSpeechSynthesisVoice) -> Int {
+            var s: Int
+            switch v.quality {
+            case .premium:  s = 300
+            case .enhanced: s = 200
+            default:        s = 100
+            }
+            // Acento preferido primero (es-MX antes que es-ES, etc.)
+            if let idx = language.voiceCodes.firstIndex(of: v.language) {
+                s += (language.voiceCodes.count - idx) * 10
+            }
+            return s
+        }
+
+        let best = candidates.max { score($0) < score($1) }
+            ?? language.voiceCodes.lazy
+                .compactMap { AVSpeechSynthesisVoice(language: $0) }
+                .first
+
+        if let best { voiceCache[language] = best }
+        return best
     }
 
     // MARK: - Syllable animation
@@ -153,7 +344,13 @@ extension TTSEngine: AVSpeechSynthesizerDelegate {
     ) {
         Task { @MainActor [weak self] in
             guard let self else { return }
-            guard let range = Range(characterRange, in: self.fullText) else { return }
+            guard !self.isPronouncingWord else { return }
+
+            let adjusted = NSRange(
+                location: characterRange.location + self.utteranceCharOffset,
+                length: characterRange.length
+            )
+            guard let range = Range(adjusted, in: self.fullText) else { return }
 
             let wordIdx = self.wordRanges.firstIndex { $0.overlaps(range) } ?? -1
             guard wordIdx >= 0 else { return }
@@ -172,10 +369,15 @@ extension TTSEngine: AVSpeechSynthesizerDelegate {
     ) {
         Task { @MainActor [weak self] in
             guard let self else { return }
+            if self.isPronouncingWord {
+                self.isPronouncingWord = false
+                return
+            }
             self.isPlaying = false
             self.currentWordIndex = -1
             self.highlightRange = nil
             self.cancelSyllableTimers()
+            try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
         }
     }
 

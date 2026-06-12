@@ -86,13 +86,6 @@ struct LibraryView: View {
                     ]
                 )
 
-                LinearGradient(
-                    colors: [.clear, Color(.systemBackground)],
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-                .frame(height: 100)
-
                 VStack(spacing: 8) {
                     ClaRityWordmark(size: 48)
                         .foregroundStyle(.white)
@@ -155,27 +148,42 @@ struct LibraryView: View {
 
     // MARK: - Grid Section
 
+    @ViewBuilder
     private var gridSection: some View {
-        LazyVGrid(columns: gridColumns, spacing: 12) {
-            ForEach(filteredItems) { item in
-                LibraryCard(item: item)
-                    .onTapGesture { selectedItem = item }
-                    .contextMenu {
-                        Button(role: .destructive) {
-                            LibraryStore.shared.delete(item)
-                        } label: {
-                            Label("Eliminar", systemImage: "trash")
-                        }
-                    }
+        if filteredItems.isEmpty {
+            ContentUnavailableView {
+                Label("Sin textos", systemImage: "books.vertical")
+            } description: {
+                Text("No hay textos en este nivel. Captura uno con la cámara o escríbelo tú.")
             }
+            .padding(.top, 30)
+            .padding(.bottom, 110)
+        } else {
+            LazyVGrid(columns: gridColumns, spacing: 12) {
+                ForEach(filteredItems) { item in
+                    LibraryCard(item: item)
+                        .onTapGesture { selectedItem = item }
+                        .contextMenu {
+                            Button(role: .destructive) {
+                                LibraryStore.shared.delete(item)
+                            } label: {
+                                Label("Eliminar", systemImage: "trash")
+                            }
+                        }
+                }
+            }
+            .padding(.horizontal, 16)
+            .padding(.bottom, 110)
+            .animation(.spring(duration: 0.35), value: selectedLevel)
         }
-        .padding(.horizontal, 16)
-        .padding(.bottom, 110)
     }
 
     // MARK: - Bottom Bar
 
     private var bottomBar: some View {
+        // Botones separados (sin GlassEffectContainer): el contenedor con un
+        // Spacer entre vidrios fusionaba las áreas de toque y "Escribir"
+        // casi nunca respondía. contentShape garantiza toda la cápsula tocable.
         HStack(spacing: 12) {
             Button {
                 showManualEntry = true
@@ -184,6 +192,7 @@ struct LibraryView: View {
                     .font(.subheadline.weight(.medium))
                     .padding(.horizontal, 20)
                     .padding(.vertical, 14)
+                    .contentShape(Capsule())
             }
             .buttonStyle(.plain)
             .glassEffect(.regular.interactive(), in: Capsule())
@@ -200,23 +209,17 @@ struct LibraryView: View {
                     Text("Capturar")
                         .fontWeight(.semibold)
                 }
+                .foregroundStyle(.white)
                 .padding(.horizontal, 24)
                 .padding(.vertical, 14)
+                .contentShape(Capsule())
             }
             .buttonStyle(.plain)
-            .glassEffect(.regular.tint(.accentColor), in: Capsule())
+            .glassEffect(.regular.tint(.clarityTeal).interactive(), in: Capsule())
             .frame(minHeight: 44)
             .accessibilityLabel("Capturar texto con cámara")
         }
         .padding(.horizontal, 20)
-        .padding(.vertical, 14)
-        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 32, style: .continuous))
-        .overlay(
-            RoundedRectangle(cornerRadius: 32, style: .continuous)
-                .stroke(Color.white.opacity(0.25), lineWidth: 1)
-        )
-        .shadow(color: .black.opacity(0.1), radius: 24, y: -6)
-        .padding(.horizontal, 16)
         .padding(.bottom, 8)
     }
 
@@ -266,11 +269,12 @@ private struct GlassPill: View {
         Button(action: action) {
             Text(label)
                 .font(.subheadline.weight(selected ? .semibold : .regular))
+                .foregroundStyle(selected ? Color.white : Color.primary)
                 .padding(.horizontal, 16)
                 .padding(.vertical, 9)
         }
         .buttonStyle(.plain)
-        .glassEffect(selected ? .regular.tint(.accentColor) : .regular.interactive(), in: Capsule())
+        .glassEffect(selected ? .regular.tint(.clarityTeal) : .regular.interactive(), in: Capsule())
         .frame(minWidth: 44, minHeight: 44)
         .accessibilityAddTraits(selected ? .isSelected : [])
         .accessibilityLabel(label + (selected ? ", seleccionado" : ""))
@@ -324,14 +328,7 @@ private struct LibraryCard: View {
         .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
         .overlay(
             RoundedRectangle(cornerRadius: 20, style: .continuous)
-                .stroke(
-                    LinearGradient(
-                        colors: [.white.opacity(0.45), .white.opacity(0.08)],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    ),
-                    lineWidth: 1
-                )
+                .stroke(.clarityCardStroke, lineWidth: 1)
         )
         .shadow(color: .black.opacity(0.07), radius: 16, y: 6)
         .contentShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
@@ -389,7 +386,7 @@ private struct RecentCard: View {
         .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
         .overlay(
             RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .stroke(Color.white.opacity(0.28), lineWidth: 1)
+                .stroke(.clarityCardStroke, lineWidth: 1)
         )
         .shadow(color: .black.opacity(0.06), radius: 10, y: 4)
         .contentShape(RoundedRectangle(cornerRadius: 16))

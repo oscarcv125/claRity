@@ -1,0 +1,1620 @@
+{
+  "sol": {
+    "definitions": [
+      "Estrella que da luz y calor a la Tierra durante el día.",
+      "Luz y calor que llegan de esa estrella."
+    ],
+    "example": "El sol sale todas las mañanas."
+  },
+  "luna": {
+    "definitions": [
+      "Satélite natural que gira alrededor de la Tierra y brilla de noche.",
+      "Cristal o vidrio de un espejo o una ventana grande."
+    ],
+    "example": "La luna se ve redonda y blanca esta noche."
+  },
+  "estrella": {
+    "definitions": [
+      "Cuerpo del cielo que brilla con luz propia, como el sol.",
+      "Persona muy famosa, por ejemplo en el cine o la música."
+    ],
+    "example": "De noche el cielo se llena de estrellas."
+  },
+  "tierra": {
+    "definitions": [
+      "El planeta donde vivimos.",
+      "Material del suelo donde crecen las plantas."
+    ],
+    "example": "La Tierra gira alrededor del sol."
+  },
+  "día": {
+    "definitions": [
+      "Tiempo en que hay luz del sol, desde la mañana hasta la tarde.",
+      "Periodo de 24 horas."
+    ],
+    "example": "De día podemos jugar en el parque."
+  },
+  "noche": {
+    "definitions": [
+      "Tiempo en que no hay luz del sol y el cielo está oscuro."
+    ],
+    "example": "De noche salen las estrellas."
+  },
+  "calor": {
+    "definitions": [
+      "Sensación de temperatura alta, lo contrario del frío."
+    ],
+    "example": "En verano hace mucho calor."
+  },
+  "frío": {
+    "definitions": [
+      "Sensación de temperatura baja, lo contrario del calor."
+    ],
+    "example": "En invierno hace frío y usamos abrigo."
+  },
+  "perro": {
+    "definitions": [
+      "Animal doméstico de cuatro patas que ladra y es muy fiel."
+    ],
+    "example": "Mi perro mueve la cola cuando me ve."
+  },
+  "mascota": {
+    "definitions": [
+      "Animal que vive con las personas y recibe sus cuidados y cariño."
+    ],
+    "example": "Mi mascota favorita es mi gato."
+  },
+  "pelota": {
+    "definitions": [
+      "Objeto redondo que se usa para jugar, botar o lanzar."
+    ],
+    "example": "Jugamos con la pelota en el patio."
+  },
+  "agua": {
+    "definitions": [
+      "Líquido transparente y sin sabor que bebemos y que forma ríos y mares."
+    ],
+    "example": "Tomar agua es bueno para la salud."
+  },
+  "hormiga": {
+    "definitions": [
+      "Insecto muy pequeño que vive en grupos y trabaja mucho."
+    ],
+    "example": "La hormiga carga comida hasta su nido."
+  },
+  "campo": {
+    "definitions": [
+      "Terreno fuera de la ciudad, con plantas y animales.",
+      "Espacio donde se juega un deporte, como el fútbol."
+    ],
+    "example": "Fuimos al campo a ver las flores."
+  },
+  "semilla": {
+    "definitions": [
+      "Parte pequeña de una planta de la que nace una planta nueva."
+    ],
+    "example": "Sembramos una semilla y creció una flor."
+  },
+  "invierno": {
+    "definitions": [
+      "Estación del año más fría, después del otoño."
+    ],
+    "example": "En invierno a veces cae nieve."
+  },
+  "primavera": {
+    "definitions": [
+      "Estación del año en que florecen las plantas, después del invierno."
+    ],
+    "example": "En primavera los jardines se llenan de flores."
+  },
+  "verano": {
+    "definitions": [
+      "Estación del año más calurosa, después de la primavera."
+    ],
+    "example": "En verano vamos a nadar."
+  },
+  "otoño": {
+    "definitions": [
+      "Estación del año en que las hojas de los árboles caen, después del verano."
+    ],
+    "example": "En otoño las hojas se ponen amarillas."
+  },
+  "estación": {
+    "definitions": [
+      "Cada una de las cuatro partes del año: primavera, verano, otoño e invierno.",
+      "Lugar donde paran los trenes o autobuses."
+    ],
+    "example": "Mi estación favorita es la primavera."
+  },
+  "hoja": {
+    "definitions": [
+      "Parte verde y plana de una planta o árbol.",
+      "Lámina de papel para escribir o dibujar."
+    ],
+    "example": "Las hojas del árbol se mueven con el viento."
+  },
+  "árbol": {
+    "definitions": [
+      "Planta grande con tronco de madera, ramas y hojas."
+    ],
+    "example": "El árbol del parque da mucha sombra."
+  },
+  "planta": {
+    "definitions": [
+      "Ser vivo que crece en la tierra, como las flores y los árboles.",
+      "Parte de abajo del pie.",
+      "Fábrica o edificio donde se produce algo."
+    ],
+    "example": "Riego mi planta todos los días."
+  },
+  "flor": {
+    "definitions": [
+      "Parte de la planta con colores bonitos y buen olor."
+    ],
+    "example": "Le regalé una flor a mi mamá."
+  },
+  "panadero": {
+    "definitions": [
+      "Persona que hace o vende pan."
+    ],
+    "example": "El panadero hornea el pan muy temprano."
+  },
+  "horno": {
+    "definitions": [
+      "Aparato cerrado que calienta mucho y sirve para cocinar alimentos."
+    ],
+    "example": "El pastel se cocina en el horno."
+  },
+  "masa": {
+    "definitions": [
+      "Mezcla de harina con agua que sirve para hacer pan o tortillas.",
+      "Cantidad de materia que tiene un cuerpo."
+    ],
+    "example": "El panadero amasa la masa para el pan."
+  },
+  "pan": {
+    "definitions": [
+      "Alimento hecho de harina horneada que comemos todos los días."
+    ],
+    "example": "Desayuné pan con mantequilla."
+  },
+  "pueblo": {
+    "definitions": [
+      "Lugar pequeño donde vive un grupo de personas, más chico que una ciudad.",
+      "Conjunto de personas de un país o lugar."
+    ],
+    "example": "Mis abuelos viven en un pueblo tranquilo."
+  },
+  "nieve": {
+    "definitions": [
+      "Agua congelada que cae del cielo en copos blancos cuando hace mucho frío."
+    ],
+    "example": "Hicimos un muñeco de nieve."
+  },
+  "lluvia": {
+    "definitions": [
+      "Agua que cae del cielo en gotas desde las nubes."
+    ],
+    "example": "La lluvia moja las calles."
+  },
+  "océano": {
+    "definitions": [
+      "Mar muy grande que cubre gran parte de la Tierra."
+    ],
+    "example": "Las ballenas viven en el océano."
+  },
+  "río": {
+    "definitions": [
+      "Corriente de agua dulce que corre hacia el mar o un lago."
+    ],
+    "example": "Los peces nadan en el río."
+  },
+  "lago": {
+    "definitions": [
+      "Gran cantidad de agua dulce rodeada de tierra."
+    ],
+    "example": "Paseamos en lancha por el lago."
+  },
+  "manantial": {
+    "definitions": [
+      "Lugar donde el agua brota de forma natural de la tierra."
+    ],
+    "example": "El agua del manantial es muy limpia."
+  },
+  "recurso": {
+    "definitions": [
+      "Cosa útil de la naturaleza que las personas usamos, como el agua o los árboles."
+    ],
+    "example": "El agua es un recurso que debemos cuidar."
+  },
+  "contaminar": {
+    "definitions": [
+      "Ensuciar el agua, el aire o la tierra con cosas dañinas."
+    ],
+    "example": "Tirar basura al río contamina el agua."
+  },
+  "conservar": {
+    "definitions": [
+      "Cuidar algo para que no se acabe ni se dañe."
+    ],
+    "example": "Debemos conservar el agua cerrando la llave."
+  },
+  "selva": {
+    "definitions": [
+      "Bosque muy grande con muchos árboles, lluvia y animales."
+    ],
+    "example": "En la selva viven monos y loros."
+  },
+  "ecosistema": {
+    "definitions": [
+      "Conjunto de seres vivos y el lugar donde viven juntos."
+    ],
+    "example": "La selva es un ecosistema con muchos animales."
+  },
+  "especie": {
+    "definitions": [
+      "Grupo de seres vivos parecidos que pueden tener hijos entre sí."
+    ],
+    "example": "El jaguar es una especie en peligro."
+  },
+  "insecto": {
+    "definitions": [
+      "Animal pequeño con seis patas, como la hormiga o la mosca."
+    ],
+    "example": "La mariposa es un insecto de colores."
+  },
+  "dosel": {
+    "definitions": [
+      "Techo verde que forman las copas de los árboles altos en la selva."
+    ],
+    "example": "El dosel de la selva tapa la luz del sol."
+  },
+  "oxígeno": {
+    "definitions": [
+      "Gas del aire que respiramos y que necesitamos para vivir."
+    ],
+    "example": "Las plantas producen oxígeno."
+  },
+  "clima": {
+    "definitions": [
+      "Tiempo que normalmente hace en un lugar: calor, frío, lluvia o viento."
+    ],
+    "example": "El clima de la playa es caluroso."
+  },
+  "deforestación": {
+    "definitions": [
+      "Cortar o quemar muchos árboles de un bosque hasta dejarlo sin plantas."
+    ],
+    "example": "La deforestación deja sin casa a los animales."
+  },
+  "cerebro": {
+    "definitions": [
+      "Órgano dentro de la cabeza con el que pensamos, sentimos y recordamos."
+    ],
+    "example": "El cerebro controla todo nuestro cuerpo."
+  },
+  "órgano": {
+    "definitions": [
+      "Parte del cuerpo que hace un trabajo especial, como el corazón o el cerebro.",
+      "Instrumento musical grande con tubos y teclas."
+    ],
+    "example": "El corazón es un órgano muy importante."
+  },
+  "neurona": {
+    "definitions": [
+      "Célula del cerebro que envía y recibe mensajes."
+    ],
+    "example": "Las neuronas trabajan cuando pensamos."
+  },
+  "célula": {
+    "definitions": [
+      "Parte viva más pequeña que forma el cuerpo de todos los seres vivos."
+    ],
+    "example": "Nuestro cuerpo tiene millones de células."
+  },
+  "señal": {
+    "definitions": [
+      "Aviso o gesto que da información, como las señales de tránsito.",
+      "Mensaje eléctrico que viaja, por ejemplo entre las neuronas."
+    ],
+    "example": "El semáforo es una señal para los coches."
+  },
+  "emoción": {
+    "definitions": [
+      "Lo que sentimos por dentro, como alegría, miedo o tristeza."
+    ],
+    "example": "Sentí una gran emoción al ganar el juego."
+  },
+  "recuerdo": {
+    "definitions": [
+      "Algo que guardamos en la memoria de lo que ya pasó.",
+      "Objeto que se guarda para no olvidar a alguien o un lugar."
+    ],
+    "example": "Tengo un bonito recuerdo de mis vacaciones."
+  },
+  "pensamiento": {
+    "definitions": [
+      "Idea que se forma en la mente cuando pensamos."
+    ],
+    "example": "Tuve un pensamiento divertido y me reí."
+  },
+  "revolución": {
+    "definitions": [
+      "Cambio muy grande y rápido en la forma de vivir de las personas.",
+      "Vuelta completa que da algo que gira."
+    ],
+    "example": "La revolución cambió la vida de todo el país."
+  },
+  "industria": {
+    "definitions": [
+      "Conjunto de fábricas y trabajos que producen cosas en grandes cantidades."
+    ],
+    "example": "La industria del juguete hace miles de muñecos."
+  },
+  "máquina": {
+    "definitions": [
+      "Aparato que usa energía para hacer un trabajo, como lavar o mover cosas."
+    ],
+    "example": "La máquina de coser une las telas."
+  },
+  "vapor": {
+    "definitions": [
+      "Gas que sale del agua cuando se calienta mucho."
+    ],
+    "example": "De la olla caliente sale vapor."
+  },
+  "fábrica": {
+    "definitions": [
+      "Edificio con máquinas donde se hacen muchos productos."
+    ],
+    "example": "En esa fábrica hacen chocolates."
+  },
+  "taller": {
+    "definitions": [
+      "Lugar donde se hacen o arreglan cosas con las manos o herramientas.",
+      "Clase donde se aprende haciendo, como un taller de pintura."
+    ],
+    "example": "Llevaron el coche al taller para arreglarlo."
+  },
+  "artesanal": {
+    "definitions": [
+      "Hecho a mano, con poca ayuda de máquinas."
+    ],
+    "example": "Compramos pan artesanal en el mercado."
+  },
+  "migrar": {
+    "definitions": [
+      "Irse a vivir a otro lugar, como hacen algunas personas y aves."
+    ],
+    "example": "Muchas aves migran al sur en invierno."
+  },
+  "jornada": {
+    "definitions": [
+      "Tiempo que dura el trabajo de un día."
+    ],
+    "example": "Su jornada de trabajo termina a las cinco."
+  },
+  "contaminación": {
+    "definitions": [
+      "Suciedad dañina en el aire, el agua o la tierra."
+    ],
+    "example": "La contaminación del aire nos hace daño."
+  },
+  "inteligencia": {
+    "definitions": [
+      "Capacidad de aprender, entender y resolver problemas."
+    ],
+    "example": "Usó su inteligencia para armar el rompecabezas."
+  },
+  "artificial": {
+    "definitions": [
+      "Hecho por las personas, no por la naturaleza."
+    ],
+    "example": "Las flores artificiales no necesitan agua."
+  },
+  "informática": {
+    "definitions": [
+      "Ciencia que estudia las computadoras y cómo usarlas."
+    ],
+    "example": "En clase de informática usamos computadoras."
+  },
+  "algoritmo": {
+    "definitions": [
+      "Lista de pasos ordenados para resolver un problema, como una receta."
+    ],
+    "example": "El algoritmo le dice a la computadora qué hacer."
+  },
+  "dato": {
+    "definitions": [
+      "Información pequeña sobre algo, como un número o un nombre."
+    ],
+    "example": "Mi edad es un dato sobre mí."
+  },
+  "asistente": {
+    "definitions": [
+      "Persona o programa que ayuda a hacer tareas."
+    ],
+    "example": "El asistente de voz responde mis preguntas."
+  },
+  "diagnóstico": {
+    "definitions": [
+      "Descubrir qué enfermedad o problema tiene alguien o algo."
+    ],
+    "example": "El doctor dio su diagnóstico después de revisarme."
+  },
+  "autónomo": {
+    "definitions": [
+      "Que funciona o decide por sí mismo, sin ayuda."
+    ],
+    "example": "El coche autónomo maneja solo."
+  },
+  "ética": {
+    "definitions": [
+      "Conjunto de ideas sobre lo que está bien y lo que está mal."
+    ],
+    "example": "Decir la verdad es parte de la ética."
+  },
+  "privacidad": {
+    "definitions": [
+      "Derecho a que tus cosas personales no las vean los demás."
+    ],
+    "example": "Mi diario es parte de mi privacidad."
+  },
+  "tecnología": {
+    "definitions": [
+      "Inventos y herramientas que las personas crean para vivir mejor."
+    ],
+    "example": "Los teléfonos son parte de la tecnología."
+  },
+  "energía": {
+    "definitions": [
+      "Fuerza que hace funcionar las cosas o que nos permite movernos."
+    ],
+    "example": "El sol nos da energía y calor."
+  },
+  "planeta": {
+    "definitions": [
+      "Cuerpo grande y redondo que gira alrededor de una estrella."
+    ],
+    "example": "La Tierra es nuestro planeta."
+  },
+  "faro": {
+    "definitions": [
+      "Torre alta con una luz que guía a los barcos de noche.",
+      "Luz delantera de un coche."
+    ],
+    "example": "El faro ilumina el mar para los barcos."
+  },
+  "puerto": {
+    "definitions": [
+      "Lugar en la costa donde llegan y descansan los barcos."
+    ],
+    "example": "El barco llegó al puerto por la tarde."
+  },
+  "barco": {
+    "definitions": [
+      "Vehículo que flota y sirve para viajar por el agua."
+    ],
+    "example": "El barco navega por el mar."
+  },
+  "pescador": {
+    "definitions": [
+      "Persona que atrapa peces en el mar, ríos o lagos."
+    ],
+    "example": "El pescador volvió con muchos peces."
+  },
+  "mar": {
+    "definitions": [
+      "Gran cantidad de agua salada que cubre parte de la Tierra."
+    ],
+    "example": "Nadamos en el mar durante las vacaciones."
+  },
+  "vela": {
+    "definitions": [
+      "Tela grande que usa el viento para mover un barco.",
+      "Cilindro de cera con una mecha que se enciende para dar luz."
+    ],
+    "example": "El viento infló la vela del barco."
+  },
+  "red": {
+    "definitions": [
+      "Malla de hilos cruzados que sirve para atrapar peces.",
+      "Conjunto de computadoras conectadas entre sí, como internet."
+    ],
+    "example": "El pescador lanzó su red al agua."
+  },
+  "pez": {
+    "definitions": [
+      "Animal que vive en el agua, nada con aletas y respira por branquias."
+    ],
+    "example": "El pez dorado nada en la pecera."
+  },
+  "viento": {
+    "definitions": [
+      "Aire que se mueve con fuerza."
+    ],
+    "example": "El viento mueve las hojas de los árboles."
+  },
+  "ola": {
+    "definitions": [
+      "Movimiento del agua del mar que sube y baja."
+    ],
+    "example": "Las olas llegan a la playa una tras otra."
+  },
+  "gaviota": {
+    "definitions": [
+      "Ave blanca y gris que vive cerca del mar."
+    ],
+    "example": "La gaviota vuela sobre las olas."
+  },
+  "costa": {
+    "definitions": [
+      "Tierra que está junto al mar."
+    ],
+    "example": "Caminamos por la costa al atardecer."
+  },
+  "banco": {
+    "definitions": [
+      "Grupo grande de peces que nadan juntos.",
+      "Asiento largo para varias personas.",
+      "Lugar donde se guarda el dinero."
+    ],
+    "example": "Un banco de peces pasó junto al barco."
+  },
+  "roca": {
+    "definitions": [
+      "Piedra grande y dura."
+    ],
+    "example": "Las olas chocan contra las rocas."
+  },
+  "arena": {
+    "definitions": [
+      "Granitos muy pequeños de piedra que forman las playas."
+    ],
+    "example": "Hicimos un castillo de arena."
+  },
+  "mapa": {
+    "definitions": [
+      "Dibujo que muestra cómo es un lugar, país o el mundo."
+    ],
+    "example": "Busqué mi ciudad en el mapa."
+  },
+  "isla": {
+    "definitions": [
+      "Tierra rodeada de agua por todos lados."
+    ],
+    "example": "Llegamos a una isla con palmeras."
+  },
+  "tesoro": {
+    "definitions": [
+      "Conjunto de cosas valiosas guardadas o escondidas, como oro y joyas."
+    ],
+    "example": "El pirata escondió su tesoro en la isla."
+  },
+  "brújula": {
+    "definitions": [
+      "Instrumento con una aguja que siempre señala el norte y ayuda a no perderse."
+    ],
+    "example": "Con la brújula encontramos el camino."
+  },
+  "luz": {
+    "definitions": [
+      "Claridad que permite ver las cosas, como la del sol o una lámpara."
+    ],
+    "example": "La luz del sol entra por la ventana."
+  },
+  "camino": {
+    "definitions": [
+      "Franja de tierra por donde se puede caminar o viajar de un lugar a otro."
+    ],
+    "example": "Este camino lleva al pueblo."
+  },
+  "brillar": {
+    "definitions": [
+      "Dar mucha luz, como el sol o una estrella."
+    ],
+    "example": "Las estrellas brillan en la noche."
+  },
+  "grande": {
+    "definitions": [
+      "Que tiene mucho tamaño, lo contrario de pequeño."
+    ],
+    "example": "El elefante es un animal muy grande."
+  },
+  "amarillo": {
+    "definitions": [
+      "Color como el del sol o los plátanos."
+    ],
+    "example": "El pollito es amarillo."
+  },
+  "blanco": {
+    "definitions": [
+      "Color como el de la nieve o la leche."
+    ],
+    "example": "El conejo blanco salta en el pasto."
+  },
+  "redondo": {
+    "definitions": [
+      "Que tiene forma de círculo o de pelota."
+    ],
+    "example": "El balón es redondo."
+  },
+  "cuidar": {
+    "definitions": [
+      "Atender y proteger a alguien o algo para que esté bien."
+    ],
+    "example": "Yo cuido a mi perrito todos los días."
+  },
+  "tener": {
+    "definitions": [
+      "Poseer algo o contar con ello."
+    ],
+    "example": "Tengo dos lápices nuevos."
+  },
+  "llamar": {
+    "definitions": [
+      "Decir el nombre de alguien para que venga.",
+      "Tener un nombre: así se llama."
+    ],
+    "example": "Mi gata se llama Luna."
+  },
+  "café": {
+    "definitions": [
+      "Color marrón, como el de la tierra o el chocolate.",
+      "Bebida caliente hecha con granos tostados."
+    ],
+    "example": "Mi perro tiene el pelo café."
+  },
+  "mancha": {
+    "definitions": [
+      "Marca de color diferente sobre algo, como una mancha de pintura."
+    ],
+    "example": "Mi perro tiene una mancha blanca en la pata."
+  },
+  "gustar": {
+    "definitions": [
+      "Sentir agrado por algo o alguien."
+    ],
+    "example": "Me gusta jugar en el parque."
+  },
+  "correr": {
+    "definitions": [
+      "Moverse muy rápido con las piernas."
+    ],
+    "example": "Me gusta correr en el patio."
+  },
+  "jugar": {
+    "definitions": [
+      "Divertirse haciendo algo, solo o con amigos."
+    ],
+    "example": "Vamos a jugar a la pelota."
+  },
+  "dar": {
+    "definitions": [
+      "Entregar algo a alguien."
+    ],
+    "example": "Le voy a dar un regalo a mi mamá."
+  },
+  "comer": {
+    "definitions": [
+      "Llevarse alimento a la boca para alimentarse."
+    ],
+    "example": "Me gusta comer fruta en la mañana."
+  },
+  "fresco": {
+    "definitions": [
+      "Un poco frío, agradable.",
+      "Recién hecho o recién cortado."
+    ],
+    "example": "El aire fresco de la mañana me despierta."
+  },
+  "feliz": {
+    "definitions": [
+      "Que siente alegría y está contento."
+    ],
+    "example": "Estoy feliz porque vamos al parque."
+  },
+  "caminar": {
+    "definitions": [
+      "Moverse dando pasos."
+    ],
+    "example": "Me gusta caminar con mi abuela."
+  },
+  "buscar": {
+    "definitions": [
+      "Tratar de encontrar algo o a alguien."
+    ],
+    "example": "Voy a buscar mis zapatos."
+  },
+  "comida": {
+    "definitions": [
+      "Todo lo que comemos para alimentarnos."
+    ],
+    "example": "La comida estaba deliciosa."
+  },
+  "encontrar": {
+    "definitions": [
+      "Hallar algo que se buscaba o que estaba perdido."
+    ],
+    "example": "Logré encontrar mi juguete debajo de la cama."
+  },
+  "cargar": {
+    "definitions": [
+      "Llevar algo encima, sosteniendo su peso."
+    ],
+    "example": "Ayudé a cargar las bolsas del mercado."
+  },
+  "casa": {
+    "definitions": [
+      "Lugar donde vive una persona o familia."
+    ],
+    "example": "Mi casa tiene una puerta roja."
+  },
+  "pesado": {
+    "definitions": [
+      "Que pesa mucho y cuesta trabajo levantarlo."
+    ],
+    "example": "El costal de papas está muy pesado."
+  },
+  "rendir": {
+    "definitions": [
+      "Cansarse y dejar de intentar (rendirse).",
+      "Dar buen resultado o durar mucho."
+    ],
+    "example": "La hormiga no se quiere rendir."
+  },
+  "llegar": {
+    "definitions": [
+      "Alcanzar el lugar al que se iba."
+    ],
+    "example": "Vamos a llegar temprano a la escuela."
+  },
+  "amigo": {
+    "definitions": [
+      "Persona que quieres y con la que te diviertes."
+    ],
+    "example": "Mi mejor amigo juega conmigo."
+  },
+  "ayudar": {
+    "definitions": [
+      "Hacer algo para que otra persona logre lo que necesita."
+    ],
+    "example": "Me gusta ayudar a mi mamá en la cocina."
+  },
+  "guardar": {
+    "definitions": [
+      "Poner algo en un lugar seguro para usarlo después."
+    ],
+    "example": "Voy a guardar mis juguetes en la caja."
+  },
+  "junto": {
+    "definitions": [
+      "Cerca o al lado de algo o alguien; en compañía."
+    ],
+    "example": "Trabajamos juntos en el proyecto."
+  },
+  "florecer": {
+    "definitions": [
+      "Cuando una planta abre sus flores."
+    ],
+    "example": "En primavera los árboles empiezan a florecer."
+  },
+  "llover": {
+    "definitions": [
+      "Caer agua del cielo en gotas."
+    ],
+    "example": "Empezó a llover y abrimos el paraguas."
+  },
+  "calentar": {
+    "definitions": [
+      "Hacer que algo suba de temperatura."
+    ],
+    "example": "El sol calienta la arena de la playa."
+  },
+  "largo": {
+    "definitions": [
+      "Que mide mucho de un extremo a otro.",
+      "Que dura mucho tiempo."
+    ],
+    "example": "La jirafa tiene un cuello muy largo."
+  },
+  "cambiar": {
+    "definitions": [
+      "Volverse diferente o poner una cosa en lugar de otra."
+    ],
+    "example": "Las hojas cambian de color en otoño."
+  },
+  "color": {
+    "definitions": [
+      "Lo que vemos como rojo, azul, verde y más."
+    ],
+    "example": "Mi color favorito es el azul."
+  },
+  "caer": {
+    "definitions": [
+      "Ir hacia abajo por su propio peso."
+    ],
+    "example": "Las hojas caen de los árboles."
+  },
+  "nevar": {
+    "definitions": [
+      "Caer nieve del cielo."
+    ],
+    "example": "En invierno puede nevar en la montaña."
+  },
+  "especial": {
+    "definitions": [
+      "Diferente de lo común; único o muy importante."
+    ],
+    "example": "Hoy es un día especial: ¡es mi cumpleaños!"
+  },
+  "levantar": {
+    "definitions": [
+      "Mover algo hacia arriba.",
+      "Salir de la cama (levantarse)."
+    ],
+    "example": "Me levanto temprano para ir a la escuela."
+  },
+  "temprano": {
+    "definitions": [
+      "En las primeras horas del día o antes de lo esperado."
+    ],
+    "example": "El panadero se despierta muy temprano."
+  },
+  "mañana": {
+    "definitions": [
+      "Primera parte del día, antes del mediodía.",
+      "El día que viene después de hoy."
+    ],
+    "example": "Por la mañana desayuno con mi familia."
+  },
+  "encender": {
+    "definitions": [
+      "Hacer que algo dé luz, calor o empiece a funcionar."
+    ],
+    "example": "Voy a encender la lámpara del cuarto."
+  },
+  "preparar": {
+    "definitions": [
+      "Hacer lo necesario para que algo esté listo."
+    ],
+    "example": "Vamos a preparar la cena entre todos."
+  },
+  "amasar": {
+    "definitions": [
+      "Mezclar y apretar la masa con las manos, como para hacer pan."
+    ],
+    "example": "El panadero amasa la harina con agua."
+  },
+  "forma": {
+    "definitions": [
+      "Figura o aspecto exterior de algo.",
+      "Manera de hacer una cosa."
+    ],
+    "example": "Esa nube tiene forma de corazón."
+  },
+  "hornear": {
+    "definitions": [
+      "Cocinar algo dentro del horno."
+    ],
+    "example": "Vamos a hornear galletas de chocolate."
+  },
+  "bolillo": {
+    "definitions": [
+      "Pan blanco, pequeño y alargado, muy común en México."
+    ],
+    "example": "Compré un bolillo calientito en la panadería."
+  },
+  "listo": {
+    "definitions": [
+      "Preparado para algo.",
+      "Que entiende rápido; inteligente."
+    ],
+    "example": "El pastel ya está listo para comer."
+  },
+  "olor": {
+    "definitions": [
+      "Lo que percibimos con la nariz, como el aroma del pan."
+    ],
+    "example": "El olor a pan recién hecho es delicioso."
+  },
+  "rico": {
+    "definitions": [
+      "Que sabe muy bien; sabroso.",
+      "Que tiene mucho dinero o mucho de algo."
+    ],
+    "example": "El jugo de naranja está muy rico."
+  },
+  "llenar": {
+    "definitions": [
+      "Poner algo hasta que no quepa más."
+    ],
+    "example": "Voy a llenar mi vaso con agua."
+  },
+  "valioso": {
+    "definitions": [
+      "Que vale mucho o es muy importante."
+    ],
+    "example": "El agua es un recurso muy valioso."
+  },
+  "existir": {
+    "definitions": [
+      "Ser real; estar en el mundo."
+    ],
+    "example": "Los dinosaurios ya no existen."
+  },
+  "vida": {
+    "definitions": [
+      "Lo que tienen los seres que nacen, crecen y respiran."
+    ],
+    "example": "Las plantas y los animales tienen vida."
+  },
+  "mayor": {
+    "definitions": [
+      "Más grande en tamaño, cantidad o edad."
+    ],
+    "example": "Mi hermana mayor me ayuda con la tarea."
+  },
+  "parte": {
+    "definitions": [
+      "Pedazo o porción de algo más grande."
+    ],
+    "example": "Me tocó una parte del pastel."
+  },
+  "salado": {
+    "definitions": [
+      "Que tiene sal o sabe a sal."
+    ],
+    "example": "El agua del mar es salada."
+  },
+  "dulce": {
+    "definitions": [
+      "Que sabe a azúcar, como la miel.",
+      "Golosina o caramelo."
+    ],
+    "example": "La sandía es dulce y fresca."
+  },
+  "pequeño": {
+    "definitions": [
+      "Que tiene poco tamaño, lo contrario de grande."
+    ],
+    "example": "El ratón es un animal pequeño."
+  },
+  "beber": {
+    "definitions": [
+      "Tomar un líquido, como agua o jugo."
+    ],
+    "example": "Es importante beber agua todos los días."
+  },
+  "importante": {
+    "definitions": [
+      "Que vale mucho o que se debe tomar en cuenta."
+    ],
+    "example": "Dormir bien es muy importante."
+  },
+  "cerrar": {
+    "definitions": [
+      "Hacer que algo deje de estar abierto."
+    ],
+    "example": "No olvides cerrar la llave del agua."
+  },
+  "llave": {
+    "definitions": [
+      "Pieza de metal que abre o cierra una cerradura.",
+      "Grifo por donde sale el agua."
+    ],
+    "example": "Cierro la llave mientras me lavo los dientes."
+  },
+  "usar": {
+    "definitions": [
+      "Servirse de algo para hacer una cosa."
+    ],
+    "example": "Voy a usar mis crayones para dibujar."
+  },
+  "evitar": {
+    "definitions": [
+      "Hacer algo para que una cosa mala no pase."
+    ],
+    "example": "Debemos evitar tirar basura en la calle."
+  },
+  "tropical": {
+    "definitions": [
+      "De los lugares calientes y húmedos cerca del ecuador."
+    ],
+    "example": "El mango es una fruta tropical."
+  },
+  "vivir": {
+    "definitions": [
+      "Tener vida.",
+      "Habitar en un lugar."
+    ],
+    "example": "Los peces viven en el agua."
+  },
+  "millón": {
+    "definitions": [
+      "Número muy grande: mil veces mil (1 000 000)."
+    ],
+    "example": "En el mar hay millones de peces."
+  },
+  "animal": {
+    "definitions": [
+      "Ser vivo que siente y se mueve, como los perros, aves y peces."
+    ],
+    "example": "Mi animal favorito es el delfín."
+  },
+  "alto": {
+    "definitions": [
+      "Que mide mucho de abajo hacia arriba."
+    ],
+    "example": "Ese edificio es muy alto."
+  },
+  "formar": {
+    "definitions": [
+      "Hacer o crear algo juntando partes."
+    ],
+    "example": "Las gotas de agua forman las nubes."
+  },
+  "techo": {
+    "definitions": [
+      "Parte de arriba de una casa o edificio que la cubre."
+    ],
+    "example": "La lluvia suena sobre el techo."
+  },
+  "verde": {
+    "definitions": [
+      "Color como el del pasto y las hojas."
+    ],
+    "example": "El pasto del jardín es verde."
+  },
+  "proteger": {
+    "definitions": [
+      "Cuidar algo o a alguien para que no le pase nada malo."
+    ],
+    "example": "El casco protege mi cabeza."
+  },
+  "directo": {
+    "definitions": [
+      "Que va de un punto a otro sin desviarse ni detenerse."
+    ],
+    "example": "El sol llega directo a la ventana."
+  },
+  "producir": {
+    "definitions": [
+      "Hacer o crear algo."
+    ],
+    "example": "Las plantas producen oxígeno."
+  },
+  "regular": {
+    "definitions": [
+      "Controlar algo para que funcione bien.",
+      "Ni muy bueno ni muy malo; mediano."
+    ],
+    "example": "El cerebro regula la temperatura del cuerpo."
+  },
+  "complejo": {
+    "definitions": [
+      "Que tiene muchas partes y es difícil de entender."
+    ],
+    "example": "El cerebro es un órgano muy complejo."
+  },
+  "cuerpo": {
+    "definitions": [
+      "Todo lo físico de una persona o animal: cabeza, tronco y extremidades."
+    ],
+    "example": "Hacer ejercicio es bueno para el cuerpo."
+  },
+  "pesar": {
+    "definitions": [
+      "Tener cierto peso.",
+      "Medir cuánto pesa algo."
+    ],
+    "example": "El cerebro pesa más o menos un kilo."
+  },
+  "aproximadamente": {
+    "definitions": [
+      "Más o menos; cerca de esa cantidad, sin ser exacta."
+    ],
+    "example": "La clase dura aproximadamente una hora."
+  },
+  "kilogramo": {
+    "definitions": [
+      "Medida de peso; mil gramos. También se dice kilo."
+    ],
+    "example": "Compramos un kilogramo de manzanas."
+  },
+  "nuez": {
+    "definitions": [
+      "Fruto seco con cáscara dura y forma arrugada."
+    ],
+    "example": "La nuez parece un cerebro chiquito."
+  },
+  "mil": {
+    "definitions": [
+      "Número que es diez veces cien (1000)."
+    ],
+    "example": "En el estadio había mil personas."
+  },
+  "comunicar": {
+    "definitions": [
+      "Compartir información o mensajes con otros."
+    ],
+    "example": "Las neuronas se comunican entre sí."
+  },
+  "mediante": {
+    "definitions": [
+      "Por medio de algo; usando algo."
+    ],
+    "example": "Hablamos mediante el teléfono."
+  },
+  "eléctrico": {
+    "definitions": [
+      "Que funciona con electricidad o la produce."
+    ],
+    "example": "El coche eléctrico no usa gasolina."
+  },
+  "químico": {
+    "definitions": [
+      "Relacionado con las sustancias y cómo se combinan."
+    ],
+    "example": "El cuerpo manda mensajes químicos."
+  },
+  "controlar": {
+    "definitions": [
+      "Dirigir o manejar cómo funciona algo."
+    ],
+    "example": "El cerebro controla todo el cuerpo."
+  },
+  "movimiento": {
+    "definitions": [
+      "Cambio de lugar o de posición."
+    ],
+    "example": "El movimiento de las olas me da sueño."
+  },
+  "dormir": {
+    "definitions": [
+      "Descansar con los ojos cerrados, sin darse cuenta de lo que pasa."
+    ],
+    "example": "Me gusta dormir ocho horas cada noche."
+  },
+  "seguir": {
+    "definitions": [
+      "Continuar haciendo algo.",
+      "Ir detrás de alguien o algo."
+    ],
+    "example": "El cerebro sigue trabajando mientras dormimos."
+  },
+  "trabajar": {
+    "definitions": [
+      "Hacer una actividad o esfuerzo para lograr algo."
+    ],
+    "example": "Mi papá trabaja en una oficina."
+  },
+  "procesar": {
+    "definitions": [
+      "Trabajar con información o materiales para transformarlos."
+    ],
+    "example": "La computadora procesa los datos muy rápido."
+  },
+  "aprender": {
+    "definitions": [
+      "Conocer algo nuevo o saber hacer algo que antes no sabías."
+    ],
+    "example": "Hoy aprendí a sumar fracciones."
+  },
+  "periodo": {
+    "definitions": [
+      "Espacio de tiempo con un inicio y un final."
+    ],
+    "example": "Las vacaciones son un periodo de descanso."
+  },
+  "transformación": {
+    "definitions": [
+      "Cambio grande en la forma o manera de ser de algo."
+    ],
+    "example": "La oruga vive una transformación y se vuelve mariposa."
+  },
+  "económico": {
+    "definitions": [
+      "Relacionado con el dinero, el trabajo y el comercio.",
+      "Que cuesta poco dinero; barato."
+    ],
+    "example": "El país tuvo un gran cambio económico."
+  },
+  "social": {
+    "definitions": [
+      "Relacionado con las personas y cómo viven juntas."
+    ],
+    "example": "Hubo cambios sociales en la ciudad."
+  },
+  "comenzar": {
+    "definitions": [
+      "Empezar algo; dar el primer paso."
+    ],
+    "example": "La clase va a comenzar a las ocho."
+  },
+  "final": {
+    "definitions": [
+      "Última parte de algo; donde termina."
+    ],
+    "example": "El final del cuento me sorprendió."
+  },
+  "siglo": {
+    "definitions": [
+      "Periodo de cien años."
+    ],
+    "example": "Un siglo tiene cien años."
+  },
+  "invención": {
+    "definitions": [
+      "Cosa nueva creada por una persona; un invento."
+    ],
+    "example": "La invención de la rueda cambió el mundo."
+  },
+  "permitir": {
+    "definitions": [
+      "Dejar que algo se haga o suceda."
+    ],
+    "example": "Mis papás me permiten jugar después de la tarea."
+  },
+  "mecanizar": {
+    "definitions": [
+      "Usar máquinas para hacer trabajos que antes se hacían a mano."
+    ],
+    "example": "Al mecanizar la fábrica, las máquinas hacen el trabajo pesado."
+  },
+  "proceso": {
+    "definitions": [
+      "Serie de pasos para hacer o lograr algo."
+    ],
+    "example": "Hacer pan es un proceso de varios pasos."
+  },
+  "mano": {
+    "definitions": [
+      "Parte del cuerpo al final del brazo, con cinco dedos."
+    ],
+    "example": "Levanté la mano para participar."
+  },
+  "aumentar": {
+    "definitions": [
+      "Hacer que algo sea más grande o haya más cantidad."
+    ],
+    "example": "Las máquinas aumentaron la producción de telas."
+  },
+  "enormemente": {
+    "definitions": [
+      "Muchísimo; en gran cantidad."
+    ],
+    "example": "La ciudad creció enormemente en pocos años."
+  },
+  "producción": {
+    "definitions": [
+      "Cantidad de cosas que se hacen o fabrican."
+    ],
+    "example": "La producción de pan subió esta semana."
+  },
+  "bien": {
+    "definitions": [
+      "De manera correcta o buena.",
+      "Cosa que se produce o se posee (los bienes)."
+    ],
+    "example": "Hice muy bien mi tarea."
+  },
+  "reemplazar": {
+    "definitions": [
+      "Poner una cosa o persona en el lugar de otra."
+    ],
+    "example": "Las máquinas pueden reemplazar trabajos pesados."
+  },
+  "persona": {
+    "definitions": [
+      "Ser humano: hombre, mujer, niño o niña."
+    ],
+    "example": "Cada persona tiene un nombre."
+  },
+  "ciudad": {
+    "definitions": [
+      "Lugar grande donde viven muchas personas, con calles y edificios."
+    ],
+    "example": "La ciudad tiene parques y museos."
+  },
+  "trabajo": {
+    "definitions": [
+      "Actividad que hace una persona para ganar dinero o lograr algo.",
+      "Esfuerzo que cuesta hacer una cosa."
+    ],
+    "example": "Mi mamá sale temprano a su trabajo."
+  },
+  "cambio": {
+    "definitions": [
+      "Cuando algo se vuelve diferente.",
+      "Dinero que devuelven al pagar."
+    ],
+    "example": "El cambio de clima trajo lluvia."
+  },
+  "traer": {
+    "definitions": [
+      "Llevar algo hacia donde está uno."
+    ],
+    "example": "Voy a traer mi cuaderno a clase."
+  },
+  "avance": {
+    "definitions": [
+      "Mejora o progreso hacia algo mejor."
+    ],
+    "example": "El internet fue un gran avance."
+  },
+  "tecnológico": {
+    "definitions": [
+      "Relacionado con la tecnología y los inventos."
+    ],
+    "example": "El teléfono es un aparato tecnológico."
+  },
+  "problema": {
+    "definitions": [
+      "Situación difícil que hay que resolver."
+    ],
+    "example": "Resolvimos el problema de matemáticas."
+  },
+  "laboral": {
+    "definitions": [
+      "Relacionado con el trabajo."
+    ],
+    "example": "Mi tía empieza su jornada laboral a las nueve."
+  },
+  "infantil": {
+    "definitions": [
+      "De los niños o para los niños."
+    ],
+    "example": "Vimos una película infantil muy divertida."
+  },
+  "efecto": {
+    "definitions": [
+      "Lo que pasa como resultado de algo."
+    ],
+    "example": "La lluvia tuvo un efecto bueno en las plantas."
+  },
+  "moldear": {
+    "definitions": [
+      "Dar forma a algo, como a la plastilina."
+    ],
+    "example": "Me gusta moldear figuras con barro."
+  },
+  "mundo": {
+    "definitions": [
+      "La Tierra y todo lo que hay en ella."
+    ],
+    "example": "Quiero conocer el mundo cuando sea grande."
+  },
+  "moderno": {
+    "definitions": [
+      "De la época actual; nuevo."
+    ],
+    "example": "Ese edificio moderno tiene paredes de vidrio."
+  },
+  "conocer": {
+    "definitions": [
+      "Saber cómo es algo o alguien."
+    ],
+    "example": "Quiero conocer a tu nuevo amigo."
+  },
+  "hoy": {
+    "definitions": [
+      "El día en que estamos."
+    ],
+    "example": "Hoy es un día soleado."
+  },
+  "rama": {
+    "definitions": [
+      "Parte del árbol que sale del tronco y tiene hojas.",
+      "Parte de una ciencia o actividad."
+    ],
+    "example": "El pájaro se posó en una rama."
+  },
+  "crear": {
+    "definitions": [
+      "Hacer algo nuevo que antes no existía."
+    ],
+    "example": "Me gusta crear historias con mis dibujos."
+  },
+  "sistema": {
+    "definitions": [
+      "Conjunto de partes que trabajan juntas para algo."
+    ],
+    "example": "El sistema solar tiene ocho planetas."
+  },
+  "capaz": {
+    "definitions": [
+      "Que puede hacer algo."
+    ],
+    "example": "Soy capaz de nadar muy rápido."
+  },
+  "realizar": {
+    "definitions": [
+      "Hacer o llevar a cabo algo."
+    ],
+    "example": "Vamos a realizar un experimento en clase."
+  },
+  "tarea": {
+    "definitions": [
+      "Trabajo que se debe hacer, como los deberes de la escuela."
+    ],
+    "example": "Terminé mi tarea antes de jugar."
+  },
+  "normalmente": {
+    "definitions": [
+      "Casi siempre; lo que pasa la mayoría de las veces."
+    ],
+    "example": "Normalmente desayuno cereal con leche."
+  },
+  "requerir": {
+    "definitions": [
+      "Necesitar algo."
+    ],
+    "example": "Esta receta requiere dos huevos."
+  },
+  "humano": {
+    "definitions": [
+      "Relacionado con las personas.",
+      "Persona, ser humano."
+    ],
+    "example": "El cuerpo humano es asombroso."
+  },
+  "reconocer": {
+    "definitions": [
+      "Darse cuenta de qué o quién es algo que ya se conocía."
+    ],
+    "example": "Puedo reconocer la voz de mi mamá."
+  },
+  "imagen": {
+    "definitions": [
+      "Figura o foto que representa algo."
+    ],
+    "example": "La imagen del libro muestra un castillo."
+  },
+  "entender": {
+    "definitions": [
+      "Comprender lo que algo significa."
+    ],
+    "example": "Ahora sí entiendo la lección."
+  },
+  "lenguaje": {
+    "definitions": [
+      "Manera en que las personas se comunican con palabras."
+    ],
+    "example": "El lenguaje nos ayuda a contar lo que sentimos."
+  },
+  "natural": {
+    "definitions": [
+      "Que viene de la naturaleza, no hecho por personas."
+    ],
+    "example": "El jugo natural de naranja es delicioso."
+  },
+  "tomar": {
+    "definitions": [
+      "Agarrar algo con la mano.",
+      "Beber algo.",
+      "Elegir o decidir algo, como tomar una decisión."
+    ],
+    "example": "Voy a tomar agua después de correr."
+  },
+  "decisión": {
+    "definitions": [
+      "Elección que se hace después de pensar."
+    ],
+    "example": "Tomé la decisión de leer todos los días."
+  },
+  "cantidad": {
+    "definitions": [
+      "Cuánto hay de algo."
+    ],
+    "example": "Había una gran cantidad de globos en la fiesta."
+  },
+  "aprendizaje": {
+    "definitions": [
+      "Proceso de aprender cosas nuevas."
+    ],
+    "example": "El aprendizaje de la lectura toma tiempo."
+  },
+  "automático": {
+    "definitions": [
+      "Que funciona solo, sin que una persona lo haga."
+    ],
+    "example": "La puerta automática se abre sola."
+  },
+  "presente": {
+    "definitions": [
+      "Que está aquí o sucede ahora.",
+      "Regalo que se da a alguien."
+    ],
+    "example": "La tecnología está presente en nuestra vida."
+  },
+  "aspecto": {
+    "definitions": [
+      "Cómo se ve algo.",
+      "Parte o lado de un tema."
+    ],
+    "example": "El parque tiene un aspecto muy bonito hoy."
+  },
+  "cotidiano": {
+    "definitions": [
+      "Que pasa todos los días."
+    ],
+    "example": "Desayunar es parte de mi rutina cotidiana."
+  },
+  "voz": {
+    "definitions": [
+      "Sonido que sale de la boca al hablar o cantar."
+    ],
+    "example": "Mi maestra tiene una voz muy suave."
+  },
+  "recomendación": {
+    "definitions": [
+      "Consejo sobre algo que vale la pena."
+    ],
+    "example": "Seguí la recomendación de leer ese libro."
+  },
+  "plataforma": {
+    "definitions": [
+      "Lugar o programa donde se ofrecen servicios, como ver películas.",
+      "Superficie plana y elevada."
+    ],
+    "example": "Vimos la película en una plataforma de streaming."
+  },
+  "médico": {
+    "definitions": [
+      "Persona que cura a los enfermos; doctor.",
+      "Relacionado con la medicina."
+    ],
+    "example": "El médico me revisó la garganta."
+  },
+  "vehículo": {
+    "definitions": [
+      "Medio para transportar personas o cosas, como coches y camiones."
+    ],
+    "example": "El autobús es un vehículo muy grande."
+  },
+  "medida": {
+    "definitions": [
+      "Cuánto mide algo.",
+      "Acción que se toma para lograr algo: a medida que pasa el tiempo."
+    ],
+    "example": "Tomamos la medida de la mesa con una cinta."
+  },
+  "avanzar": {
+    "definitions": [
+      "Ir hacia adelante o mejorar."
+    ],
+    "example": "La tecnología avanza muy rápido."
+  },
+  "surgir": {
+    "definitions": [
+      "Aparecer o empezar a existir."
+    ],
+    "example": "Surgió una idea nueva en el equipo."
+  },
+  "pregunta": {
+    "definitions": [
+      "Lo que se dice para saber algo y espera una respuesta."
+    ],
+    "example": "Hice una pregunta a mi maestra."
+  },
+  "empleo": {
+    "definitions": [
+      "Trabajo que hace una persona a cambio de dinero."
+    ],
+    "example": "Mi tío encontró un nuevo empleo."
+  },
+  "impacto": {
+    "definitions": [
+      "Efecto fuerte que algo produce.",
+      "Golpe de una cosa contra otra."
+    ],
+    "example": "El internet tuvo un gran impacto en el mundo."
+  },
+  "sociedad": {
+    "definitions": [
+      "Conjunto de personas que viven juntas con reglas comunes."
+    ],
+    "example": "Todos formamos parte de la sociedad."
+  }
+}

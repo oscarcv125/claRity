@@ -2,6 +2,12 @@ import SwiftUI
 import NaturalLanguage
 import SwiftData
 
+/// Palabra seleccionada con doble toque para la tarjeta de sílabas.
+private struct BreakdownTarget: Identifiable {
+    let id = UUID()
+    let word: String
+}
+
 struct ReaderView: View {
     let item: LibraryItem
 
@@ -10,15 +16,17 @@ struct ReaderView: View {
     @State private var tts = TTSEngine()
     @State private var ai = AIEngine()
 
-    // Text display
-    @State private var isShowingSimplified = false
-    @State private var simplifiedText: String? = nil
-    @State private var isSimplifying = false
+    // Idioma del documento (detectado al abrir, ajustable en la barra)
+    @State private var language: ReadingLanguage = .spanish
+
+    // Tarjeta de sílabas (doble toque sobre una palabra)
+    @State private var breakdownTarget: BreakdownTarget? = nil
 
     // Word definition overlay
     @State private var tappedWord: String? = nil
     @State private var wordDefinition: WordDefinition? = nil
     @State private var isDefining = false
+    @State private var defineTask: Task<Void, Never>? = nil
 
     // Comprehension sheet
     @State private var showComprehension = false
@@ -28,26 +36,12 @@ struct ReaderView: View {
     // Settings sheet
     @State private var showSettings = false
 
-    private var displayText: String {
-        isShowingSimplified ? (simplifiedText ?? item.body) : item.body
-    }
-
     var body: some View {
         @Bindable var prefs = prefs
 
         ZStack(alignment: .bottom) {
-            // Background with subtle gradient depth
-            ZStack {
-                prefs.backgroundColor.color
-                    .ignoresSafeArea()
-                LinearGradient(
-                    colors: [.black.opacity(0.06), .clear, .clear, .black.opacity(0.04)],
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
+            prefs.backgroundColor.color
                 .ignoresSafeArea()
-                .allowsHitTesting(false)
-            }
 
             scrollContent
 
@@ -80,7 +74,7 @@ struct ReaderView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItemGroup(placement: .topBarTrailing) {
-                simplifyButton
+                languageMenu
                 settingsButton
             }
         }
@@ -90,21 +84,37 @@ struct ReaderView: View {
         .sheet(isPresented: $showComprehension) {
             ComprehensionView(
                 questions: comprehensionQuestions,
-                text: displayText,
+                text: item.body,
+                language: language,
                 ai: ai
             )
         }
+        .sheet(item: $breakdownTarget) { target in
+            SyllableBreakdownCard(
+                word: target.word,
+                language: language,
+                tts: tts,
+                ai: ai
+            )
+            .presentationDetents([.medium])
+            .presentationDragIndicator(.visible)
+        }
         .onAppear {
+            language = ReadingLanguage.detect(from: item.body)
             prepareSession(text: item.body)
             LibraryStore.shared.markRead(item)
+            ai.prewarm()
         }
         .onDisappear {
+            defineTask?.cancel()
             tts.stop()
         }
-        .onChange(of: isShowingSimplified) { _, showSimplified in
-            let text = showSimplified ? (simplifiedText ?? item.body) : item.body
+        .onChange(of: language) { _, _ in
             tts.stop()
-            prepareSession(text: text)
+            prepareSession(text: item.body)
+        }
+        .onChange(of: prefs.readingSpeed) { _, newSpeed in
+            tts.setSpeed(newSpeed)
         }
     }
 
@@ -113,10 +123,18 @@ struct ReaderView: View {
     private var scrollContent: some View {
         ScrollView {
             SyllableTextView(
-                text: displayText,
+                text: item.body,
                 highlightRange: tts.highlightRange,
                 prefs: prefs,
-                onWordTap: handleWordTap
+                onWordTap: handleWordTap,
+                dimInactive: tts.isPlaying,
+                onWordLongPress: { word in
+                    tts.pronounceSlowly(word: word)
+                },
+                onWordDoubleTap: { word in
+                    tts.stop()
+                    breakdownTarget = BreakdownTarget(word: word)
+                }
             )
             .padding(.horizontal, 20)
             .padding(.top, 16)
@@ -126,26 +144,35 @@ struct ReaderView: View {
 
     // MARK: - Toolbar items
 
-    @ViewBuilder
-    private var simplifyButton: some View {
-        if isSimplifying {
-            ProgressView()
-                .scaleEffect(0.75)
-                .tint(Color(hex: "#7C3AED"))
-        } else {
-            Button {
-                if isShowingSimplified {
-                    withAnimation(.spring(duration: 0.35)) { isShowingSimplified = false }
-                } else {
-                    Task { await simplifyText() }
+    private var languageMenu: some View {
+        Menu {
+            ForEach(ReadingLanguage.allCases) { lang in
+                Button {
+                    guard lang != language else { return }
+                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                    language = lang
+                } label: {
+                    if lang == language {
+                        Label(lang.displayName, systemImage: "checkmark")
+                    } else {
+                        Text(lang.displayName)
+                    }
                 }
-            } label: {
-                Image(systemName: isShowingSimplified ? "arrow.uturn.left" : "sparkles")
-                    .frame(width: 36, height: 36)
             }
-            .glassEffect(.regular.interactive(), in: Circle())
-            .accessibilityLabel(isShowingSimplified ? "Ver texto original" : "Simplificar texto con IA")
+        } label: {
+            HStack(spacing: 3) {
+                Image(systemName: "globe")
+                    .font(.system(size: 13, weight: .semibold))
+                Text(language.shortCode)
+                    .font(.caption.weight(.bold))
+            }
+            .foregroundStyle(Color.clarityTeal)
+            .frame(height: 36)
+            .padding(.horizontal, 10)
         }
+        .glassEffect(.regular.interactive(), in: Capsule())
+        .accessibilityLabel("Idioma de lectura: \(language.displayName)")
+        .accessibilityHint("Cambia el idioma de la voz y las definiciones")
     }
 
     private var settingsButton: some View {
@@ -162,14 +189,14 @@ struct ReaderView: View {
     private var generatingOverlay: some View {
         VStack(spacing: 12) {
             ProgressView()
-                .tint(Color(hex: "#7C3AED"))
+                .tint(.clarityTeal)
             Text("Generando preguntas…")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
         }
         .padding(24)
         .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
-        .shadow(color: Color(hex: "#7C3AED").opacity(0.15), radius: 16)
+        .shadow(color: Color.clarityTeal.opacity(0.15), radius: 16)
         .transition(.opacity.combined(with: .scale(scale: 0.9)))
     }
 
@@ -178,7 +205,7 @@ struct ReaderView: View {
     private func prepareSession(text: String) {
         let tokenizer = NLTokenizer(unit: .word)
         tokenizer.string = text
-        tokenizer.setLanguage(.spanish)
+        tokenizer.setLanguage(language.nlLanguage)
 
         var ranges: [Range<String.Index>] = []
         tokenizer.enumerateTokens(in: text.startIndex..<text.endIndex) { range, _ in
@@ -186,8 +213,8 @@ struct ReaderView: View {
             return true
         }
 
-        let syls = ranges.map { SpanishSyllabifier.syllabify(String(text[$0])) }
-        tts.load(text: text, wordRanges: ranges, syllables: syls)
+        let syls = ranges.map { language.syllabify(String(text[$0])) }
+        tts.load(text: text, wordRanges: ranges, syllables: syls, language: language)
     }
 
     // MARK: - Actions
@@ -203,14 +230,23 @@ struct ReaderView: View {
     }
 
     private func handleWordTap(_ word: String, _ context: String) {
+        // Cancela cualquier definición en curso para evitar que resultados
+        // viejos reemplacen al más reciente (parpadeo de definiciones).
+        defineTask?.cancel()
         tappedWord = word
         wordDefinition = nil
         isDefining = true
-        Task {
+        defineTask = Task {
+            var result: WordDefinition
             do {
-                wordDefinition = try await ai.define(word: word, context: context)
+                result = try await ai.define(
+                    word: word,
+                    context: context,
+                    language: language,
+                    englishMode: prefs.englishDefinitionMode
+                )
             } catch {
-                wordDefinition = WordDefinition(
+                result = WordDefinition(
                     word: word,
                     senses: [
                         .init(text: "No se pudo obtener la definición en este dispositivo.", isCurrent: true)
@@ -218,29 +254,19 @@ struct ReaderView: View {
                     example: nil
                 )
             }
+            // Descarta resultados obsoletos: solo aplica si esta sigue siendo
+            // la palabra seleccionada y la tarea no fue cancelada.
+            guard !Task.isCancelled, tappedWord == word else { return }
+            wordDefinition = result
             isDefining = false
         }
     }
 
     private func dismissDefinition() {
+        defineTask?.cancel()
         withAnimation(.spring(duration: 0.35)) {
             tappedWord = nil
         }
-    }
-
-    private func simplifyText() async {
-        guard simplifiedText == nil else {
-            withAnimation(.spring(duration: 0.35)) { isShowingSimplified = true }
-            return
-        }
-        isSimplifying = true
-        do {
-            simplifiedText = try await ai.simplify(text: item.body)
-        } catch {
-            simplifiedText = "No se pudo simplificar el texto en este dispositivo."
-        }
-        isSimplifying = false
-        withAnimation(.spring(duration: 0.35)) { isShowingSimplified = true }
     }
 
     private func handleComplete() {
@@ -248,8 +274,11 @@ struct ReaderView: View {
         Task {
             withAnimation { isGeneratingQuestions = true }
             do {
-                let texts = try await ai.generateQuestions(for: displayText)
-                comprehensionQuestions = texts.map { ComprehensionQuestion(question: $0) }
+                comprehensionQuestions = try await ai.generateQuestions(
+                    for: item.body,
+                    language: language,
+                    englishMode: prefs.englishDefinitionMode
+                )
             } catch {
                 comprehensionQuestions = []
             }

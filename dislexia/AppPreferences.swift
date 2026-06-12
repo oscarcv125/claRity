@@ -23,6 +23,14 @@ final class AppPreferences {
     var useOpenDyslexic: Bool {
         didSet { UserDefaults.standard.set(useOpenDyslexic, forKey: UserPreferences.useOpenDyslexicKey) }
     }
+    /// Para documentos en inglés: traducir al español o practicar en inglés.
+    var englishDefinitionMode: EnglishDefinitionMode {
+        didSet { UserDefaults.standard.set(englishDefinitionMode.rawValue, forKey: UserPreferences.englishDefinitionModeKey) }
+    }
+    /// Leer con la Voz Personal del usuario (iOS Personal Voice).
+    var usePersonalVoice: Bool {
+        didSet { UserDefaults.standard.set(usePersonalVoice, forKey: UserPreferences.usePersonalVoiceKey) }
+    }
 
     var fontName: String {
         if useOpenDyslexic, UIFont(name: "OpenDyslexic", size: 17) != nil {
@@ -40,6 +48,9 @@ final class AppPreferences {
         useOpenDyslexic = ud.object(forKey: UserPreferences.useOpenDyslexicKey) as? Bool ?? UserPreferences.defaultUseOpenDyslexic
         let colorRaw  = ud.string(forKey: UserPreferences.backgroundColorKey) ?? ""
         backgroundColor = BackgroundOption(rawValue: colorRaw) ?? UserPreferences.defaultBackgroundColor
+        let modeRaw   = ud.string(forKey: UserPreferences.englishDefinitionModeKey) ?? ""
+        englishDefinitionMode = EnglishDefinitionMode(rawValue: modeRaw) ?? UserPreferences.defaultEnglishDefinitionMode
+        usePersonalVoice = ud.object(forKey: UserPreferences.usePersonalVoiceKey) as? Bool ?? UserPreferences.defaultUsePersonalVoice
     }
 }
 

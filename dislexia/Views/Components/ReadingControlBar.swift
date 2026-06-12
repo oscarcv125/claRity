@@ -17,6 +17,10 @@ struct ReadingControlBar: View {
         .padding(.vertical, 16)
         .padding(.horizontal, 20)
         .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 28, style: .continuous))
+        // Bloquea los toques para que no atraviesen la barra
+        // y seleccionen palabras del texto que está detrás.
+        .contentShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
+        .onTapGesture {}
         .padding(.horizontal, 12)
         .padding(.bottom, 8)
         .shadow(color: .black.opacity(0.12), radius: 20, y: -8)
@@ -31,7 +35,7 @@ struct ReadingControlBar: View {
                 .font(.caption)
                 .accessibilityHidden(true)
 
-            GradientSlider(value: $speed, range: 0.1...0.6, step: 0.05)
+            SpeedSlider(value: $speed, range: 0.1...0.6, step: 0.05)
                 .accessibilityLabel("Velocidad de lectura")
                 .accessibilityValue(speedLabel)
 
@@ -49,6 +53,7 @@ struct ReadingControlBar: View {
             Button(action: onStop) {
                 Image(systemName: "stop.fill")
                     .font(.title3)
+                    .foregroundStyle(Color.clarityBlue)
                     .frame(width: 48, height: 48)
             }
             .buttonStyle(.plain)
@@ -58,12 +63,14 @@ struct ReadingControlBar: View {
             Button(action: onPlayPause) {
                 Image(systemName: isPlaying ? "pause.fill" : "play.fill")
                     .font(.title2.weight(.semibold))
+                    .foregroundStyle(.white)
+                    .contentTransition(.symbolEffect(.replace))
                     .scaleEffect(isPlaying ? 1.05 : 1.0)
                     .animation(reduceMotion ? .none : .spring(response: 0.25, dampingFraction: 0.6), value: isPlaying)
                     .frame(width: 64, height: 64)
             }
             .buttonStyle(.plain)
-            .glassEffect(.regular.tint(.accentColor), in: Circle())
+            .glassEffect(.regular.tint(.clarityTeal).interactive(), in: Circle())
             .accessibilityLabel(isPlaying ? "Pausar lectura" : "Reproducir lectura")
 
             Button(action: onComplete) {
@@ -88,9 +95,9 @@ struct ReadingControlBar: View {
     }
 }
 
-// MARK: - Gradient Slider
+// MARK: - Speed Slider
 
-private struct GradientSlider: View {
+private struct SpeedSlider: View {
     @Binding var value: Double
     let range: ClosedRange<Double>
     let step: Double
@@ -104,13 +111,7 @@ private struct GradientSlider: View {
 
                 let fraction = CGFloat((value - range.lowerBound) / (range.upperBound - range.lowerBound))
                 Capsule()
-                    .fill(
-                        LinearGradient(
-                            colors: [Color(hex: "#7C3AED"), Color(hex: "#EC4899")],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                    )
+                    .fill(Color.clarityTeal)
                     .frame(width: geo.size.width * fraction, height: 4)
 
                 Circle()

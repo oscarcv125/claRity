@@ -7,6 +7,8 @@ struct UserPreferences {
     static let readingSpeedKey      = "pref_readingSpeed"
     static let backgroundColorKey   = "pref_backgroundColor"
     static let useOpenDyslexicKey   = "pref_useOpenDyslexic"
+    static let englishDefinitionModeKey = "pref_englishDefinitionMode"
+    static let usePersonalVoiceKey      = "pref_usePersonalVoice"
 
     static let defaultFontSize: Double      = 22
     static let defaultLetterSpacing: Double = 2
@@ -14,6 +16,8 @@ struct UserPreferences {
     static let defaultReadingSpeed: Double  = 0.42
     static let defaultBackgroundColor       = BackgroundOption.cream
     static let defaultUseOpenDyslexic: Bool = true
+    static let defaultEnglishDefinitionMode = EnglishDefinitionMode.translate
+    static let defaultUsePersonalVoice: Bool = false
 }
 
 enum BackgroundOption: String, CaseIterable, Identifiable {

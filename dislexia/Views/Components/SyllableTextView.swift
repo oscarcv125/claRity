@@ -72,6 +72,12 @@ struct SyllableTextView: View {
     let highlightRange: Range<String.Index>?
     let prefs: AppPreferences
     let onWordTap: (String, String) -> Void
+    /// Modo Enfoque: atenúa las palabras inactivas mientras se lee en voz alta.
+    var dimInactive: Bool = false
+    /// Mantén presionada una palabra para escucharla lenta, sílaba por sílaba.
+    var onWordLongPress: (String) -> Void = { _ in }
+    /// Doble toque: abre la tarjeta de pronunciación por sílabas.
+    var onWordDoubleTap: (String) -> Void = { _ in }
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -81,51 +87,68 @@ struct SyllableTextView: View {
         WordFlowLayout(lineSpacing: prefs.lineSpacing, spacing: 3) {
             ForEach(tokens) { token in
                 if token.isWord {
-                    Button {
-                        let contextStart = text.index(
-                            token.range.lowerBound,
-                            offsetBy: -min(80, text.distance(from: text.startIndex, to: token.range.lowerBound)),
-                            limitedBy: text.startIndex
-                        ) ?? text.startIndex
-                        let contextEnd = text.index(
-                            token.range.upperBound,
-                            offsetBy: min(80, text.distance(from: token.range.upperBound, to: text.endIndex)),
-                            limitedBy: text.endIndex
-                        ) ?? text.endIndex
-                        let context = String(text[contextStart..<contextEnd])
-                        UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                        onWordTap(token.text, context)
-                    } label: {
-                        let highlighted = isHighlighted(token)
-                        Text(token.text)
-                            .font(.custom(prefs.fontName, size: prefs.fontSize))
-                            .tracking(prefs.letterSpacing)
-                            .foregroundStyle(prefs.backgroundColor.textColor)
-                            .padding(.vertical, 2)
-                            .padding(.horizontal, 2)
-                            .background(
-                                RoundedRectangle(cornerRadius: 6, style: .continuous)
-                                    .fill(Color.orange.opacity(highlighted ? 0.22 : 0))
-                                    .shadow(
-                                        color: Color.orange.opacity(highlighted ? 0.45 : 0),
-                                        radius: 10,
-                                        y: 0
-                                    )
-                            )
-                            .scaleEffect(highlighted ? 1.06 : 1.0)
-                            .animation(
-                                reduceMotion ? .none : .spring(response: 0.2, dampingFraction: 0.6),
-                                value: highlighted
-                            )
-                    }
-                    .buttonStyle(.plain)
-                    .frame(minWidth: 44, minHeight: 44, alignment: .center)
-                    .fixedSize()
+                    let highlighted = isHighlighted(token)
+                    Text(token.text)
+                        .font(.custom(prefs.fontName, size: prefs.fontSize))
+                        .tracking(prefs.letterSpacing)
+                        .foregroundStyle(prefs.backgroundColor.textColor)
+                        .padding(.vertical, 2)
+                        .padding(.horizontal, 2)
+                        .background(
+                            RoundedRectangle(cornerRadius: 6, style: .continuous)
+                                .fill(Color.orange.opacity(highlighted ? 0.22 : 0))
+                                .shadow(
+                                    color: Color.orange.opacity(highlighted ? 0.45 : 0),
+                                    radius: 10,
+                                    y: 0
+                                )
+                        )
+                        .scaleEffect(highlighted ? 1.06 : 1.0)
+                        .opacity(!dimInactive || highlighted ? 1.0 : 0.35)
+                        .animation(
+                            reduceMotion ? .none : .spring(response: 0.2, dampingFraction: 0.6),
+                            value: highlighted
+                        )
+                        .animation(
+                            reduceMotion ? .none : .easeInOut(duration: 0.3),
+                            value: dimInactive
+                        )
+                        .frame(minWidth: 44, minHeight: 44, alignment: .center)
+                        .fixedSize()
+                        .contentShape(Rectangle())
+                        // El doble toque va ANTES del toque sencillo para que
+                        // SwiftUI espere a desambiguar entre ambos.
+                        .onTapGesture(count: 2) {
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                            onWordDoubleTap(token.text)
+                        }
+                        .onTapGesture {
+                            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                            onWordTap(token.text, contextAround(token))
+                        }
+                        .onLongPressGesture(minimumDuration: 0.4) {
+                            UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+                            onWordLongPress(token.text)
+                        }
+                        .accessibilityAddTraits(.isButton)
+                        .accessibilityLabel(token.text)
+                        .accessibilityHint("Toca para la definición, dos veces para las sílabas, mantén presionado para escucharla despacio")
+                        .accessibilityAction(named: "Ver sílabas") {
+                            onWordDoubleTap(token.text)
+                        }
+                        .accessibilityAction(named: "Escuchar despacio") {
+                            onWordLongPress(token.text)
+                        }
                 } else {
                     Text(token.text)
                         .font(.custom(prefs.fontName, size: prefs.fontSize))
                         .tracking(prefs.letterSpacing)
                         .foregroundStyle(prefs.backgroundColor.textColor)
+                        .opacity(dimInactive ? 0.35 : 1.0)
+                        .animation(
+                            reduceMotion ? .none : .easeInOut(duration: 0.3),
+                            value: dimInactive
+                        )
                         .fixedSize()
                 }
             }
@@ -135,6 +158,21 @@ struct SyllableTextView: View {
     }
 
     // MARK: - Helpers
+
+    /// ±80 caracteres alrededor de la palabra, para que la IA elija el sentido.
+    private func contextAround(_ token: TextToken) -> String {
+        let contextStart = text.index(
+            token.range.lowerBound,
+            offsetBy: -min(80, text.distance(from: text.startIndex, to: token.range.lowerBound)),
+            limitedBy: text.startIndex
+        ) ?? text.startIndex
+        let contextEnd = text.index(
+            token.range.upperBound,
+            offsetBy: min(80, text.distance(from: token.range.upperBound, to: text.endIndex)),
+            limitedBy: text.endIndex
+        ) ?? text.endIndex
+        return String(text[contextStart..<contextEnd])
+    }
 
     private func isHighlighted(_ token: TextToken) -> Bool {
         guard let highlightRange else { return false }

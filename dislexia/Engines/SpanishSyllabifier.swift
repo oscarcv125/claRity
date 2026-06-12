@@ -83,12 +83,13 @@ enum SpanishSyllabifier {
             let next = chars[nucleusEnd + 1]
             if isVowel(next) {
                 let current = chars[nucleusEnd]
-                let bothStrong      = isStrongVowel(current) && isStrongVowel(next)
-                let currentAccented = "áéó".contains(current)
-                let nextAccented    = "áéó".contains(next)
-                let weakAccented    = "íú".contains(current) || "íú".contains(next)
+                // RAE: hiato solo si ambas vocales son fuertes (a/e/o, con o sin tilde)
+                // o si hay una vocal débil acentuada (í/ú). Una fuerte acentuada +
+                // débil sigue siendo diptongo: "también" → tam-bién, "adiós" → a-diós.
+                let bothStrong   = isStrongVowel(current) && isStrongVowel(next)
+                let weakAccented = "íú".contains(current) || "íú".contains(next)
 
-                if !bothStrong && !currentAccented && !nextAccented && !weakAccented {
+                if !bothStrong && !weakAccented {
                     nucleusEnd += 1
                     if nucleusEnd + 1 < chars.count {
                         let third = chars[nucleusEnd + 1]

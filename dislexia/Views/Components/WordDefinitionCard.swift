@@ -11,7 +11,7 @@ struct WordDefinitionCard: View {
             HStack(alignment: .center) {
                 Text(word.capitalized)
                     .font(.headline.weight(.bold))
-                    .foregroundStyle(Color(hex: "#7C3AED"))
+                    .foregroundStyle(Color.clarityTeal)
                 Spacer()
                 Button(action: onDismiss) {
                     Image(systemName: "xmark.circle.fill")
@@ -30,7 +30,7 @@ struct WordDefinitionCard: View {
             if isLoading {
                 HStack(spacing: 10) {
                     ProgressView()
-                        .tint(Color(hex: "#7C3AED"))
+                        .tint(.clarityTeal)
                     Text("Buscando definición…")
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
@@ -46,7 +46,7 @@ struct WordDefinitionCard: View {
                                 .frame(width: 18, height: 18)
                                 .background(
                                     Circle()
-                                        .fill(sense.isCurrent ? Color(hex: "#7C3AED") : Color.white.opacity(0.08))
+                                        .fill(sense.isCurrent ? Color.clarityTeal : Color.secondary.opacity(0.15))
                                 )
                                 .padding(.top, 1)
 
@@ -60,7 +60,7 @@ struct WordDefinitionCard: View {
                                 if sense.isCurrent {
                                     Text("Significado en este texto")
                                         .font(.caption2)
-                                        .foregroundStyle(Color(hex: "#A855F7"))
+                                        .foregroundStyle(Color.clarityTeal)
                                         .fontWeight(.semibold)
                                 }
                             }
@@ -78,7 +78,7 @@ struct WordDefinitionCard: View {
                             HStack(alignment: .top, spacing: 6) {
                                 Image(systemName: "lightbulb.fill")
                                     .font(.caption)
-                                    .foregroundStyle(Color(hex: "#EC4899"))
+                                    .foregroundStyle(Color.clarityBlue)
                                     .padding(.top, 2)
                                 
                                 VStack(alignment: .leading, spacing: 2) {
@@ -103,8 +103,12 @@ struct WordDefinitionCard: View {
         }
         .padding(20)
         .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 22, style: .continuous))
+        // Bloquea los toques para que no atraviesen la tarjeta
+        // y seleccionen palabras del texto que está detrás.
+        .contentShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
+        .onTapGesture {}
         .padding(.horizontal, 16)
-        .padding(.bottom, 152)
+        .padding(.bottom, 12)
         .shadow(color: .black.opacity(0.1), radius: 16, y: 4)
         .accessibilityElement(children: .combine)
         .accessibilityLabel(isLoading ? "Cargando definición de \(word)" : "\(word): \(definition?.senses.first(where: { $0.isCurrent })?.text ?? "")")
