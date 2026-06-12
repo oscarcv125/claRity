@@ -84,7 +84,7 @@ struct LibraryView: View {
                     Image("clarity white")
                         .resizable()
                         .scaledToFit()
-                        .frame(height: 56)
+                        .frame(height: 112)
                         .shadow(color: .black.opacity(0.2), radius: 6)
                     Text("Tu lector inteligente")
                         .font(.subheadline.weight(.medium))
