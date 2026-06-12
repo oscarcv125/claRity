@@ -1,10 +1,14 @@
 import SwiftUI
+import SwiftData
 
 @main
 struct dislexiaApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            LibraryView()
+                .environment(AppPreferences.shared)
+                .modelContainer(LibraryStore.shared.container)
+                .task { LibraryStore.shared.seedIfNeeded() }
         }
     }
 }
