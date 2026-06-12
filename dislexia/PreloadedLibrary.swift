@@ -1,9 +1,9 @@
 import Foundation
 
 enum PreloadedLibrary {
-    static let items: [LibraryItem] = basicTexts + intermediateTexts + advancedTexts
+    static let items: [LibraryItem] = basicTexts + basicTextsEnglish + intermediateTexts + intermediateTextsEnglish + advancedTexts + advancedTextsEnglish
 
-    // MARK: - Básico
+    // MARK: - Básico (Español)
 
     static let basicTexts: [LibraryItem] = [
         LibraryItem(
@@ -33,7 +33,37 @@ enum PreloadedLibrary {
         )
     ]
 
-    // MARK: - Intermedio
+    // MARK: - Basic (English)
+
+    static let basicTextsEnglish: [LibraryItem] = [
+        LibraryItem(
+            title: "The Sun and the Moon",
+            body: "The sun shines during the day. The moon shines at night. The sun is big and yellow. The moon is white and round. It is warm during the day. It is cold at night. The sun and the moon take care of the Earth.",
+            level: .basic
+        ),
+        LibraryItem(
+            title: "My Pet",
+            body: "I have a dog named Buddy. Buddy is brown with white spots. He likes to run and play with his ball. Every day I give him food and fresh water. Buddy makes me very happy.",
+            level: .basic
+        ),
+        LibraryItem(
+            title: "The Hard-Working Ant",
+            body: "An ant was walking through the field looking for food. She found a big seed and carried it to her home. The seed was very heavy, but the ant did not give up. When she got home, her friends helped her store the seed. Together they would have food for the winter.",
+            level: .basic
+        ),
+        LibraryItem(
+            title: "The Seasons of the Year",
+            body: "In spring the plants bloom. It is warm and it rains. In summer the sun heats a lot. The days are long. In fall the leaves on the trees change color and fall. In winter it is cold and sometimes it snows. Each season has something special.",
+            level: .basic
+        ),
+        LibraryItem(
+            title: "The Village Baker",
+            body: "Mr. Baker gets up very early each morning. He lights his oven and prepares the bread dough. He kneads, shapes, and bakes the rolls. At seven in the morning the bread is ready. The delicious smell of bread fills the whole village.",
+            level: .basic
+        )
+    ]
+
+    // MARK: - Intermedio (Español)
 
     static let intermediateTexts: [LibraryItem] = [
         LibraryItem(
@@ -53,7 +83,27 @@ enum PreloadedLibrary {
         )
     ]
 
-    // MARK: - Avanzado
+    // MARK: - Intermediate (English)
+
+    static let intermediateTextsEnglish: [LibraryItem] = [
+        LibraryItem(
+            title: "The Water We Drink",
+            body: "Water is a very valuable resource. Without water, life cannot exist. Most of the water on Earth is in the oceans, but that water is salty. Only a small part is fresh water, which is what we can drink. Fresh water is found in rivers, lakes, and springs. It is important to take care of water: turn off the tap when we are not using it and avoid polluting rivers. We can all help to conserve it.",
+            level: .intermediate
+        ),
+        LibraryItem(
+            title: "The Tropical Rainforest",
+            body: "The tropical rainforest is one of the richest ecosystems on the planet. Millions of species of plants, animals, and insects live in it. The trees are so tall that they form a green roof called a canopy, which protects small plants from direct sunlight. Rainforests produce a lot of oxygen and regulate Earth's climate. That is why it is so important to protect them from deforestation.",
+            level: .intermediate
+        ),
+        LibraryItem(
+            title: "How the Brain Works",
+            body: "The brain is the most complex organ in our body. It weighs approximately 1.4 kilograms and is shaped like a walnut. It is made up of billions of cells called neurons. Neurons communicate with each other through electrical and chemical signals. The brain controls all movements of the body, thoughts, memories, and emotions. While we sleep, the brain continues working to process what we learned during the day.",
+            level: .intermediate
+        )
+    ]
+
+    // MARK: - Avanzado (Español)
 
     static let advancedTexts: [LibraryItem] = [
         LibraryItem(
@@ -64,6 +114,21 @@ enum PreloadedLibrary {
         LibraryItem(
             title: "La inteligencia artificial",
             body: "La inteligencia artificial es una rama de la informática que busca crear sistemas capaces de realizar tareas que normalmente requieren inteligencia humana, como reconocer imágenes, entender lenguaje natural o tomar decisiones. Los sistemas de IA aprenden a partir de grandes cantidades de datos mediante algoritmos de aprendizaje automático. Hoy en día la IA está presente en muchos aspectos de nuestra vida cotidiana: en los asistentes de voz, en las recomendaciones de plataformas de streaming, en el diagnóstico médico y en los vehículos autónomos. A medida que esta tecnología avanza, surgen importantes preguntas éticas sobre privacidad, empleo y el impacto en la sociedad.",
+            level: .advanced
+        )
+    ]
+
+    // MARK: - Advanced (English)
+
+    static let advancedTextsEnglish: [LibraryItem] = [
+        LibraryItem(
+            title: "The Industrial Revolution",
+            body: "The Industrial Revolution was a period of economic and social transformation that began in England in the late eighteenth century. The invention of the steam engine allowed processes that were previously done by hand to be mechanized, which greatly increased the production of goods. Factories replaced artisan workshops and thousands of people migrated from the countryside to cities in search of work. This change brought important technological advances, but also new social problems such as long working hours, child labor, and pollution. Its effects shaped the modern world as we know it today.",
+            level: .advanced
+        ),
+        LibraryItem(
+            title: "Artificial Intelligence",
+            body: "Artificial intelligence is a branch of computer science that seeks to create systems capable of performing tasks that normally require human intelligence, such as recognizing images, understanding natural language, or making decisions. AI systems learn from large amounts of data using machine learning algorithms. Today, AI is present in many aspects of our daily lives: in voice assistants, in recommendations on streaming platforms, in medical diagnosis, and in autonomous vehicles. As this technology advances, important ethical questions arise about privacy, employment, and the impact on society.",
             level: .advanced
         )
     ]

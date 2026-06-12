@@ -184,7 +184,8 @@ final class TTSEngine: NSObject {
         try? AVAudioSession.sharedInstance().setActive(true)
 
         let syls = language.syllabify(word)
-        let utterance = AVSpeechUtterance(string: syls.joined(separator: ", "))
+        // Separar con "...", no con ", " — evita que TTS lea "na, ne" como "sodium, northeast"
+        let utterance = AVSpeechUtterance(string: syls.joined(separator: " ... "))
         utterance.rate = 0.25
         utterance.voice = voice
         synthesizer.speak(utterance)
@@ -202,7 +203,10 @@ final class TTSEngine: NSObject {
 
         try? AVAudioSession.sharedInstance().setActive(true)
 
-        let utterance = AVSpeechUtterance(string: fragment)
+        // Si el fragmento es de 1-2 caracteres, agregamos espacios para evitar
+        // que TTS lo lea como abreviatura (na → "sodium", ne → "northeast", etc.)
+        let textToSpeak = fragment.count <= 2 ? " \(fragment) " : fragment
+        let utterance = AVSpeechUtterance(string: textToSpeak)
         utterance.rate = rate
         utterance.voice = voice
         synthesizer.speak(utterance)

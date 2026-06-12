@@ -79,10 +79,11 @@ final class AIEngine {
     // MARK: - Define word
 
     /// Define una palabra con un esquema híbrido anti-alucinaciones:
-    /// 1. Palabra en el diccionario offline → la IA SOLO adapta la entrada
-    ///    real y elige el sentido según el contexto (grounding / RAG).
+    /// 1. Palabra en el diccionario offline → devuelve definición directa (sin IA).
     /// 2. Palabra fuera del diccionario → la IA genera la definición (fallback).
-    /// 3. IA no disponible → se muestra la entrada del diccionario tal cual.
+    /// 3. IA no disponible + sin diccionario → error.
+    ///
+    /// TEMPORARY: AI-only mode for testing (dictionary disabled)
     func define(
         word: String,
         context: String,
@@ -91,16 +92,21 @@ final class AIEngine {
     ) async throws -> WordDefinition {
         let entry = DictionaryStore.shared.lookup(word, language: language)
 
+        // TEMPORARY: Skip dictionary, force AI for testing
+        // if let entry {
+        //     return definition(from: entry, for: word)
+        // }
+
         // Nombres propios (personas, lugares, organizaciones) sin entrada de
         // diccionario: respuesta clara y amigable sin pedirle nada a la IA,
         // que solía alucinar significados raros para ellos.
-        if entry == nil,
-           let properNoun = properNounDefinition(
+        if let properNoun = properNounDefinition(
                 for: word, in: context, language: language, englishMode: englishMode
            ) {
             return properNoun
         }
 
+        // FORCE AI for all words (testing)
         guard isAvailable else {
             if let entry { return definition(from: entry, for: word) }
             throw AIError.modelUnavailable
@@ -110,7 +116,7 @@ final class AIEngine {
         let prompt = definePrompt(
             word: word,
             context: context,
-            entry: entry,
+            entry: entry,  // Pass dictionary entry as grounding
             language: language,
             englishMode: englishMode
         )
@@ -118,14 +124,9 @@ final class AIEngine {
         do {
             let response = try await session.respond(to: prompt)
             let parsed = parseDefinition(from: response.content, for: word)
-            // El "ejemplo de uso" debe contener la palabra (o su raíz);
-            // si no, se usa el ejemplo del diccionario o ninguno.
-            let example = validatedExample(
-                parsed.example, word: word, fallback: entry?.example
-            )
+            let example = validatedExample(parsed.example, word: word, fallback: entry?.example)
             return WordDefinition(word: parsed.word, senses: parsed.senses, example: example)
         } catch {
-            // Si la IA falla a media generación, la entrada real nos salva el demo.
             if let entry { return definition(from: entry, for: word) }
             throw error
         }
@@ -246,8 +247,15 @@ final class AIEngine {
             \(grounding)
             Contexto donde se usa: "\(context)"
 
-            Reescribe cada significado con palabras muy sencillas para un niño de 10 años, en español.
-            Responde estrictamente con este formato, sin explicaciones, introducciones ni rodeos:
+            Proporciona definiciones claras y objetivas en español, usando lenguaje sencillo pero preciso.
+            Las definiciones deben ser informativas y neutral en tono, como las de un diccionario educativo.
+
+            Ejemplo de respuesta correcta para "célula":
+            SIGNIFICADO 1: Unidad más pequeña de un ser vivo que puede funcionar por sí sola.
+            USO_ACTUAL: 1
+            EJEMPLO: Las células forman todos los tejidos del cuerpo humano.
+
+            Responde estrictamente con este formato para "\(word)", sin explicaciones, introducciones ni rodeos:
             \(format)
             """
         case (.english, .translate):
@@ -256,11 +264,16 @@ final class AIEngine {
             \(grounding)
             Contexto en inglés donde se usa: "\(context)"
 
-            Explica cada significado EN ESPAÑOL sencillo para un niño de 10 años.
-            Empieza el SIGNIFICADO 1 con la traducción al español entre comillas,
-            por ejemplo: SIGNIFICADO 1: "faro": una torre con una luz que guía a los barcos.
-            El EJEMPLO debe ser una oración corta en inglés usando "\(word)".
-            Responde estrictamente con este formato, sin explicaciones ni rodeos:
+            Proporciona definiciones claras EN ESPAÑOL, usando lenguaje sencillo pero preciso.
+            Las definiciones deben ser informativas y neutral en tono, como las de un diccionario educativo.
+            Empieza el SIGNIFICADO 1 con la traducción al español entre comillas.
+
+            Ejemplo de respuesta correcta para "cell":
+            SIGNIFICADO 1: "célula": Unidad más pequeña de un ser vivo que puede funcionar por sí sola.
+            USO_ACTUAL: 1
+            EJEMPLO: Cells form all the tissues in the human body.
+
+            Responde estrictamente con este formato para "\(word)", sin explicaciones ni rodeos:
             \(format)
             """
         case (.english, .immersion):
@@ -269,10 +282,16 @@ final class AIEngine {
             \(grounding)
             Context where it is used: "\(context)"
 
-            Rewrite each meaning in very simple ENGLISH for a 10-year-old child.
-            Keep the labels exactly as shown (SIGNIFICADO, USO_ACTUAL, EJEMPLO) but write the
-            content in English. The EJEMPLO must be a short English sentence using "\(word)".
-            Reply strictly with this format, no explanations or introductions:
+            Provide clear and objective definitions in ENGLISH, using simple but precise language.
+            Definitions should be informative and neutral in tone, like those in an educational dictionary.
+            Keep the labels exactly as shown (SIGNIFICADO, USO_ACTUAL, EJEMPLO) but write the content in English.
+
+            Example of correct response for "cell":
+            SIGNIFICADO 1: The smallest unit of a living thing that can work on its own.
+            USO_ACTUAL: 1
+            EJEMPLO: Cells form all the tissues in the human body.
+
+            Reply strictly with this format for "\(word)", no explanations or introductions:
             \(format)
             """
         }

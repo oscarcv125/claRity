@@ -159,16 +159,16 @@ struct SyllableTextView: View {
 
     // MARK: - Helpers
 
-    /// ±80 caracteres alrededor de la palabra, para que la IA elija el sentido.
+    /// ±250 caracteres alrededor de la palabra, para que la IA elija el sentido con más contexto.
     private func contextAround(_ token: TextToken) -> String {
         let contextStart = text.index(
             token.range.lowerBound,
-            offsetBy: -min(80, text.distance(from: text.startIndex, to: token.range.lowerBound)),
+            offsetBy: -min(250, text.distance(from: text.startIndex, to: token.range.lowerBound)),
             limitedBy: text.startIndex
         ) ?? text.startIndex
         let contextEnd = text.index(
             token.range.upperBound,
-            offsetBy: min(80, text.distance(from: token.range.upperBound, to: text.endIndex)),
+            offsetBy: min(250, text.distance(from: token.range.upperBound, to: text.endIndex)),
             limitedBy: text.endIndex
         ) ?? text.endIndex
         return String(text[contextStart..<contextEnd])

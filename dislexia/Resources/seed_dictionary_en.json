@@ -367,5 +367,873 @@
   "port": {
     "definitions": ["A place by the sea where boats stop and load things."],
     "example": "The fishing boats returned to the port."
+  },
+  "shine": {
+    "definitions": ["To make bright light."],
+    "example": "The sun shines bright in the sky."
+  },
+  "day": {
+    "definitions": ["The time when the sun is up and it is light outside."],
+    "example": "We play outside during the day."
+  },
+  "yellow": {
+    "definitions": ["The color of the sun or a lemon."],
+    "example": "Bananas are yellow."
+  },
+  "white": {
+    "definitions": ["The color of snow or milk."],
+    "example": "The clouds are white."
+  },
+  "round": {
+    "definitions": ["Shaped like a circle or ball."],
+    "example": "The Earth is round."
+  },
+  "warm": {
+    "definitions": ["A little bit hot, comfortable temperature."],
+    "example": "The blanket keeps me warm."
+  },
+  "brown": {
+    "definitions": ["The color of wood or chocolate."],
+    "example": "The bear has brown fur."
+  },
+  "spot": {
+    "definitions": ["A small mark or dot on something."],
+    "example": "The dog has black spots."
+  },
+  "ball": {
+    "definitions": ["A round object used in games and sports."],
+    "example": "The children kicked the ball."
+  },
+  "run": {
+    "definitions": ["To move very fast on your feet."],
+    "example": "The dog loves to run in the park."
+  },
+  "happy": {
+    "definitions": ["Feeling very good and glad."],
+    "example": "The birthday party made me happy."
+  },
+  "walk": {
+    "definitions": ["To move by putting one foot in front of the other."],
+    "example": "We walk to school together."
+  },
+  "field": {
+    "definitions": ["A large open area of land, often with grass or crops."],
+    "example": "Cows were eating grass in the field."
+  },
+  "look": {
+    "definitions": ["To use your eyes to see something."],
+    "example": "Look at the rainbow!"
+  },
+  "find": {
+    "definitions": ["To discover or see something you were searching for."],
+    "example": "I can't find my pencil."
+  },
+  "big": {
+    "definitions": ["Large in size."],
+    "example": "An elephant is a big animal."
+  },
+  "carry": {
+    "definitions": ["To hold something and take it from one place to another."],
+    "example": "Can you carry these books for me?"
+  },
+  "home": {
+    "definitions": ["The place where you live."],
+    "example": "We went home after school."
+  },
+  "heavy": {
+    "definitions": ["Having a lot of weight, hard to lift."],
+    "example": "This box is too heavy for me."
+  },
+  "give": {
+    "definitions": ["To let someone have something."],
+    "example": "Don't give up on your dreams."
+  },
+  "up": {
+    "definitions": ["Toward a higher place or position."],
+    "example": "The balloon floated up into the sky."
+  },
+  "get": {
+    "definitions": ["To obtain or receive something."],
+    "example": "I get good grades when I study."
+  },
+  "help": {
+    "definitions": ["To make things easier for someone."],
+    "example": "Can you help me with this problem?"
+  },
+  "store": {
+    "definitions": ["To keep something for later use.", "A place where you buy things."],
+    "example": "We store winter clothes in the attic."
+  },
+  "together": {
+    "definitions": ["With each other, in one place."],
+    "example": "We work together as a team."
+  },
+  "winter": {
+    "definitions": ["The coldest season of the year."],
+    "example": "It often snows in winter."
+  },
+  "bloom": {
+    "definitions": ["When flowers open and grow."],
+    "example": "The roses bloom in May."
+  },
+  "summer": {
+    "definitions": ["The hottest season of the year."],
+    "example": "We go swimming in summer."
+  },
+  "heat": {
+    "definitions": ["Warmth or high temperature.", "To make something hot."],
+    "example": "The sun gives us heat and light."
+  },
+  "long": {
+    "definitions": ["Measuring a great distance from one end to the other.", "Lasting for a lot of time."],
+    "example": "Summer days are long."
+  },
+  "change": {
+    "definitions": ["To become different.", "Coins and small money."],
+    "example": "Leaves change color in autumn."
+  },
+  "color": {
+    "definitions": ["What we see as red, blue, green, etc."],
+    "example": "What is your favorite color?"
+  },
+  "snow": {
+    "definitions": ["Soft white flakes of frozen water that fall from the sky."],
+    "example": "We built a snowman from the snow."
+  },
+  "sometimes": {
+    "definitions": ["Not always, but on some occasions."],
+    "example": "Sometimes we have pizza for dinner."
+  },
+  "special": {
+    "definitions": ["Different from others in a good way, important."],
+    "example": "Your birthday is a special day."
+  },
+  "each": {
+    "definitions": ["Every single one."],
+    "example": "Each student has a desk."
+  },
+  "season": {
+    "definitions": ["One of the four parts of the year: spring, summer, fall, winter."],
+    "example": "My favorite season is autumn."
+  },
+  "early": {
+    "definitions": ["Near the beginning of a time period, before the usual time."],
+    "example": "Birds wake up early in the morning."
+  },
+  "oven": {
+    "definitions": ["The part of a stove that gets very hot to cook food inside."],
+    "example": "The cookies are baking in the oven."
+  },
+  "prepare": {
+    "definitions": ["To get ready or make something ready."],
+    "example": "We prepare dinner at six o'clock."
+  },
+  "shape": {
+    "definitions": ["The form or outline of something.", "To make something into a form."],
+    "example": "The cloud has the shape of a heart."
+  },
+  "bake": {
+    "definitions": ["To cook food in an oven."],
+    "example": "Let's bake a cake for the party."
+  },
+  "ready": {
+    "definitions": ["Prepared and able to do something."],
+    "example": "Are you ready for school?"
+  },
+  "smell": {
+    "definitions": ["The sense you use with your nose.", "The quality detected by your nose."],
+    "example": "The flowers have a sweet smell."
+  },
+  "delicious": {
+    "definitions": ["Tasting very good."],
+    "example": "This cake is delicious!"
+  },
+  "fill": {
+    "definitions": ["To make something full."],
+    "example": "Please fill the glass with water."
+  },
+  "whole": {
+    "definitions": ["All of something, complete."],
+    "example": "I ate the whole apple."
+  },
+  "village": {
+    "definitions": ["A small town in the countryside."],
+    "example": "My grandparents live in a quiet village."
+  },
+  "resource": {
+    "definitions": ["Something useful that we can use when we need it."],
+    "example": "Clean water is an important natural resource."
+  },
+  "valuable": {
+    "definitions": ["Worth a lot of money or very useful."],
+    "example": "Time with family is valuable."
+  },
+  "without": {
+    "definitions": ["Not having something."],
+    "example": "I can't see without my glasses."
+  },
+  "exist": {
+    "definitions": ["To be real, to be present."],
+    "example": "Dinosaurs don't exist anymore."
+  },
+  "life": {
+    "definitions": ["The time when something is alive.", "The experience of being alive."],
+    "example": "Plants and animals have life."
+  },
+  "most": {
+    "definitions": ["The largest amount or number."],
+    "example": "Most birds can fly."
+  },
+  "ocean": {
+    "definitions": ["A very big area of salt water, bigger than a sea."],
+    "example": "The Pacific Ocean is huge."
+  },
+  "salty": {
+    "definitions": ["Containing salt, tasting like salt."],
+    "example": "Ocean water is salty."
+  },
+  "only": {
+    "definitions": ["Just this and nothing more."],
+    "example": "I have only one pencil left."
+  },
+  "small": {
+    "definitions": ["Not big in size."],
+    "example": "A mouse is a small animal."
+  },
+  "part": {
+    "definitions": ["A piece of something larger."],
+    "example": "The wheel is a part of the bicycle."
+  },
+  "fresh": {
+    "definitions": ["New and clean, not old or spoiled."],
+    "example": "I love the smell of fresh bread."
+  },
+  "drink": {
+    "definitions": ["To swallow liquid.", "A liquid you can swallow."],
+    "example": "You should drink water every day."
+  },
+  "lake": {
+    "definitions": ["A large area of water surrounded by land."],
+    "example": "We went fishing at the lake."
+  },
+  "important": {
+    "definitions": ["Mattering a lot, very necessary."],
+    "example": "It is important to be honest."
+  },
+  "take": {
+    "definitions": ["To get and hold something.", "To move something from one place to another."],
+    "example": "Take your umbrella, it might rain."
+  },
+  "care": {
+    "definitions": ["To feel concern or interest.", "Attention and thought."],
+    "example": "We must take care of our planet."
+  },
+  "turn": {
+    "definitions": ["To move in a circle or to face a different direction.", "A chance to do something."],
+    "example": "Please turn off the lights when you leave."
+  },
+  "off": {
+    "definitions": ["Away from a place or position.", "Not working or active."],
+    "example": "The TV is off now."
+  },
+  "use": {
+    "definitions": ["To do something with a tool or object."],
+    "example": "We use a knife to cut food."
+  },
+  "avoid": {
+    "definitions": ["To stay away from something, to prevent."],
+    "example": "Avoid touching the hot stove."
+  },
+  "pollute": {
+    "definitions": ["To make air, water, or land dirty and unsafe."],
+    "example": "Factories can pollute the river."
+  },
+  "all": {
+    "definitions": ["Every one, the total amount."],
+    "example": "All the children are here."
+  },
+  "conserve": {
+    "definitions": ["To protect and save something so it lasts longer."],
+    "example": "We should conserve energy by turning off lights."
+  },
+  "tropical": {
+    "definitions": ["From or in the hot parts of the world near the equator."],
+    "example": "Bananas grow in tropical countries."
+  },
+  "rainforest": {
+    "definitions": ["A thick forest in a tropical area with a lot of rain."],
+    "example": "Many animals live in the Amazon rainforest."
+  },
+  "ecosystem": {
+    "definitions": ["All the living things in an area and how they affect each other."],
+    "example": "A coral reef is a delicate ecosystem."
+  },
+  "rich": {
+    "definitions": ["Having a lot of money or valuable things.", "Full of good things."],
+    "example": "The soil here is rich in nutrients."
+  },
+  "planet": {
+    "definitions": ["A large round object in space that moves around a star."],
+    "example": "Earth is our planet."
+  },
+  "million": {
+    "definitions": ["The number 1,000,000."],
+    "example": "There are millions of stars in the sky."
+  },
+  "species": {
+    "definitions": ["A group of living things that are similar and can have babies together."],
+    "example": "Tigers are an endangered species."
+  },
+  "insect": {
+    "definitions": ["A small animal with six legs and often wings."],
+    "example": "Bees and ants are insects."
+  },
+  "tall": {
+    "definitions": ["Having a great height."],
+    "example": "Giraffes are very tall animals."
+  },
+  "form": {
+    "definitions": ["To make or create something.", "The shape of something."],
+    "example": "Water forms ice when it freezes."
+  },
+  "roof": {
+    "definitions": ["The top covering of a building."],
+    "example": "Rain drums on the roof."
+  },
+  "green": {
+    "definitions": ["The color of grass and leaves."],
+    "example": "Frogs are usually green."
+  },
+  "canopy": {
+    "definitions": ["A covering above something, like a roof made of branches."],
+    "example": "The forest canopy blocks much of the sunlight."
+  },
+  "protect": {
+    "definitions": ["To keep safe from harm or danger."],
+    "example": "A helmet protects your head."
+  },
+  "direct": {
+    "definitions": ["Straight, without turning.", "To guide or control something."],
+    "example": "This is the direct route to town."
+  },
+  "sunlight": {
+    "definitions": ["Light that comes from the sun."],
+    "example": "Plants need sunlight to grow."
+  },
+  "produce": {
+    "definitions": ["To make or create something."],
+    "example": "Bees produce honey."
+  },
+  "lot": {
+    "definitions": ["A large amount or number."],
+    "example": "We have a lot of homework today."
+  },
+  "oxygen": {
+    "definitions": ["A gas in the air that people and animals need to breathe."],
+    "example": "Trees make oxygen for us to breathe."
+  },
+  "regulate": {
+    "definitions": ["To control or manage something."],
+    "example": "The thermostat regulates the temperature."
+  },
+  "climate": {
+    "definitions": ["The usual weather in a place over a long time."],
+    "example": "Deserts have a hot, dry climate."
+  },
+  "earth": {
+    "definitions": ["The planet we live on.", "Soil or dirt."],
+    "example": "Earth is the third planet from the sun."
+  },
+  "why": {
+    "definitions": ["For what reason."],
+    "example": "Why is the sky blue?"
+  },
+  "so": {
+    "definitions": ["Very or to a great degree.", "Therefore, for that reason."],
+    "example": "The book was so good I read it twice."
+  },
+  "deforestation": {
+    "definitions": ["Cutting down and removing all the trees from a forest."],
+    "example": "Deforestation harms many animal species."
+  },
+  "organ": {
+    "definitions": ["A part of the body that has a special job, like the heart or lungs."],
+    "example": "The liver is an important organ."
+  },
+  "complex": {
+    "definitions": ["Having many parts, difficult to understand."],
+    "example": "Math can be complex."
+  },
+  "body": {
+    "definitions": ["The physical structure of a person or animal."],
+    "example": "Exercise keeps your body healthy."
+  },
+  "weigh": {
+    "definitions": ["To measure how heavy something is."],
+    "example": "I weigh myself on a scale."
+  },
+  "approximately": {
+    "definitions": ["Close to a number or amount, not exact."],
+    "example": "The trip takes approximately two hours."
+  },
+  "kilogram": {
+    "definitions": ["A unit of weight equal to 1,000 grams."],
+    "example": "A bag of sugar weighs one kilogram."
+  },
+  "walnut": {
+    "definitions": ["A hard nut with a wrinkled shell that you can eat."],
+    "example": "Walnuts are good for your brain."
+  },
+  "make": {
+    "definitions": ["To create or build something.", "To cause something to happen."],
+    "example": "Let's make a sandcastle."
+  },
+  "billion": {
+    "definitions": ["The number 1,000,000,000."],
+    "example": "The world has billions of people."
+  },
+  "cell": {
+    "definitions": ["The smallest unit of life.", "A small room, like in a prison."],
+    "example": "Your body has trillions of cells."
+  },
+  "call": {
+    "definitions": ["To say something loudly.", "To telephone someone.", "To give a name to something."],
+    "example": "They call me by my nickname."
+  },
+  "neuron": {
+    "definitions": ["A special cell in the brain and nerves that sends messages."],
+    "example": "Neurons help us think and feel."
+  },
+  "communicate": {
+    "definitions": ["To share information or feelings with others."],
+    "example": "We communicate by talking and writing."
+  },
+  "through": {
+    "definitions": ["From one side or end to the other.", "By means of."],
+    "example": "Light comes through the window."
+  },
+  "electrical": {
+    "definitions": ["Related to electricity."],
+    "example": "An electrical current powers the light."
+  },
+  "chemical": {
+    "definitions": ["Related to chemistry or substances.", "A substance made by chemistry."],
+    "example": "Water is a chemical made of hydrogen and oxygen."
+  },
+  "signal": {
+    "definitions": ["A sign or sound that gives information or a command."],
+    "example": "The traffic signal turned green."
+  },
+  "control": {
+    "definitions": ["To have power over something, to direct it."],
+    "example": "You control the game with this remote."
+  },
+  "movement": {
+    "definitions": ["The act of moving or changing position."],
+    "example": "I saw movement in the bushes."
+  },
+  "thought": {
+    "definitions": ["An idea or opinion.", "The act of thinking."],
+    "example": "I had a thought about how to solve this."
+  },
+  "memory": {
+    "definitions": ["The ability to remember things.", "Something you remember."],
+    "example": "I have a good memory of that vacation."
+  },
+  "emotion": {
+    "definitions": ["A strong feeling, like happiness or anger."],
+    "example": "Music can express many emotions."
+  },
+  "while": {
+    "definitions": ["During the time that something happens."],
+    "example": "I read while you cook."
+  },
+  "sleep": {
+    "definitions": ["To rest with your eyes closed and your mind not active."],
+    "example": "I sleep for eight hours every night."
+  },
+  "continue": {
+    "definitions": ["To keep doing something without stopping."],
+    "example": "Please continue reading the story."
+  },
+  "work": {
+    "definitions": ["To do a job or task.", "A job or activity."],
+    "example": "My parents work during the day."
+  },
+  "process": {
+    "definitions": ["A series of actions to make or do something.", "To deal with or handle something."],
+    "example": "Making bread is a long process."
+  },
+  "learn": {
+    "definitions": ["To gain knowledge or skill."],
+    "example": "Children learn quickly."
+  },
+  "during": {
+    "definitions": ["Throughout the time of something."],
+    "example": "We stayed quiet during the movie."
+  },
+  "period": {
+    "definitions": ["A length of time.", "The dot at the end of a sentence."],
+    "example": "Dinosaurs lived during the Jurassic period."
+  },
+  "transformation": {
+    "definitions": ["A big change in appearance or form."],
+    "example": "The caterpillar's transformation into a butterfly is amazing."
+  },
+  "economic": {
+    "definitions": ["Related to money, trade, and the economy."],
+    "example": "The country had economic growth this year."
+  },
+  "social": {
+    "definitions": ["Related to society and how people live together."],
+    "example": "School is a social place where we meet friends."
+  },
+  "begin": {
+    "definitions": ["To start."],
+    "example": "The movie will begin at 7 PM."
+  },
+  "England": {
+    "definitions": ["A country that is part of the United Kingdom."],
+    "example": "London is the capital of England."
+  },
+  "late": {
+    "definitions": ["After the expected time.", "Near the end of a period."],
+    "example": "We arrived late to the party."
+  },
+  "eighteenth": {
+    "definitions": ["Number 18 in order."],
+    "example": "The eighteenth century was the 1700s."
+  },
+  "century": {
+    "definitions": ["A period of 100 years."],
+    "example": "We live in the twenty-first century."
+  },
+  "invention": {
+    "definitions": ["Something new that someone makes for the first time."],
+    "example": "The telephone was an important invention."
+  },
+  "steam": {
+    "definitions": ["The hot gas that water becomes when it boils."],
+    "example": "Steam rose from the hot soup."
+  },
+  "engine": {
+    "definitions": ["A machine that uses energy to make things move."],
+    "example": "The car's engine is very powerful."
+  },
+  "allow": {
+    "definitions": ["To let someone do something, to make something possible."],
+    "example": "Mom allowed me to stay up late."
+  },
+  "previously": {
+    "definitions": ["Before now, in the past."],
+    "example": "I previously lived in another town."
+  },
+  "done": {
+    "definitions": ["Finished, completed."],
+    "example": "My homework is done."
+  },
+  "hand": {
+    "definitions": ["The part of your body at the end of your arm with fingers."],
+    "example": "I write with my right hand."
+  },
+  "mechanize": {
+    "definitions": ["To use machines to do work instead of people."],
+    "example": "Factories mechanize many jobs."
+  },
+  "greatly": {
+    "definitions": ["Very much, by a large amount."],
+    "example": "His health improved greatly."
+  },
+  "increase": {
+    "definitions": ["To become or make larger in number or amount."],
+    "example": "Prices increase every year."
+  },
+  "production": {
+    "definitions": ["The act of making or growing things."],
+    "example": "The production of cars happens in factories."
+  },
+  "good": {
+    "definitions": ["Of high quality, positive.", "A thing that can be bought or sold."],
+    "example": "She did a good job on the project."
+  },
+  "factory": {
+    "definitions": ["A building where machines make things in large amounts."],
+    "example": "The toy factory makes thousands of dolls."
+  },
+  "replace": {
+    "definitions": ["To take the place of something else."],
+    "example": "We need to replace the broken window."
+  },
+  "artisan": {
+    "definitions": ["A person who makes things by hand with skill."],
+    "example": "The artisan crafted beautiful pottery."
+  },
+  "workshop": {
+    "definitions": ["A place where people make or fix things by hand."],
+    "example": "The carpenter has a workshop full of tools."
+  },
+  "thousand": {
+    "definitions": ["The number 1,000."],
+    "example": "There are a thousand pages in that book."
+  },
+  "people": {
+    "definitions": ["More than one person, human beings."],
+    "example": "Many people came to the concert."
+  },
+  "migrate": {
+    "definitions": ["To move from one place to another, usually far away."],
+    "example": "Birds migrate south for the winter."
+  },
+  "countryside": {
+    "definitions": ["Land outside cities and towns, with fields and farms."],
+    "example": "We drove through the beautiful countryside."
+  },
+  "search": {
+    "definitions": ["To try to find something by looking carefully."],
+    "example": "I searched for my lost keys everywhere."
+  },
+  "technological": {
+    "definitions": ["Related to technology and machines."],
+    "example": "We live in a time of great technological progress."
+  },
+  "advance": {
+    "definitions": ["To move forward or make progress.", "A forward movement or improvement."],
+    "example": "Science continues to advance."
+  },
+  "also": {
+    "definitions": ["In addition, too."],
+    "example": "I like pizza, and I also like pasta."
+  },
+  "new": {
+    "definitions": ["Recently made or discovered, not old."],
+    "example": "I got a new bike for my birthday."
+  },
+  "problem": {
+    "definitions": ["Something that causes trouble or needs to be solved."],
+    "example": "We have a problem with the leaky roof."
+  },
+  "such": {
+    "definitions": ["Of this or that kind."],
+    "example": "I have never seen such a beautiful sunset."
+  },
+  "hour": {
+    "definitions": ["A period of 60 minutes."],
+    "example": "The class lasts one hour."
+  },
+  "labor": {
+    "definitions": ["Hard work.", "Workers as a group."],
+    "example": "Building the house required much labor."
+  },
+  "child": {
+    "definitions": ["A young person, not yet an adult."],
+    "example": "Every child deserves a good education."
+  },
+  "pollution": {
+    "definitions": ["Harmful substances in air, water, or land."],
+    "example": "Pollution from cars harms the environment."
+  },
+  "effect": {
+    "definitions": ["A change that happens because of something.", "To make something happen."],
+    "example": "The medicine had a good effect."
+  },
+  "shape": {
+    "definitions": ["To form or influence something in a particular way.", "The form of an object."],
+    "example": "Teachers shape young minds."
+  },
+  "modern": {
+    "definitions": ["From the present or recent time, not old."],
+    "example": "We live in a modern apartment."
+  },
+  "know": {
+    "definitions": ["To have information in your mind.", "To be familiar with."],
+    "example": "I know how to swim."
+  },
+  "today": {
+    "definitions": ["On this day, in the present time."],
+    "example": "What are we doing today?"
+  },
+  "artificial": {
+    "definitions": ["Made by people, not natural."],
+    "example": "Artificial flowers don't need water."
+  },
+  "intelligence": {
+    "definitions": ["The ability to learn, understand, and think."],
+    "example": "Dolphins are known for their intelligence."
+  },
+  "branch": {
+    "definitions": ["A part of a tree that grows out from the trunk.", "A part of something larger."],
+    "example": "The bird sat on a branch."
+  },
+  "seek": {
+    "definitions": ["To try to find or get something."],
+    "example": "We seek the truth."
+  },
+  "create": {
+    "definitions": ["To make something new."],
+    "example": "Artists create beautiful paintings."
+  },
+  "system": {
+    "definitions": ["A group of things working together as a whole."],
+    "example": "The solar system has eight planets."
+  },
+  "capable": {
+    "definitions": ["Able to do something."],
+    "example": "She is capable of great things."
+  },
+  "perform": {
+    "definitions": ["To do or carry out an action."],
+    "example": "The band will perform tonight."
+  },
+  "task": {
+    "definitions": ["A piece of work to be done."],
+    "example": "My task is to water the plants."
+  },
+  "normally": {
+    "definitions": ["Usually, in the normal way."],
+    "example": "I normally wake up at 7 AM."
+  },
+  "require": {
+    "definitions": ["To need something."],
+    "example": "Plants require sunlight and water."
+  },
+  "human": {
+    "definitions": ["A person, relating to people."],
+    "example": "All human beings need food and water."
+  },
+  "such as": {
+    "definitions": ["For example."],
+    "example": "I like fruits such as apples and bananas."
+  },
+  "recognize": {
+    "definitions": ["To know who someone is or what something is."],
+    "example": "I didn't recognize you with your new haircut."
+  },
+  "image": {
+    "definitions": ["A picture or mental picture of something."],
+    "example": "The photo is a clear image of the mountain."
+  },
+  "understand": {
+    "definitions": ["To know the meaning of something."],
+    "example": "I understand the math problem now."
+  },
+  "language": {
+    "definitions": ["The words and grammar that people use to communicate."],
+    "example": "English is a global language."
+  },
+  "natural": {
+    "definitions": ["Found in nature, not made by people."],
+    "example": "Cotton is a natural fabric."
+  },
+  "decision": {
+    "definitions": ["A choice you make after thinking."],
+    "example": "I made the decision to study medicine."
+  },
+  "amount": {
+    "definitions": ["How much of something there is."],
+    "example": "A large amount of snow fell overnight."
+  },
+  "data": {
+    "definitions": ["Facts and information."],
+    "example": "Scientists collect data from experiments."
+  },
+  "algorithm": {
+    "definitions": ["A set of steps to solve a problem or do a task."],
+    "example": "The computer uses an algorithm to sort numbers."
+  },
+  "machine learning": {
+    "definitions": ["A way for computers to learn from data without being programmed for every task."],
+    "example": "Machine learning helps computers recognize faces."
+  },
+  "present": {
+    "definitions": ["Existing now, not past or future.", "A gift.", "To show or give something."],
+    "example": "All students are present today."
+  },
+  "many": {
+    "definitions": ["A large number of."],
+    "example": "Many people enjoy music."
+  },
+  "aspect": {
+    "definitions": ["A particular part or feature of something."],
+    "example": "One aspect of the problem is cost."
+  },
+  "daily": {
+    "definitions": ["Happening every day."],
+    "example": "Exercise is part of my daily routine."
+  },
+  "lives": {
+    "definitions": ["More than one life.", "Third person form of 'live'."],
+    "example": "Technology affects our lives."
+  },
+  "voice": {
+    "definitions": ["The sound you make when speaking or singing."],
+    "example": "She has a beautiful singing voice."
+  },
+  "assistant": {
+    "definitions": ["A person or thing that helps."],
+    "example": "My assistant helps me with my work."
+  },
+  "recommendation": {
+    "definitions": ["A suggestion about what to do or choose."],
+    "example": "I followed the doctor's recommendation."
+  },
+  "platform": {
+    "definitions": ["A raised surface or stage.", "A computer system or service."],
+    "example": "YouTube is a video platform."
+  },
+  "streaming": {
+    "definitions": ["Playing video or music from the internet without downloading it."],
+    "example": "We watch movies on a streaming service."
+  },
+  "diagnosis": {
+    "definitions": ["Identifying what illness someone has."],
+    "example": "The doctor gave a diagnosis of the flu."
+  },
+  "medical": {
+    "definitions": ["Related to medicine and treating illness."],
+    "example": "She went to medical school."
+  },
+  "vehicle": {
+    "definitions": ["Something that carries people or things, like a car or truck."],
+    "example": "A bicycle is a simple vehicle."
+  },
+  "autonomous": {
+    "definitions": ["Able to work or operate independently."],
+    "example": "Autonomous cars can drive themselves."
+  },
+  "measure": {
+    "definitions": ["To find the size, amount, or degree of something.", "An action taken to achieve something."],
+    "example": "We measure length in meters."
+  },
+  "technology": {
+    "definitions": ["The use of science and machines to solve problems."],
+    "example": "Modern technology makes life easier."
+  },
+  "arise": {
+    "definitions": ["To come into existence, to happen."],
+    "example": "Problems can arise at any time."
+  },
+  "question": {
+    "definitions": ["A sentence that asks for information."],
+    "example": "May I ask you a question?"
+  },
+  "ethical": {
+    "definitions": ["Related to what is right and wrong."],
+    "example": "We must make ethical choices."
+  },
+  "privacy": {
+    "definitions": ["The state of being alone or keeping information secret."],
+    "example": "Everyone has a right to privacy."
+  },
+  "employment": {
+    "definitions": ["Having a job, the state of working for someone."],
+    "example": "The factory provides employment for many people."
+  },
+  "impact": {
+    "definitions": ["The effect or influence of something.", "To hit something with force."],
+    "example": "Pollution has a big impact on health."
+  },
+  "society": {
+    "definitions": ["All the people living together in a community or country."],
+    "example": "We must work together to improve society."
   }
 }
