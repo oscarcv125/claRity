@@ -42,7 +42,7 @@ struct WordDefinitionCard: View {
                         HStack(alignment: .top, spacing: 10) {
                             Text("\(index + 1)")
                                 .font(.caption2.weight(.bold))
-                                .foregroundStyle(sense.isCurrent ? .white : .secondary)
+                                .foregroundStyle(sense.isCurrent ? Color.white : Color.secondary)
                                 .frame(width: 18, height: 18)
                                 .background(
                                     Circle()
@@ -53,7 +53,7 @@ struct WordDefinitionCard: View {
                             VStack(alignment: .leading, spacing: 2) {
                                 Text(sense.text)
                                     .font(.subheadline)
-                                    .foregroundStyle(sense.isCurrent ? .primary : .secondary.opacity(0.6))
+                                    .foregroundStyle(sense.isCurrent ? Color.primary : Color.secondary.opacity(0.6))
                                     .fontWeight(sense.isCurrent ? .medium : .regular)
                                     .fixedSize(horizontal: false, vertical: true)
                                 
