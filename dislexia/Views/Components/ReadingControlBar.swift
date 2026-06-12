@@ -49,10 +49,10 @@ struct ReadingControlBar: View {
             Button(action: onStop) {
                 Image(systemName: "stop.fill")
                     .font(.title3)
+                    .frame(width: 48, height: 48)
             }
             .buttonStyle(.plain)
             .glassEffect(.regular.interactive(), in: Circle())
-            .frame(width: 48, height: 48)
             .accessibilityLabel("Detener lectura")
 
             Button(action: onPlayPause) {
@@ -60,20 +60,20 @@ struct ReadingControlBar: View {
                     .font(.title2.weight(.semibold))
                     .scaleEffect(isPlaying ? 1.05 : 1.0)
                     .animation(reduceMotion ? .none : .spring(response: 0.25, dampingFraction: 0.6), value: isPlaying)
+                    .frame(width: 64, height: 64)
             }
             .buttonStyle(.plain)
             .glassEffect(.regular.tint(.accentColor), in: Circle())
-            .frame(width: 64, height: 64)
             .accessibilityLabel(isPlaying ? "Pausar lectura" : "Reproducir lectura")
 
             Button(action: onComplete) {
                 Image(systemName: "checkmark")
                     .font(.title3.weight(.semibold))
                     .foregroundStyle(.green)
+                    .frame(width: 48, height: 48)
             }
             .buttonStyle(.plain)
             .glassEffect(.regular.interactive(), in: Circle())
-            .frame(width: 48, height: 48)
             .accessibilityLabel("Marcar como leído y ver comprensión")
         }
     }

@@ -141,9 +141,9 @@ struct ReaderView: View {
                 }
             } label: {
                 Image(systemName: isShowingSimplified ? "arrow.uturn.left" : "sparkles")
+                    .frame(width: 36, height: 36)
             }
             .glassEffect(.regular.interactive(), in: Circle())
-            .frame(width: 36, height: 36)
             .accessibilityLabel(isShowingSimplified ? "Ver texto original" : "Simplificar texto con IA")
         }
     }
@@ -151,9 +151,9 @@ struct ReaderView: View {
     private var settingsButton: some View {
         Button { showSettings = true } label: {
             Image(systemName: "textformat.size")
+                .frame(width: 36, height: 36)
         }
         .glassEffect(.regular.interactive(), in: Circle())
-        .frame(width: 36, height: 36)
         .accessibilityLabel("Abrir configuración de lectura")
     }
 

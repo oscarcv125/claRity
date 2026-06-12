@@ -127,6 +127,7 @@ struct SettingsView: View {
                 .font(.custom(prefs.fontName, size: prefs.fontSize))
                 .tracking(prefs.letterSpacing)
                 .lineSpacing(prefs.lineSpacing)
+                .foregroundStyle(prefs.backgroundColor.textColor)
                 .padding(20)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .background(prefs.backgroundColor.color, in: RoundedRectangle(cornerRadius: 20, style: .continuous))

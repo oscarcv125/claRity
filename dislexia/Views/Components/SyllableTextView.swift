@@ -100,6 +100,7 @@ struct SyllableTextView: View {
                         Text(token.text)
                             .font(.custom(prefs.fontName, size: prefs.fontSize))
                             .tracking(prefs.letterSpacing)
+                            .foregroundStyle(prefs.backgroundColor.textColor)
                             .padding(.vertical, 2)
                             .padding(.horizontal, 2)
                             .background(
@@ -124,6 +125,7 @@ struct SyllableTextView: View {
                     Text(token.text)
                         .font(.custom(prefs.fontName, size: prefs.fontSize))
                         .tracking(prefs.letterSpacing)
+                        .foregroundStyle(prefs.backgroundColor.textColor)
                         .fixedSize()
                 }
             }

@@ -21,6 +21,7 @@ enum BackgroundOption: String, CaseIterable, Identifiable {
     case cream      = "Crema"
     case lightBlue  = "Azul Pálido"
     case lightGreen = "Verde Suave"
+    case dark       = "Oscuro"
 
     var id: String { rawValue }
 
@@ -30,6 +31,16 @@ enum BackgroundOption: String, CaseIterable, Identifiable {
         case .cream:      return Color(hex: "#FFFDF0")
         case .lightBlue:  return Color(hex: "#EEF4FF")
         case .lightGreen: return Color(hex: "#F0FFF4")
+        case .dark:       return Color(hex: "#1A1A1A")
+        }
+    }
+
+    var textColor: Color {
+        switch self {
+        case .dark:
+            return Color(hex: "#F5F5F7")
+        default:
+            return Color(hex: "#1C1917")
         }
     }
 }
