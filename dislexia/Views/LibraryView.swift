@@ -42,6 +42,7 @@ struct LibraryView: View {
                         gridSection
                     }
                 }
+                .ignoresSafeArea(edges: .top)
                 .backgroundExtensionEffect()
 
                 bottomBar
@@ -66,39 +67,45 @@ struct LibraryView: View {
     // MARK: - Hero Header
 
     private var heroHeader: some View {
-        ZStack(alignment: .bottom) {
-            MeshGradient(
-                width: 3, height: 3,
-                points: [
-                    .init(0, 0),   .init(0.5, 0),  .init(1, 0),
-                    .init(0, 0.5), .init(0.6, 0.4), .init(1, 0.5),
-                    .init(0, 1),   .init(0.5, 1),  .init(1, 1)
-                ],
-                colors: [
-                    Color(hex: "#0284C7"), Color(hex: "#0D9488"), Color(hex: "#14B8A6"),
-                    Color(hex: "#0369A1"), Color(hex: "#0F766E"), Color(hex: "#06B6D4"),
-                    Color(hex: "#1D4ED8"), Color(hex: "#115E59"), Color(hex: "#2DD4BF")
-                ]
-            )
-            .frame(height: 260)
+        GeometryReader { geo in
+            let minY = geo.frame(in: .scrollView).minY
+            let stretch = minY > 0 ? minY : 0
 
-            LinearGradient(
-                colors: [.clear, Color(.systemBackground)],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .frame(height: 100)
+            ZStack(alignment: .bottom) {
+                MeshGradient(
+                    width: 3, height: 3,
+                    points: [
+                        .init(0, 0),   .init(0.5, 0),  .init(1, 0),
+                        .init(0, 0.5), .init(0.6, 0.4), .init(1, 0.5),
+                        .init(0, 1),   .init(0.5, 1),  .init(1, 1)
+                    ],
+                    colors: [
+                        Color(hex: "#0284C7"), Color(hex: "#0D9488"), Color(hex: "#14B8A6"),
+                        Color(hex: "#0369A1"), Color(hex: "#0F766E"), Color(hex: "#06B6D4"),
+                        Color(hex: "#1D4ED8"), Color(hex: "#115E59"), Color(hex: "#2DD4BF")
+                    ]
+                )
 
-            VStack(spacing: 8) {
-                ClaRityWordmark(size: 48)
-                    .foregroundStyle(.white)
-                    .shadow(color: .black.opacity(0.2), radius: 6)
-                Text("Tu lector inteligente")
-                    .font(.subheadline.weight(.medium))
-                    .foregroundStyle(.white.opacity(0.88))
-                    .shadow(color: .black.opacity(0.1), radius: 3)
+                LinearGradient(
+                    colors: [.clear, Color(.systemBackground)],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .frame(height: 100)
+
+                VStack(spacing: 8) {
+                    ClaRityWordmark(size: 48)
+                        .foregroundStyle(.white)
+                        .shadow(color: .black.opacity(0.2), radius: 6)
+                    Text("Tu lector inteligente")
+                        .font(.subheadline.weight(.medium))
+                        .foregroundStyle(.white.opacity(0.88))
+                        .shadow(color: .black.opacity(0.1), radius: 3)
+                }
+                .padding(.bottom, 52)
             }
-            .padding(.bottom, 52)
+            .frame(width: geo.size.width, height: 260 + stretch)
+            .offset(y: -stretch)
         }
         .frame(height: 260)
     }
