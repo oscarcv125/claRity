@@ -44,7 +44,7 @@ struct SettingsView: View {
                 StyledSlider(
                     label: "Tamaño: \(Int(prefs.fontSize.wrappedValue))pt",
                     value: prefs.fontSize,
-                    range: 16...40,
+                    range: 16...80,
                     step: 1,
                     accessibilityLabel: "Tamaño de fuente \(Int(prefs.fontSize.wrappedValue)) puntos"
                 )

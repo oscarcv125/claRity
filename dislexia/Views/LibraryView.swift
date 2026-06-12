@@ -9,6 +9,7 @@ struct LibraryView: View {
     @State private var selectedLevel: DifficultyLevel? = nil
     @State private var showCamera = false
     @State private var showManualEntry = false
+    @State private var showSettings = false
     @State private var selectedItem: LibraryItem? = nil
     // Texto capturado pendiente: navegamos hasta que el sheet de la cámara termina de cerrarse
     @State private var pendingCapturedItem: LibraryItem? = nil
@@ -68,6 +69,23 @@ struct LibraryView: View {
             .navigationDestination(item: $selectedItem) { item in
                 ReaderView(item: item)
             }
+            .sheet(isPresented: $showSettings) {
+                SettingsView()
+            }
+            .overlay(alignment: .topTrailing) {
+                Button {
+                    showSettings = true
+                } label: {
+                    Image(systemName: "textformat.size")
+                        .font(.title3.weight(.medium))
+                        .foregroundStyle(.white)
+                        .frame(width: 44, height: 44)
+                        .background(.ultraThinMaterial, in: Circle())
+                }
+                .buttonStyle(.plain)
+                .padding(.top, 56)
+                .padding(.trailing, 16)
+            }
         }
     }
 
@@ -87,7 +105,7 @@ struct LibraryView: View {
                         .frame(height: 112)
                         .shadow(color: .black.opacity(0.2), radius: 6)
                     Text("Tu lector inteligente")
-                        .font(.subheadline.weight(.medium))
+                        .font(.title3.weight(.medium))
                         .foregroundStyle(.white.opacity(0.88))
                         .shadow(color: .black.opacity(0.1), radius: 3)
                 }
